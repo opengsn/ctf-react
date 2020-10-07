@@ -6,9 +6,13 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "cd workspaces/react-app; yarn start",
+    "start": "yarn compile && yarn react-start",
+    "build": "yarn compile && yarn react-build",
+    "react-start": "cd workspaces/react-app; yarn start",
+    "react-build": "cd workspaces/react-app; yarn build",
     "compile": "cd workspaces/ctf-eth; yarn compile",
-    "evm": "cd workspaces/ctf-eth; buidler node"
+    "deploy": "cd workspaces/ctf-eth; yarn deploy",
+    "evm": "cd workspaces/ctf-eth; yarn evm"
   },
   "workspaces": [
     "workspaces/*"
