@@ -7,12 +7,14 @@
   "private": true,
   "scripts": {
     "start": "yarn compile && yarn react-start",
-    "build": "yarn compile && yarn react-build",
+    "build": "env; yarn compile && yarn react-build",
+    "start-prod": "yarn build && serve ./workspaces/react-app/build",
     "react-start": "cd workspaces/react-app; yarn start",
     "react-build": "cd workspaces/react-app; yarn build",
     "compile": "cd workspaces/ctf-eth; yarn compile",
     "deploy": "cd workspaces/ctf-eth; yarn deploy",
-    "evm": "cd workspaces/ctf-eth; yarn evm"
+    "evm": "cd workspaces/ctf-eth; yarn evm-with-gsn",
+    "clean": "cd workspaces/ctf-eth; yarn clean; cd ../react-app; yarn clean"
   },
   "workspaces": [
     "workspaces/*"

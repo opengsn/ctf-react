@@ -12,10 +12,10 @@ export class CaptureTheFlag extends React.Component {
   async readContractInfo() {
     const ctf = await initCtf()
 
-    const [current, events, account] = await Promise.all([
+    const account = ctf.getSignerAddress()
+    const [current, events] = await Promise.all([
       ctf.getCurrentFlagHolder(),
-      ctf.getPastEvents(),
-      ctf.getSigner()
+      ctf.getPastEvents()
     ])
 
     this.setState({
@@ -27,17 +27,24 @@ export class CaptureTheFlag extends React.Component {
 
     ctf.listenToEvents(event => {
       this.log(event)
+    }, (event, step, total) => {
+      console.log({event, step, total})
+      this.progress(event)
     })
 
     this.ctf = ctf
   }
 
+  progress({event, step, total, error}) {
+    this.setState({status: event, step, total, error})
+  }
 
-  componentDidMount() {
-    this.readContractInfo().catch(e => {
-      console.log('ex=', e);
-      this.setState({error: e.message})
-    })
+  async componentDidMount() {
+    await this.readContractInfo()
+      .catch(e => {
+        console.log('ex=', e);
+        this.setState({error: e.message})
+      })
   }
 
   componentWillUnmount() {
@@ -67,9 +74,9 @@ export class CaptureTheFlag extends React.Component {
   async doCapture() {
     this.setState({status: 'sending'})
     const res = await this.ctf.capture()
-    this.setState({status: "tx=" + res.hash.slice(0,20)})
+    this.setState({status: "txhash=" + res.hash.slice(0, 20) + ' waiting for mining'})
     const res2 = await res.wait()
-    this.setState({total:null, step:null,status: 'Mined in block: ' + res2.blockNumber})
+    this.setState({total: null, step: null, status: 'Mined in block: ' + res2.blockNumber})
   }
 
   render() {
@@ -77,19 +84,24 @@ export class CaptureTheFlag extends React.Component {
     return <>
       <h1>Capture The Flag </h1>
       Click the button to capture the flag with your account.
-      {/*<ActionButton title="Connect Wallet" action={() => window.ethereum.enable()}/>*/}
       <br/>
+      { !this.state.account && <span> <ActionButton title="Connect to Metamask"
+        action={window.ethereum.enable}
+        onError={() => e => this.setState({error: e ? e.message : "error"})}
+        /><p/></span> }
+
       <ActionButton title="Click here to capture the flag"
+                    enabled={!this.state.account}
                     action={() => this.doCapture()}
                     onError={(e) => {
-                      console.log('==ex2',e)
+                      console.log('==ex2', e)
                       this.setState({error: e ? e.message : null})
                     }}/>
       <br/>
       Your account:<Address addr={this.state.account}/> <br/>
       CTF Contract: <Address addr={this.state.contractAddress}/><br/>
       Current flag holder: <Address addr={this.state.current}/>
-      {this.state.current === this.state.account && "(you!)"}
+      {this.state.current && this.state.current === this.state.account && "(you!)"}
       <br/>
 
       {this.state.error ?

@@ -35,9 +35,9 @@ export function Address({addr, network}) {
  * a button with async action function
  * button is disabled while async function is active, and re-enabled when it completes
  */
-export function ActionButton({title, action, onError}) {
+export function ActionButton({title, action, enabled=true, onError}) {
 
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(!enabled)
 
   const onClick = () => {
     onError && onError(null);
