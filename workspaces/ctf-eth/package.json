@@ -4,18 +4,22 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "compile": "buidler compile",
-    "deploy": "buidler --network localhost deploy",
-    "evm": "buidler node",
-    "clean": "rm -rf deployments/localhost build artifacts cache"
+    "compile": "buidler compile && buidler export-addresses",
+    "deploy": "buidler --network localhost deploy && buidler export-addresses --network localhost",
+    "clean": "rm -rf deployments/localhost build artifacts cache",
+    "evm": "buidler node --no-deploy",
+    "evm-with-gsn": "run-with-testrpc --networkId 1337 --chainId 1337 'gsn start' "
   },
   "devDependencies": {
     "@nomiclabs/buidler": "^1.4.7",
     "@nomiclabs/buidler-ethers": "^2.0.2",
     "@nomiclabs/buidler-waffle": "^2.1.0",
-    "ethers": "^5.0.15"
+    "ethers": "^5.0.15",
+    "ganache-cli": "^6.11.0",
+    "run-with-testrpc": "^0.3.1"
   },
   "dependencies": {
+    "@opengsn/gsn": "^2.0.1",
     "buidler-deploy": "^0.6.0-beta.16"
   }
 }

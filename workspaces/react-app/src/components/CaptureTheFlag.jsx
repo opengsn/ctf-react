@@ -27,9 +27,9 @@ export class CaptureTheFlag extends React.Component {
 
     ctf.listenToEvents(event => {
       this.log(event)
-    }, (event, step, total) => {
+    }, ({event, step, total}) => {
       console.log({event, step, total})
-      this.progress(event)
+      this.progress({event,step,total})
     })
 
     this.ctf = ctf
