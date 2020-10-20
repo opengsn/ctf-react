@@ -11,6 +11,7 @@ export class CaptureTheFlag extends React.Component {
 
   async readContractInfo() {
     const ctf = await initCtf()
+    this.ctf = ctf
 
     const [current, events, account] = await Promise.all([
       ctf.getCurrentFlagHolder(),
@@ -32,7 +33,6 @@ export class CaptureTheFlag extends React.Component {
       this.progress(event)
     })
 
-    this.ctf = ctf
   }
 
   progress({event, step, total, error}) {
@@ -80,6 +80,24 @@ export class CaptureTheFlag extends React.Component {
     this.setState({total: null, step: null, status: 'Mined in block: ' + res2.blockNumber})
   }
 
+  walletDisconnect() {
+    const func = this.canDisconnect()
+    if (func != null) {
+      func()
+      this.setState({
+        contractAddress: null,
+        account: null, current: null, events: null
+      })
+    }
+  }
+
+  canDisconnect() {
+    if (this.ctf && this.ctf.gsnProvider && this.ctf.gsnProvider.origProvider) {
+      const provider = this.ctf.gsnProvider.origProvider
+      if (typeof provider.close == 'function') return provider.close.bind(provider)
+      if (typeof provider.disconnect == 'function') return provider.disconnect.bind(provider)
+    }
+  }
   render() {
 
     if ( this.ctf!=null ) {
@@ -90,16 +108,22 @@ export class CaptureTheFlag extends React.Component {
       <h1>Capture The Flag </h1>
       Click the button to capture the flag with your account.
       <br/>
-      { !this.state.account && <span> <ActionButton title="Connect to Metamask"
-        action={window.ethereum.enable}
+      { !this.state.account ?
+        (<ActionButton title="Connect to wallet"
+                       action={() => this.readContractInfo()}
         onError={() => e => this.setState({error: e ? e.message : "error"})}
-        /><p/></span> }
+        />) :
+        ( this.canDisconnect() && <ActionButton title="Disconnect wallet"
+                       action={() => this.walletDisconnect()}
+                       onError={() => e => this.setState({error: e ? e.message : "error"})}
+        />)
+      }
+      <p/>
 
       <ActionButton title="Click here to capture the flag"
-                    enabled={!this.state.account}
                     action={() => this.doCapture()}
                     onError={(e) => {
-                      console.log('==ex2', e)
+                      console.log('==ex2',e)
                       this.setState({error: e ? e.message : null})
                     }}/>
       <br/>
@@ -121,6 +145,7 @@ export class CaptureTheFlag extends React.Component {
           Network: {global.ethereumNetwork.name}<br/>
         RelayHub: <Address addr={this.ctf.gsnProvider.config.relayHubAddress}/>
       </span>)}
+
     </>
   }
 }

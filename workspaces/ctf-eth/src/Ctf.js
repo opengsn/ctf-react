@@ -2,7 +2,8 @@ import CtfArtifact from '@ctf/eth/artifacts/CaptureTheFlag.json'
 import ethers from 'ethers'
 import {networks} from '../build/gen-networks'
 import {RelayProvider, resolveConfigurationGSN} from "@opengsn/gsn";
-
+import {initWeb3Provider} from "./initWeb3Provider";
+import pkg from 'eth-sig-util/package.json'
 /**
  * a wrapper class for the CTF contract.
  * the only network-specific "leak" from this class is that the "capture()"
@@ -51,10 +52,13 @@ export class Ctf {
 
 export async function initCtf() {
 
-  const web3Provider = window.ethereum
+  const web3Provider = await initWeb3Provider()
+
+  global.web3Provider = web3Provider
 
   if (!web3Provider)
     throw new Error( 'No "window.ethereum" found. do you have Metamask installed?')
+
   const provider = new ethers.providers.Web3Provider(web3Provider);
   const network = await provider.getNetwork()
 
@@ -81,6 +85,7 @@ export async function initCtf() {
     methodSuffix: "_v3",
     jsonStringifyRequest: true
   })
+  console.log('===config====', JSON.stringify(gsnConfig, null, 4))
   const gsnProvider = new RelayProvider(web3Provider, gsnConfig)
   const provider2 = new ethers.providers.Web3Provider(gsnProvider);
 
