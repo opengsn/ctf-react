@@ -41,6 +41,7 @@ export class CaptureTheFlag extends React.Component {
 
   async componentDidMount() {
     await this.readContractInfo()
+      .then(()=>this.setState({}))
       .catch(e => {
         console.log('ex=', e);
         this.setState({error: e.message})
@@ -81,6 +82,10 @@ export class CaptureTheFlag extends React.Component {
 
   render() {
 
+    if ( this.ctf!=null ) {
+      //for "<Address> objects"
+      global.ethereumNetwork = this.ctf.network
+    }
     return <>
       <h1>Capture The Flag </h1>
       Click the button to capture the flag with your account.
@@ -101,7 +106,7 @@ export class CaptureTheFlag extends React.Component {
       Your account:<Address addr={this.state.account}/> <br/>
       CTF Contract: <Address addr={this.state.contractAddress}/><br/>
       Current flag holder: <Address addr={this.state.current}/>
-      {this.state.current && this.state.current === this.state.account && "(you!)"}
+      { this.state.current && this.state.current === this.state.account && "(you!)"}
       <br/>
 
       {this.state.error ?
@@ -111,6 +116,11 @@ export class CaptureTheFlag extends React.Component {
       }
 
       <Log events={this.state.events}/>
+      <hr/>
+      {this.ctf && (<span>
+          Network: {global.ethereumNetwork.name}<br/>
+        RelayHub: <Address addr={this.ctf.gsnProvider.config.relayHubAddress}/>
+      </span>)}
     </>
   }
 }

@@ -21,17 +21,18 @@ task('export-addresses', 'export contract addresses, used by react project. add 
     if ( bre.network.config.url ) {
       try {
         chainId = await bre.getChainId()
-        networks[chainId] = {
+        networks.push({
+          chainId,
           paymaster: require('./build/gsn/Paymaster.json').address,
           ctf: require('./deployments/localhost/CaptureTheFlag.json').address
-        }
+        })
       } catch (e) {
         throw new Error( 'Can use --chain-id only after "gsn start" and "buidler deploy" : '+e.message)
       }
     }
-    let outputFile = __dirname + '/build/networks.js';
+    let outputFile = __dirname + '/build/gen-networks.js';
     fs.mkdirSync(__dirname + '/build', {recursive: true})
-    fs.writeFileSync(outputFile, `// generated file (by "buidler export-addresses")
+    fs.writeFileSync(outputFile, `// generated file (by "buidler export-addresses") from ./config/networks.js
 const networks = ${JSON.stringify(networks, null, 2)}
 module.exports = { networks }
 `)

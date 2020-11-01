@@ -1,6 +1,6 @@
 import CtfArtifact from '@ctf/eth/artifacts/CaptureTheFlag.json'
 import ethers from 'ethers'
-import {networks} from '../build/networks.js'
+import {networks} from '../build/gen-networks'
 import {RelayProvider, resolveConfigurationGSN} from "@opengsn/gsn";
 
 /**
@@ -11,10 +11,10 @@ import {RelayProvider, resolveConfigurationGSN} from "@opengsn/gsn";
  */
 export class Ctf {
 
-  constructor(addr, signer, gsnProvider) {
+  constructor(addr, signer, gsnProvider, network) {
     this.address = addr
-
     this.gsnProvider = gsnProvider
+    this.network = network
     this.theContract = new ethers.Contract(addr, CtfArtifact.abi, signer)
   }
 
@@ -59,7 +59,7 @@ export async function initCtf() {
   const network = await provider.getNetwork()
 
   let chainId = network.chainId;
-  let net = networks[chainId]
+  let net = networks.find(net => net.chainId == chainId)
   const netid = await provider.send('net_version')
   console.log('chainid=',chainId, 'networkid=', netid)
   if (chainId !== parseInt(netid))
@@ -77,13 +77,15 @@ export async function initCtf() {
     // send all log to central log server, for possible troubleshooting
     loggerUrl: 'https://gsn-logger.netlify.app',
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
-    
-    paymasterAddress: net.paymaster
+    paymasterAddress: net.paymaster,
+    methodSuffix: "_v3",
+    jsonStringifyRequest: true
   })
   const gsnProvider = new RelayProvider(web3Provider, gsnConfig)
   const provider2 = new ethers.providers.Web3Provider(gsnProvider);
 
   const signer = provider2.getSigner()
 
-  return new Ctf(net.ctf, signer, gsnProvider)
+  let ctf = new Ctf(net.ctf, signer, gsnProvider, net);
+  return ctf
 }

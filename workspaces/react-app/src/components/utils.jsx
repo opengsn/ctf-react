@@ -24,8 +24,8 @@ export function Progress({status, step, total}) {
  * network address. shortened to prefix..suffix .
  * if "network" is provided and contains "etherscan" url prefix, then make the address a link
  */
-export function Address({addr, network}) {
-  return <a href={network && network.etherscan && network.etherscan + addr} target="etherscan">
+export function Address({addr, network = global.ethereumNetwork}) {
+  return <a href={network && network.explorerAddr && network.explorerAddr + addr} target="etherscan">
     <span style={{"fontFamily": "monospace"}}>
       {("" + addr).replace(/^(.{6})(?:.*)(.{4})$/, `$1${Elipsis}$2`)}
     </span></a>
@@ -35,16 +35,23 @@ export function Address({addr, network}) {
  * a button with async action function
  * button is disabled while async function is active, and re-enabled when it completes
  */
-export function ActionButton({title, action, enabled=true, onError}) {
+export function ActionButton({title, action, enabled = true, onError}) {
 
   const [disabled, setDisabled] = useState(!enabled)
 
-  const onClick = () => {
-    onError && onError(null);
+  const onClick = async () => {
+    if (!onError) {
+      onError = (err) => 0
+    }
+    onError(null);
     setDisabled(true);
-    action()
-      .catch(err => onError && onError(err))
-      .finally(() => setDisabled(false))
+    try {
+      await action()
+    } catch (err) {
+      onError(err)
+    } finally {
+      setDisabled(false)
+    }
   }
 
   return <button
