@@ -11,7 +11,7 @@ export class CaptureTheFlag extends React.Component {
 
   async readContractInfo() {
     const ctf = await initCtf()
-
+    const {relayHubAddress, paymasterAddress, forwarderAddress } = ctf.gsnProvider.config
     const [current, events, account] = await Promise.all([
       ctf.getCurrentFlagHolder(),
       ctf.getPastEvents(),
@@ -22,7 +22,10 @@ export class CaptureTheFlag extends React.Component {
       contractAddress: ctf.address,
       account,
       current,
-      events: this.prependEvents(null, events)
+      events: this.prependEvents(null, events),
+      paymasterAddress,
+      relayHubAddress,
+      forwarderAddress
     })
 
     ctf.listenToEvents(event => {
@@ -111,6 +114,13 @@ export class CaptureTheFlag extends React.Component {
       }
 
       <Log events={this.state.events}/>
+
+      { this.state.paymasterAddress && <span>
+      <h4>GSN Contracts:</h4>
+      RelayHub: <Address addr={this.state.relayHubAddress}/><br/>
+      Paymaster: <Address addr={this.state.paymasterAddress}/><br/>
+      Forwarder: <Address addr={this.state.forwarderAddress}/><br/>
+      </span>}
     </>
   }
 }

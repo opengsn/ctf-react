@@ -24,7 +24,7 @@ export function Progress({status, step, total}) {
  * network address. shortened to prefix..suffix .
  * if "network" is provided and contains "etherscan" url prefix, then make the address a link
  */
-export function Address({addr, network}) {
+export function Address({addr, network = window.network}) {
   return <a href={network && network.etherscan && network.etherscan + addr} target="etherscan">
     <span style={{"fontFamily": "monospace"}}>
       {("" + addr).replace(/^(.{6})(?:.*)(.{4})$/, `$1${Elipsis}$2`)}

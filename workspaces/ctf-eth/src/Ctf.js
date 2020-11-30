@@ -60,6 +60,8 @@ export async function initCtf() {
 
   let chainId = network.chainId;
   let net = networks[chainId]
+  //for Address
+  global.network = net
   const netid = await provider.send('net_version')
   console.log('chainid=',chainId, 'networkid=', netid)
   if (chainId !== parseInt(netid))
