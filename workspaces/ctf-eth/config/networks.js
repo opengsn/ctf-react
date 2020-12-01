@@ -30,6 +30,13 @@ const networks = {
     etherscan: "https://blockscout.com/etc/kotti/address/",
     paymaster: '0x9AE9FC73A7ad54004D7eEA2817787684FBE52433',
     ctf: '0x7f5437b27478791642AE95Ce38b123b0107e0cEc'
+  },
+  0x61: {
+    name: "Binance-Testnet",
+    chainId: 0x61,
+    etherscan: "https://testnet.bscscan.com/address/",
+    paymaster: "0x30c42A5F0099f67c6d9036a61FED44C823B7CC83",
+    ctf: "0xCF8033797367D6d2690D2c8380ADCD55C83D1b8d"
   }
 }
 
