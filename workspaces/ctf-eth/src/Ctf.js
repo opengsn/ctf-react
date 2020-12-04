@@ -73,16 +73,17 @@ export async function initCtf() {
       throw new Error( 'To run locally, you must run "yarn evm" and then "yarn deploy" before "yarn react-start" ')
   }
 
-  const gsnConfig = await resolveConfigurationGSN(web3Provider,{
+  const gsnConfig = {
     //log everything (0=debug, 5=error)
-    logLevel:0,
+    // logLevel:'error',
     // send all log to central log server, for possible troubleshooting
-    loggerUrl: 'https://gsn-logger.netlify.app',
+    // loggerUrl: 'https://logger.opengsn.org',
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
     
     paymasterAddress: net.paymaster
-  })
+  }
   const gsnProvider = new RelayProvider(web3Provider, gsnConfig)
+  await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider);
 
   const signer = provider2.getSigner()
