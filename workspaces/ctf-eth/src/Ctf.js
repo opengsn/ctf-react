@@ -79,10 +79,11 @@ export async function initCtf() {
     // send all log to central log server, for possible troubleshooting
     // loggerUrl: 'https://logger.opengsn.org',
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
-    
+
+    loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: net.paymaster
   }
-  const gsnProvider = new RelayProvider(web3Provider, gsnConfig)
+  const gsnProvider =  RelayProvider.newProvider({provider:web3Provider, config:gsnConfig})
   await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider);
 
