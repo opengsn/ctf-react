@@ -1,9 +1,10 @@
 /**
  * SPDX-License-Identifier:MIT
  */
-pragma solidity ^0.6.2;
+pragma solidity ^0.6.8;
+import "@opengsn/gsn/contracts/BaseRelayRecipient.sol";
 
-contract CaptureTheFlag {
+contract CaptureTheFlag is BaseRelayRecipient {
 
     event FlagCaptured(address previousHolder, address currentHolder);
 
@@ -12,8 +13,14 @@ contract CaptureTheFlag {
     function captureTheFlag() external {
         address previousHolder = currentHolder;
 
-        currentHolder = msg.sender;
+        currentHolder = _msgSender();
 
         emit FlagCaptured(previousHolder, currentHolder);
     }
+
+    function setTrustedForwarder(address forwarder) public {
+        trustedForwarder = forwarder;
+    }
+
+    string public override versionRecipient = "2.0.0";
 }
