@@ -1,4 +1,4 @@
-# sample React application with GSN 
+# Sample React application with GSN 
 
 This is a sample of using GSN with react application.
 It also adds some basic UI to the transaction progress.
@@ -16,4 +16,4 @@ and in another window:
 yarn start.
 ```
 
-To run it with GSN, switch to the "with-gsn" branch
+To run it with GSN, switch to the [**"with-gsn"**](https://github.com/opengsn/ctf-react/tree/with-gsn) branch
