@@ -11,18 +11,14 @@ Running it now is slightly different, since GSN must be active when deploying th
 to run it do:
 ```
 yarn install
-yarn evm
-```
-and in another window:
-```
-yarn gsn start
+yarn evm-with-gsn
 ```
 
-and now in yet another window:
+And now in another window:
 
 ```
 yarn deploy
 yarn start.
 ```
 
-
+A live deployment of this app is available at https://ctf-react.opengsn.org
