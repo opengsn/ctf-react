@@ -11,7 +11,10 @@ export class CaptureTheFlag extends React.Component {
 
   async readContractInfo() {
     const ctf = await initCtf()
-    const {relayHubAddress, paymasterAddress, forwarderAddress } = ctf.gsnProvider.relayClient.config ?? {}
+
+    const relayHubAddress = ctf.gsnProvider.relayClient.dependencies.contractInteractor.relayHubInstance.address
+    const forwarderAddress = ctf.gsnProvider.relayClient.dependencies.contractInteractor.forwarderInstance.address
+    const paymasterAddress =  ctf.gsnProvider.relayClient.dependencies.contractInteractor.paymasterInstance.address
     const [current, events, account] = await Promise.all([
       ctf.getCurrentFlagHolder(),
       ctf.getPastEvents(),
