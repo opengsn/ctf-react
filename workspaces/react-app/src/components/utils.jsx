@@ -54,8 +54,19 @@ export function ActionButton({title, action, enabled=true, onError}) {
   </button>
 }
 
-export function LogEvent({cur, prev}) {
-  return <div> Captured the flag from <Address addr={prev}/> by <Address addr={cur}/></div>
+function formatDate(date) {
+  if (!date) return ""
+  const min = (Date.now() - date.getTime())/1000/60
+  if ( min < 1 ) return "less than a minute ago"
+  if ( min < 120) return `${Math.round(min)} minutes ago`
+  const hour = min/60
+  if ( hour < 48 ) return `${Math.round(hour)} hours ago`
+  const days = hour/24
+  // if ( days < 14 )
+    return `${Math.round(days)} days ago`
+}
+export function LogEvent({cur, prev, date}) {
+  return <div> Captured the flag from <Address addr={prev}/> by <Address addr={cur}/> {formatDate(date)}</div>
 }
 
 /**
@@ -65,7 +76,7 @@ export function LogEvent({cur, prev}) {
 export function Log({events, last = 5}) {
   return <ul>
     {events && events.slice(0, last).map((e, key) =>
-      <li key={key}><LogEvent cur={e.currentHolder} prev={e.previousHolder}/></li>
+      <li key={key}><LogEvent cur={e.currentHolder} prev={e.previousHolder} date={e.date}/></li>
     )}
   </ul>
 }

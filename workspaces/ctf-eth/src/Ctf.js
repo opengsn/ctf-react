@@ -13,9 +13,11 @@ export class Ctf {
 
   constructor(addr, signer, gsnProvider) {
     this.address = addr
+    this.ethersProvider = signer.provider
 
     this.gsnProvider = gsnProvider
     this.theContract = new ethers.Contract(addr, CtfArtifact.abi, signer)
+    this.blockDates = {}
   }
 
 
@@ -24,8 +26,9 @@ export class Ctf {
   }
 
   listenToEvents(onEvent, onProgress) {
-    this.theContract.on('FlagCaptured', (previousHolder, currentHolder) => {
-      onEvent({previousHolder, currentHolder});
+    this.theContract.on('FlagCaptured', async (form,to,event) => {
+      const info = await this.getEventInfo(event)
+      onEvent(info);
     })
     this.gsnProvider.registerEventListener(onProgress)
   }
@@ -35,9 +38,34 @@ export class Ctf {
     this.gsnProvider.unregisterEventListener(onProgress)
   }
 
+  async getBlockDate(blockNumber) {
+    if ( ! this.blockDates[blockNumber]) {
+      this.blockDates[blockNumber] = new Date(await this.ethersProvider.getBlock(blockNumber).then(b=> {
+        return b.timestamp * 1000
+      }))
+    }
+    return this.blockDates[blockNumber]
+  }
+  async getEventInfo(e) {
+    if ( !e.args ) {
+      console.log('==not a valid event: ', e)
+      return {
+        previousHolder: 'notevent',
+        currentHolder: JSON.stringify(e)
+      }
+    }
+    return {
+      date: await this.getBlockDate(e.blockNumber),
+      previousHolder: e.args.previousHolder,
+      currentHolder: e.args.currentHolder
+    }
+  }
+
   async getPastEvents(count = 5) {
+
     const logs = await this.theContract.queryFilter('FlagCaptured', 1)
-    return logs.map(e => ({previousHolder: e.args.previousHolder, currentHolder: e.args.currentHolder})).slice(0, count)
+    const lastLogs = await Promise.all(logs.slice(-count).map(e=>this.getEventInfo(e)))
+    return lastLogs
   }
 
   getSigner() {
