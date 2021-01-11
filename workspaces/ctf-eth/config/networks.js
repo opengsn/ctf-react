@@ -32,11 +32,18 @@ const networks = {
     ctf: '0x7f5437b27478791642AE95Ce38b123b0107e0cEc'
   },
   0x61: {
-    name: "Binance-Testnet",
+    name: "Binance Testnet",
     chainId: 0x61,
     etherscan: "https://testnet.bscscan.com/address/",
     paymaster: "0x30c42A5F0099f67c6d9036a61FED44C823B7CC83",
     ctf: "0xCF8033797367D6d2690D2c8380ADCD55C83D1b8d"
+  },
+  0x38: {
+    name: "Binance Smart Chain",
+    chainId: 0x38,
+    etherscan: "https://bscscan.com/address/",
+    paymaster: "0x407a5823F83159FaC2bE7a5228fbC1Ee140FEdfD",
+    ctf: "0x70B79568Bb07ddC5193eD4c6316d51Cd3f42773f"
   }
 }
 
