@@ -1,6 +1,7 @@
 import React from 'react';
 import {initCtf} from '@ctf/eth/src/Ctf'
 import {Progress, Address, ActionButton, Log, sleep} from './utils.jsx'
+import {GsnStatus} from "./GsnStatus";
 
 export class CaptureTheFlag extends React.Component {
 
@@ -12,9 +13,8 @@ export class CaptureTheFlag extends React.Component {
   async readContractInfo() {
     const ctf = await initCtf()
 
-    const relayHubAddress = ctf.gsnProvider.relayClient.dependencies.contractInteractor.relayHubInstance.address
-    const forwarderAddress = ctf.gsnProvider.relayClient.dependencies.contractInteractor.forwarderInstance.address
-    const paymasterAddress =  ctf.gsnProvider.relayClient.dependencies.contractInteractor.paymasterInstance.address
+    this.gsnProvider = ctf.gsnProvider
+
     const [current, events, account] = await Promise.all([
       ctf.getCurrentFlagHolder(),
       ctf.getPastEvents(),
@@ -26,9 +26,6 @@ export class CaptureTheFlag extends React.Component {
       account,
       current,
       events: this.prependEvents(null, events),
-      paymasterAddress,
-      relayHubAddress,
-      forwarderAddress
     })
 
     ctf.listenToEvents(event => {
@@ -116,14 +113,12 @@ export class CaptureTheFlag extends React.Component {
         <Progress step={this.state.step} total={this.state.total} status={this.state.status}/>
       }
 
-      <Log events={this.state.events}/>
+      <div style={{textAlign:"left"}} >
 
-      { this.state.paymasterAddress && <span>
-      <h4>GSN Contracts:</h4>
-      RelayHub: <Address addr={this.state.relayHubAddress}/><br/>
-      Paymaster: <Address addr={this.state.paymasterAddress}/><br/>
-      Forwarder: <Address addr={this.state.forwarderAddress}/><br/>
-      </span>}
+      <Log events={this.state.events}/>
+      </div>
+
+      {this.gsnProvider && <GsnStatus provider={this.gsnProvider} /> }
     </>
   }
 }
