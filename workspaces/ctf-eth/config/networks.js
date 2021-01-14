@@ -31,6 +31,12 @@ const networks = {
     paymaster: '0x9AE9FC73A7ad54004D7eEA2817787684FBE52433',
     ctf: '0x7f5437b27478791642AE95Ce38b123b0107e0cEc'
   },
+  61: {
+    name: 'Ethereum Classic',
+    etherscan: 'https://blockscout.com/etc/mainnet/address/',
+    paymaster: '0x4F73b876D90064aC05389713504Dd7E685F7BFdF',
+    ctf: '0x15fEdA2926c126047B131602543FEf6140fe87F0'
+  },
   0x61: {
     name: "Binance Testnet",
     etherscan: "https://testnet.bscscan.com/address/",
