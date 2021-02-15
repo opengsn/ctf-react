@@ -4,8 +4,11 @@ const networks = {
   42: {
     name: "Kovan",
     etherscan: 'https://kovan.etherscan.io/address/',
-    paymaster: '0x083082b7Eada37dbD8f263050570B31448E61c94',
-    ctf: '0x22d1300304Ea3B658f0a6e925dd62bcfcDd91ce4'
+
+    paymaster: '0xC2171626e3d2Fc5F7Ac71567124AA9adB575a169', // 2.2.0-rc.1
+//    paymaster: '0x083082b7Eada37dbD8f263050570B31448E61c94', // 2.0.0
+    ctf: '0xbca9a2dd9b9fc1c04bb69ed8a18ecceb10fb3c1b' //2.2
+//    ctf: '0x22d1300304Ea3B658f0a6e925dd62bcfcDd91ce4' //2.0
   },
   3: {
     name: "Ropsten",

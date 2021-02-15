@@ -1,7 +1,7 @@
 /**
  * SPDX-License-Identifier:MIT
  */
-pragma solidity ^0.6.8;
+pragma solidity ^0.7.6;
 import "@opengsn/gsn/contracts/BaseRelayRecipient.sol";
 
 contract CaptureTheFlag is BaseRelayRecipient {
