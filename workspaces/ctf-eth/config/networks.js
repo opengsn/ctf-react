@@ -19,8 +19,8 @@ const networks = {
   4: {
     name: "Rinkeby",
     etherscan: 'https://rinkeby.etherscan.io/address/',
-    paymaster: '0x43d66E6Dce20264F6511A0e8EEa3f570980341a2',
-    ctf: '0x7A2014c282ffb3Dc968dE52Db21f80A9e0A5e981'
+    paymaster: '0x9D0780a594187d1756731743528C63dCc82F2367',
+    ctf: '0xFc02Aab24E7A3f7c184bbF795d87b9C9fF6F6f7e'
   },
   5: {
     name: "Goerli",
@@ -55,8 +55,8 @@ const networks = {
   100: {
     name: "xDai",
     etherscan: "https://blockscout.com/poa/xdai/address/",
-    paymaster: "0xE69f0471320F01EAe5f83c51a56e55C0465c76a5",
-    ctf: "0x40cc3C73a45D6fD678fF3af9Bf6021939188fF82"
+    paymaster: "0x52f882D1c431D0eD98e73dE198Fb0eeA3adfcf10", //2.2
+    ctf: "0xD76DE551E287B413c8095CfF3198C831ae1D43Ba" //2.2
   }
 
 }

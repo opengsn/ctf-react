@@ -1904,13 +1904,13 @@
     "@types/web3" "^1.2.2"
     web3 "1.2.6"
 
-"@opengsn/gsn@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@opengsn/gsn/-/gsn-2.1.0.tgz#d5b70c4be7bc4ab576c811d3e8d9d392582430c4"
-  integrity sha512-QEHLc8ckiQA9Aa1iJH0+rN8aZSncaUzgonH5wX8YILmmYJCG+4IsdhhamkWotK2gINVY3z6jaEQKc/SYwizs1g==
+"@opengsn/gsn@2.2.0-beta.1":
+  version "2.2.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@opengsn/gsn/-/gsn-2.2.0-beta.1.tgz#a529a590b16bcebf0d673831d843c091cacbc5a8"
+  integrity sha512-NP8tOZXv5hpMN6SAuzfezXbdjKhoWvgU3vdl8TtaeUx0FIewu9UGKFyuq3slkCxhmzhJYFXHQ8P21p9pEcODcg==
   dependencies:
     "@openeth/truffle-typings" "0.0.6"
-    "@openzeppelin/contracts" "^3.2.0"
+    "@openzeppelin/contracts" "^3.3.0-solc-0.7"
     "@truffle/hdwallet-provider" "1.0.34"
     "@types/chai" "^4.2.12"
     "@types/chai-as-promised" "^7.1.3"
@@ -1960,10 +1960,10 @@
     web3-utils "1.2.6"
     winston "^3.3.3"
 
-"@openzeppelin/contracts@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.2.0.tgz#3e6b3a7662d8ed64271ade96ef42655db983fd9d"
-  integrity sha512-bUOmkSoPkjnUyMiKo6RYnb0VHBk5D9KKDAgNLzF41aqAM3TeE0yGdFF5dVRcV60pZdJLlyFT/jjXIZCWyyEzAQ==
+"@openzeppelin/contracts@^3.3.0-solc-0.7":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.4.1.tgz#03c891fec7f93be0ae44ed74e57a122a38732ce7"
+  integrity sha512-cUriqMauq1ylzP2TxePNdPqkwI7Le3Annh4K9rrpvKfSBB/bdW+Iu1ihBaTIABTAAJ85LmKL5SSPPL9ry8d1gQ==
 
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
