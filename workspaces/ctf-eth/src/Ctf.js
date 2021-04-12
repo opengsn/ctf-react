@@ -1,7 +1,7 @@
 import CtfArtifact from '@ctf/eth/artifacts/CaptureTheFlag.json'
 import ethers from 'ethers'
 import {networks} from '../build/networks.js'
-import {RelayProvider, resolveConfigurationGSN} from "@opengsn/gsn";
+import {RelayProvider} from "@opengsn/provider";
 
 /**
  * a wrapper class for the CTF contract.

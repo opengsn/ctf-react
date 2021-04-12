@@ -1,6 +1,16 @@
 
-// deployed contracts:
-const networks = {
+//new deployment only on rinkeby, for now.
+const networks = { 
+  4: {
+    name: "Rinkeby",
+    etherscan: 'https://rinkeby.etherscan.io/address/',
+//depl:
+    paymaster: '0x998866d41dF5685AE98aC51013C839e411567b88', //depl-rinekby
+    ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA' 
+  }
+}
+
+const oldnetworks = {
   42: {
     name: "Kovan",
     etherscan: 'https://kovan.etherscan.io/address/',
@@ -19,8 +29,9 @@ const networks = {
   4: {
     name: "Rinkeby",
     etherscan: 'https://rinkeby.etherscan.io/address/',
-    paymaster: '0x9D0780a594187d1756731743528C63dCc82F2367',
-    ctf: '0xFc02Aab24E7A3f7c184bbF795d87b9C9fF6F6f7e'
+//depl:
+    paymaster: '0x82758f9D6853C2087832aCdcAa641Ed527891310',
+    ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA'
   },
   5: {
     name: "Goerli",
