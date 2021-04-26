@@ -5,7 +5,7 @@ const networks = {
     name: "Rinkeby",
     etherscan: 'https://rinkeby.etherscan.io/address/',
 //depl:
-    paymaster: '0x998866d41dF5685AE98aC51013C839e411567b88', //depl-rinekby
+    paymaster: '0xA6e10aA9B038c9Cddea24D2ae77eC3cE38a0c016', //depl-rinekby
     ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA' 
   }
 }

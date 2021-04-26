@@ -1,12 +1,8 @@
-const { GsnTestEnvironment } = require ( '@opengsn/gsn/dist/GsnTestEnvironment' )
+const { GsnTestEnvironment } = require ( '@opengsn/dev' )
 
 module.exports=async function({getNamedAccounts, ethers, deployments}) {
 	const { deploy } = deployments
 	let { deployer, metamask, forwarder } = await getNamedAccounts() 
-
-    const signer = ethers.provider.getSigner()
-	ret = await deploy( 'CaptureTheFlag', {from: deployer} )
-    const ctf = await new ethers.Contract(ret.address, ret.abi, signer)
 
     if ( !forwarder ) {
         forwarder = require( '../build/gsn/Forwarder').address
@@ -17,8 +13,11 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
         }
     }
 
+    const signer = ethers.provider.getSigner()
+	ret = await deploy( 'CaptureTheFlag', {from: deployer, args: [forwarder]} )
+    const ctf = await new ethers.Contract(ret.address, ret.abi, signer)
+
     console.log( 'ctf address=', ctf.address)
-    await ctf.setTrustedForwarder( forwarder ).then(ret=>ret.wait())
 
     //move some ether to my metamask account
 	await signer.sendTransaction( {to:metamask, value:ethers.utils.parseEther('1')})

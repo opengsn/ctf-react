@@ -28,6 +28,9 @@ task('export-addresses', 'export contract addresses, used by react project. add 
       } catch (e) {
         throw new Error( 'Can use --chain-id only after "gsn start" and "buidler deploy" : '+e.message)
       }
+    } else {
+      console.log('ERROR: network without url can\'t by used with GSN. (probably no --network specified)')
+      process.exit(1)
     }
     let outputFile = __dirname + '/build/networks.js';
     fs.mkdirSync(__dirname + '/build', {recursive: true})

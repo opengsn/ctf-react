@@ -9,17 +9,20 @@
     "deploy": "buidler --network localhost deploy && buidler export-addresses --network localhost",
     "clean": "rm -rf deployments/localhost build artifacts cache",
     "evm": "buidler node --no-deploy",
-    "evm-with-gsn": "run-with-testrpc --networkId 1337 --chainId 1337 'gsn start' "
+    "evm-with-gsn": "run-with-testrpc --networkId 1337 --chainId 1337 'yarn run gsn-start' ",
+    "gsn-start": "node ./gsn-start.js"
   },
   "devDependencies": {
     "@nomiclabs/buidler": "^1.4.7",
     "@nomiclabs/buidler-ethers": "^2.0.2",
     "@nomiclabs/buidler-waffle": "^2.1.0",
+    "@opengsn/dev": "^2.2.0-alpha.1",
     "ethers": "^5.0.15",
     "ganache-cli": "^6.11.0",
     "run-with-testrpc": "^0.3.1"
   },
   "dependencies": {
+    "@opengsn/contracts": "^2.2.0-alpha.1",
     "@opengsn/provider": "2.2.0-alpha.1",
     "buidler-deploy": "^0.6.0-beta.16"
   }
