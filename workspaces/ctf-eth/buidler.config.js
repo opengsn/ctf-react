@@ -1,21 +1,28 @@
 const fs = require('fs')
 
-mnemonic = fs.readFileSync(process.env.MNEMONIC_FILE, 'utf-8')
+let accounts
 
-usePlugin("@nomiclabs/buidler-waffle");
-usePlugin("buidler-deploy")
+let mnemonicFile = process.env.MNEMONIC_FILE
+if (mnemonicFile) {
+  console.log('using MNEMONIC_FILE', mnemonicFile)
+  mnemonic = fs.readFileSync(mnemonicFile, 'utf-8')
+  accounts = { mnemonic }
+}
+
+usePlugin('@nomiclabs/buidler-waffle')
+usePlugin('buidler-deploy')
 
 // This is a sample Buidler task. To learn how to create your own go to
 // https://buidler.dev/guides/create-task.html
-task("accounts", "Prints the list of accounts", async () => {
-  const accounts = await ethers.getSigners();
+task('accounts', 'Prints the list of accounts', async () => {
+  const accounts = await ethers.getSigners()
 
   for (const account of accounts) {
-    console.log(await account.getAddress());
+    console.log(await account.getAddress())
   }
-});
+})
 
-infura=process.env.INFURA_ID
+infura = process.env.INFURA_ID
 
 // You have to export an object to set up your config
 // This object can have the following optional entries:
@@ -24,20 +31,20 @@ infura=process.env.INFURA_ID
 module.exports = {
   // This is a sample solc configuration that specifies which version of solc to use
   solc: {
-    version: "0.7.6",
+    version: '0.7.6',
   },
   networks: {
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${infura}`,
-      accounts:{mnemonic}
+      accounts
     },
     ropsten: {
       url: `https://ropsten.infura.io/v3/${infura}`,
-      accounts:{mnemonic}
+      accounts
     },
     xdai: {
       url: `https://dai.poa.network/`,
-      accounts:{mnemonic}
+      accounts
     }
   },
   namedAccounts: {
@@ -51,4 +58,4 @@ module.exports = {
       4: '0x83A54884bE4657706785D7309cf46B58FE5f6e8a'
     }
   }
-};
+}
