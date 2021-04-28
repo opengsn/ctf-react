@@ -1,6 +1,6 @@
 import CtfArtifact from '@ctf/eth/artifacts/CaptureTheFlag.json'
 import ethers from 'ethers'
-import {networks} from '../build/networks.js'
+import {networks} from '../config/networks.js'
 import {RelayProvider} from "@opengsn/provider";
 
 /**

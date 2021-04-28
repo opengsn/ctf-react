@@ -1,5 +1,7 @@
 const fs = require('fs')
 
+mnemonic = fs.readFileSync(process.env.MNEMONIC_FILE, 'utf-8')
+
 usePlugin("@nomiclabs/buidler-waffle");
 usePlugin("buidler-deploy")
 
@@ -13,33 +15,7 @@ task("accounts", "Prints the list of accounts", async () => {
   }
 });
 
-task('export-addresses', 'export contract addresses, used by react project. add locally-deployed network, if specified.')
-  .setAction(async (args, bre) => {
-
-    const {networks} = require('./config/networks')
-    let chainId = null
-    if ( bre.network.config.url ) {
-      try {
-        chainId = await bre.getChainId()
-        networks[chainId] = {
-          paymaster: require('./build/gsn/Paymaster.json').address,
-          ctf: require('./deployments/localhost/CaptureTheFlag.json').address
-        }
-      } catch (e) {
-        throw new Error( 'Can use --chain-id only after "gsn start" and "buidler deploy" : '+e.message)
-      }
-    } else {
-      console.log('ERROR: network without url can\'t by used with GSN. (probably no --network specified)')
-      process.exit(1)
-    }
-    let outputFile = __dirname + '/build/networks.js';
-    fs.mkdirSync(__dirname + '/build', {recursive: true})
-    fs.writeFileSync(outputFile, `// generated file (by "buidler export-addresses")
-const networks = ${JSON.stringify(networks, null, 2)}
-module.exports = { networks }
-`)
-    console.log('Written networks', (chainId != null) ? '(including local ' + chainId + ')' : '', 'into', outputFile)
-  })
+infura=process.env.INFURA_ID
 
 // You have to export an object to set up your config
 // This object can have the following optional entries:
@@ -50,9 +26,29 @@ module.exports = {
   solc: {
     version: "0.7.6",
   },
-
+  networks: {
+    rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${infura}`,
+      accounts:{mnemonic}
+    },
+    ropsten: {
+      url: `https://ropsten.infura.io/v3/${infura}`,
+      accounts:{mnemonic}
+    },
+    xdai: {
+      url: `https://dai.poa.network/`,
+      accounts:{mnemonic}
+    }
+  },
   namedAccounts: {
     deployer: 0,
-    metamask: '0xd21934eD8eAf27a67f0A70042Af50A1D6d195E81'
+    metamask: '0xd21934eD8eAf27a67f0A70042Af50A1D6d195E81',
+
+    //official addresses from https://docs.opengsn.org/networks
+    forwarder: {
+      1: '0xAa3E82b4c4093b4bA13Cb5714382C99ADBf750cA',
+      3: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
+      4: '0x83A54884bE4657706785D7309cf46B58FE5f6e8a'
+    }
   }
 };

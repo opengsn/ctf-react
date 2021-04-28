@@ -1,12 +1,32 @@
+fs= require('fs')
+
+let localnetwork={}
+try {
+  localnetwork = {
+    paymaster: JSON.parse(fs.readFileSync('../build/gsn/Paymaster.json')).address,
+    ctf: JSON.parse(require('../deployments/localhost/CaptureTheFlag.json')).address
+  }
+}catch (e) {
+  console.warn('No local network:', e.message)
+}
 
 //new deployment only on rinkeby, for now.
-const networks = { 
+const networks = {
+  3: {
+    name: "Ropsten",
+    etherscan: 'https://ropsten.etherscan.io/address/',
+    paymaster: '0x246aC46ad7ee41A1Ba87DbF9Dd0592E8a20951D9',
+    ctf: '0xcA04Ac9e60A76390936A1f4d4E10F0c9103DAb7d'
+  },
   4: {
     name: "Rinkeby",
     etherscan: 'https://rinkeby.etherscan.io/address/',
-//depl:
-    paymaster: '0xA6e10aA9B038c9Cddea24D2ae77eC3cE38a0c016', //depl-rinekby
-    ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA' 
+    paymaster: '0xA6e10aA9B038c9Cddea24D2ae77eC3cE38a0c016',
+    ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA'
+  },
+  1337: {
+    paymaster: require('../build/gsn/Paymaster.json').address,
+    ctf: require('../deployments/localhost/CaptureTheFlag.json').address
   }
 }
 
@@ -19,12 +39,6 @@ const oldnetworks = {
 //    paymaster: '0x083082b7Eada37dbD8f263050570B31448E61c94', // 2.0.0
     ctf: '0xbca9a2dd9b9fc1c04bb69ed8a18ecceb10fb3c1b' //2.2
 //    ctf: '0x22d1300304Ea3B658f0a6e925dd62bcfcDd91ce4' //2.0
-  },
-  3: {
-    name: "Ropsten",
-    etherscan: 'https://ropsten.etherscan.io/address/',
-    paymaster: '0x8057c0fb7089BB646f824fF4A4f5a18A8d978ecC',
-    ctf: '0x5B3403F215799E3Af100BDCB37f3Fd925aD80f76'
   },
   4: {
     name: "Rinkeby",

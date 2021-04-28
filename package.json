@@ -6,12 +6,11 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "yarn export-addresses --network localhost && yarn react-start",
+    "start": "yarn react-start",
     "build": "env; yarn compile && yarn react-build",
     "start-prod": "yarn build && serve ./workspaces/react-app/build",
     "react-start": "cd workspaces/react-app; yarn start",
     "react-build": "cd workspaces/react-app; yarn build",
-    "export-addresses": "yarn --cwd workspaces/ctf-eth export-addresses",
     "compile": "cd workspaces/ctf-eth; yarn compile",
     "deploy": "cd workspaces/ctf-eth; yarn deploy",
     "evm": "cd workspaces/ctf-eth; yarn evm",
