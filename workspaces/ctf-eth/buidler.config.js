@@ -42,6 +42,10 @@ module.exports = {
       url: `https://ropsten.infura.io/v3/${infura}`,
       accounts
     },
+    mumbai: {
+      url: `https://matic-mumbai.chainstacklabs.com`,
+      accounts
+    },
     xdai: {
       url: `https://dai.poa.network/`,
       accounts
@@ -55,7 +59,8 @@ module.exports = {
     forwarder: {
       1: '0xAa3E82b4c4093b4bA13Cb5714382C99ADBf750cA',
       3: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
-      4: '0x83A54884bE4657706785D7309cf46B58FE5f6e8a'
+      4: '0x83A54884bE4657706785D7309cf46B58FE5f6e8a',
+      80001: '0xDFdA581eE8bf25Ade192DE74BcaE0A60b9860B33'
     }
   }
 }

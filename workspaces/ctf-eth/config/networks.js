@@ -24,6 +24,14 @@ const networks = {
     paymaster: '0xA6e10aA9B038c9Cddea24D2ae77eC3cE38a0c016',
     ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA'
   },
+
+  80001: {
+    name: 'Mumbai',
+    etherscan: 'https://explorer-mumbai.maticvigil.com/address/',
+    paymaster: '0x762745B16190F68F4eBD30EA159526FEA13d15a9',
+    ctf: '0x318192E7E21aD1d4dc20A5E2921e6888308AB33b'
+  },
+
   1337: localnetwork
 }
 
