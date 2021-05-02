@@ -28,8 +28,8 @@ const networks = {
   80001: {
     name: 'Mumbai',
     etherscan: 'https://explorer-mumbai.maticvigil.com/address/',
-    paymaster: '0x762745B16190F68F4eBD30EA159526FEA13d15a9',
-    ctf: '0x318192E7E21aD1d4dc20A5E2921e6888308AB33b'
+    paymaster: '0xcA94aBEdcC18A10521aB7273B3F3D5ED28Cf7B8A',
+    ctf: '0xb24c03f1467f2255a9be5792e73fe8743b97bd17'
   },
 
   1337: localnetwork

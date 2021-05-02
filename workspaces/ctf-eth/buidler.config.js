@@ -46,6 +46,10 @@ module.exports = {
       url: `https://matic-mumbai.chainstacklabs.com`,
       accounts
     },
+    kotti: {
+      url: `https://kotti.connect.bloq.cloud/v1/roast-blossom-sentence`,
+      accounts
+    },
     xdai: {
       url: `https://dai.poa.network/`,
       accounts
@@ -60,7 +64,8 @@ module.exports = {
       1: '0xAa3E82b4c4093b4bA13Cb5714382C99ADBf750cA',
       3: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
       4: '0x83A54884bE4657706785D7309cf46B58FE5f6e8a',
-      80001: '0xDFdA581eE8bf25Ade192DE74BcaE0A60b9860B33'
+      80001: '0x11e78083Ff25259100b8aeb10f8b1bcc083690Ad',
+      6: '0x255fc98fE2C2564CF361E6dCD233862f884826E5',
     }
   }
 }
