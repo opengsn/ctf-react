@@ -32,6 +32,13 @@ const networks = {
     ctf: '0xb24c03f1467f2255a9be5792e73fe8743b97bd17'
   },
 
+  6: {
+    name: 'Kotti',
+    etherscan: 'https://blockscout.com/etc/kotti/address/',
+    paymaster: '0x41ddb318BB35cA0aD54b52f5b1708ff860161dCc',
+    ctf: '0x2E9279aC4E91C4A841C3434a772d68278F9ab445'
+  },
+
   1337: localnetwork
 }
 
