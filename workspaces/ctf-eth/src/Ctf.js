@@ -83,7 +83,7 @@ export class Ctf {
 
 export async function initCtf() {
 
-  const web3Provider = window.ethereum
+  let web3Provider = window.ethereum
 
   if (!web3Provider)
     throw new Error( 'No "window.ethereum" found. do you have Metamask installed?')
@@ -96,6 +96,22 @@ export async function initCtf() {
     console.log( 'accountChanged', accs)
     window.location.reload()
   })
+
+  //TEMP: logging provider..
+  // const orig=web3Provider
+  // web3Provider = {
+  //   send(r,cb) {
+  //     const now = Date.now()
+  //     console.log('>>> ',r)
+  //     if ( r && r.params && r.params[0] && r.params[0].fromBlock == 1 ) {
+  //       console.log('=== big wait!')
+  //     }
+  //     orig.send(r,(err,res)=>{
+  //       console.log('<<<', Date.now()-now, err, res)
+  //       cb(err,res)
+  //     })
+  //   }
+  // }
   const provider = new ethers.providers.Web3Provider(web3Provider);
   const network = await provider.getNetwork()
 
@@ -114,6 +130,9 @@ export async function initCtf() {
       throw new Error( 'To run locally, you must run "yarn evm" and then "yarn deploy" before "yarn react-start" ')
   }
 
+  //on kotti (at least) using blockGasLimit breaks our code..
+  const maxViewableGasLimit = chainId===6 ? 5e6 : undefined
+
   const gsnConfig = {
     //log everything (0=debug, 5=error)
     // logLevel:'error',
@@ -121,7 +140,9 @@ export async function initCtf() {
     // loggerUrl: 'https://logger.opengsn.org',
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
 
+    maxViewableGasLimit,
     relayLookupWindowBlocks: 600000,
+    relayRegistrationLookupBlocks: 600000,
     loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: net.paymaster
   }
