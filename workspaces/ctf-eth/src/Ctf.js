@@ -63,7 +63,10 @@ export class Ctf {
 
   async getPastEvents(count = 5) {
 
-    const logs = await this.theContract.queryFilter('FlagCaptured', 1)
+    const currentBlock = await this.ethersProvider.getBlockNumber()
+    //look at most one month back (in 12-second block
+    const startBlock = Math.max(1,currentBlock-30*24*3600/12)
+    const logs = await this.theContract.queryFilter('FlagCaptured', startBlock)
     const lastLogs = await Promise.all(logs.slice(-count).map(e=>this.getEventInfo(e)))
     return lastLogs
   }

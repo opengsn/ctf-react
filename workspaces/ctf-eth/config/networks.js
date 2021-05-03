@@ -29,7 +29,7 @@ const networks = {
     name: 'Mumbai',
     etherscan: 'https://explorer-mumbai.maticvigil.com/address/',
     paymaster: '0xcA94aBEdcC18A10521aB7273B3F3D5ED28Cf7B8A',
-    ctf: '0xb24c03f1467f2255a9be5792e73fe8743b97bd17'
+    ctf: '0xB8308F78A8f56a0A57882Cd8b523F4580e58b7c7'
   },
 
   6: {
