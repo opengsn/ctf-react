@@ -36,8 +36,16 @@ const networks = {
     name: 'Kotti',
     etherscan: 'https://blockscout.com/etc/kotti/address/',
     paymaster: '0x41ddb318BB35cA0aD54b52f5b1708ff860161dCc',
-    ctf: '0x2E9279aC4E91C4A841C3434a772d68278F9ab445'
+    ctf: '0x62a7cD077A18d05083410cd676c3b728ae9afb93'
   },
+
+  100: {
+    name: 'xDai',
+    etherscan: 'https://blockscout.com/poa/xdai/address/',
+    paymaster: '0x9e59Ea5333cD4f402dAc320a04fafA023fe3810D', //2.2
+    ctf: '0xAa3E82b4c4093b4bA13Cb5714382C99ADBf750cA' //2.2
+  },
+
 
   1337: localnetwork
 }
@@ -89,13 +97,6 @@ const oldnetworks = {
     paymaster: '0x407a5823F83159FaC2bE7a5228fbC1Ee140FEdfD',
     ctf: '0x70B79568Bb07ddC5193eD4c6316d51Cd3f42773f'
   },
-  100: {
-    name: 'xDai',
-    etherscan: 'https://blockscout.com/poa/xdai/address/',
-    paymaster: '0x52f882D1c431D0eD98e73dE198Fb0eeA3adfcf10', //2.2
-    ctf: '0xD76DE551E287B413c8095CfF3198C831ae1D43Ba' //2.2
-  }
-
 }
 
 module.exports = { networks }
