@@ -47,6 +47,20 @@ const networks = {
   },
 
 
+  100: {
+    name: 'xDai',
+    etherscan: 'https://testnet.bscscan.com/address',
+    paymaster: '0x01a5a06C5Ba6E5f8FC9CB060492fae1b3d03c69d', //2.2
+    ctf: '0x05319d82fa69EA8434A967CdF4A2699Db4Ff40e8' //2.2
+  },
+
+  0x61: {
+    name: 'Binance Testnet',
+    etherscan: 'https://testnet.bscscan.com/address/',
+    paymaster: '0x01a5a06C5Ba6E5f8FC9CB060492fae1b3d03c69d',
+    ctf: '0x05319d82fa69EA8434A967CdF4A2699Db4Ff40e8'
+  },
+
   1337: localnetwork
 }
 
