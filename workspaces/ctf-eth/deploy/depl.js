@@ -2,6 +2,9 @@ const { GsnTestEnvironment } = require ( '@opengsn/dev' )
 const { constants } = require( '@opengsn/common')
 module.exports=async function({getNamedAccounts, ethers, deployments}) {
 	const { deploy } = deployments
+  const gasPrice = process.env.GAS_PRICE_GWEI==null ?
+    null : ethers.utils.hexlify(parseInt(process.env.GAS_PRICE_GWEI +'0'.repeat(9)))
+
 	let { deployer, metamask, forwarder } = await getNamedAccounts() 
 
     if ( !forwarder ) {
@@ -14,28 +17,32 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
     }
 
     const signer = ethers.provider.getSigner()
-    ret = await deploy( 'CaptureTheFlag', {from: deployer, args: [forwarder]} )
+    ret = await deploy( 'CaptureTheFlag', {gasPrice, from: deployer, args: [forwarder]} )
     const ctf = await new ethers.Contract(ret.address, ret.abi, signer)
     console.log( 'ctf address=', ctf.address)
 
 if ( process.env.DEPLOY_PM ) {
-    console.log( 'Deploying paymaster:' )
-    ret = await deploy( 'TestPaymasterEverythingAccepted', {from:deployer} )
-    const pm = await new ethers.Contract(ret.address, ret.abi, signer)
-    console.log('pm address=', pm.address)
-    const currentForwrader = await pm.trustedForwarder()
-    if ( currentForwrader == constants.ZERO_ADDRESS) {
-        console.log('setting pm.forwrader')
-        await pm.setTrustedForwarder(forwarder)
-    }
-    if ( await pm.getHubAddr() == constants.ZERO_ADDRESS) {
-        console.log('setting relayhub')
-        await pm.setRelayHub(process.env.RelayHubAddress)
-    }
-    if ( await pm.getRelayHubDeposit() == 0 ) {
-	console.log('funding paymater with 0.5' )
-	await provider.sendTransaction(pm.address, ethers.utils.parseEther('0.5'))
-    }
+  console.log('Deploying paymaster:')
+  ret = await deploy('SingleRecipientPaymaster', { gasPrice, from: deployer, args: [ctf.address] })
+  const pm = await new ethers.Contract(ret.address, ret.abi, signer)
+  console.log('pm address=', pm.address)
+  const currentForwrader = await pm.trustedForwarder()
+  if (currentForwrader == constants.ZERO_ADDRESS) {
+    console.log('setting pm.forwrader')
+    await pm.setTrustedForwarder(forwarder, { gasPrice })
+  }
+  if (await pm.getHubAddr() == constants.ZERO_ADDRESS) {
+    console.log('setting relayhub to: ', process.env.RelayHubAddress)
+    await pm.setRelayHub(process.env.RelayHubAddress, { gasPrice })
+  }
+  if (await pm.getRelayHubDeposit() == 0) {
+    console.log('funding paymater with 0.5')
+    await ethers.provider.sendTransaction({
+      to: pm.address,
+      value: ethers.utils.parseEther('0.5'),
+      gasPrice
+    })
+  }
 } else {
   console.log( 'env DEPLOY_PM not set. not deploying paymaster' )
 }

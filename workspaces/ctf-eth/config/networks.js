@@ -12,11 +12,19 @@ try {
 
 //new deployment only on rinkeby, for now.
 const networks = {
+  1: {
+    name: 'Ethereum Mainnet',
+    etherscan: 'https://etherscan.io/address/',
+    paymaster: '0x0886067579BA2AcEA3d3A1d12a5CB85af76ba526',
+    ctf: '0x2b139777178Dc11516D3446367F5Bef96AB29941'
+  },
   3: {
     name: 'Ropsten',
     etherscan: 'https://ropsten.etherscan.io/address/',
-    paymaster: '0x246aC46ad7ee41A1Ba87DbF9Dd0592E8a20951D9',
-    ctf: '0xcA04Ac9e60A76390936A1f4d4E10F0c9103DAb7d'
+    // paymaster: '0x246aC46ad7ee41A1Ba87DbF9Dd0592E8a20951D9',
+    // ctf: '0xcA04Ac9e60A76390936A1f4d4E10F0c9103DAb7d'
+    paymaster: '0x05319d82fa69EA8434A967CdF4A2699Db4Ff40e8', //single-recipient
+    ctf: '0xd4b5f1C12B46447693Ae5ec05880fFd117277D12'
   },
   4: {
     name: 'Rinkeby',
