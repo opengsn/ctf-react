@@ -34,6 +34,14 @@ module.exports = {
     version: '0.7.6',
   },
   networks: {
+    fork: {
+      url: `http://localhost:8545`,
+      accounts
+    },
+    mainnet: {
+      url: `https://mainnet.infura.io/v3/${infura}`,
+      accounts
+    },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${infura}`,
       accounts
