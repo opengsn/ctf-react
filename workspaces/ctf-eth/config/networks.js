@@ -46,6 +46,12 @@ const networks = {
     paymaster: '0x41ddb318BB35cA0aD54b52f5b1708ff860161dCc',
     ctf: '0x62a7cD077A18d05083410cd676c3b728ae9afb93'
   },
+  61: {
+    name: 'Ethereum Classic',
+    etherscan: 'https://blockscout.com/etc/mainnet/address/',
+    paymaster: '0xB178ec1B785e02A94D6CB1704437A41D25BbB2ce',
+    ctf: '0xBfCB3c7FF9B3DE0e0F673818309BfB73ec27bB9F'
+  },
 
   100: {
     name: 'xDai',
@@ -118,8 +124,8 @@ const oldnetworks = {
   61: {
     name: 'Ethereum Classic',
     etherscan: 'https://blockscout.com/etc/mainnet/address/',
-    paymaster: '0x4F73b876D90064aC05389713504Dd7E685F7BFdF',
-    ctf: '0x15fEdA2926c126047B131602543FEf6140fe87F0'
+    paymaster: '0xB178ec1B785e02A94D6CB1704437A41D25BbB2ce',
+    ctf: '0xBfCB3c7FF9B3DE0e0F673818309BfB73ec27bB9F'
   },
   0x61: {
     name: 'Binance Testnet',
