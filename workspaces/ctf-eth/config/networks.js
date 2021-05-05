@@ -69,6 +69,13 @@ const networks = {
     ctf: '0x05319d82fa69EA8434A967CdF4A2699Db4Ff40e8'
   },
 
+  42: {
+    name: 'kovan',
+    etherscan: 'https://kovan.etherscan.io/address/',
+    paymaster: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d', //2.2
+    ctf: '0x0aDF62f267206ff6EAD3d93f4d421f86b51C6B7D' //2.2
+  },
+
   1337: localnetwork
 }
 

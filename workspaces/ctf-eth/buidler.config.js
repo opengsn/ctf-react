@@ -46,6 +46,10 @@ module.exports = {
       url: `https://rinkeby.infura.io/v3/${infura}`,
       accounts
     },
+    kovan: {
+      url: `https://kovan.infura.io/v3/${infura}`,
+      accounts
+    },
     ropsten: {
       url: `https://ropsten.infura.io/v3/${infura}`,
       accounts
@@ -80,6 +84,7 @@ module.exports = {
       80001: '0x4d4581c01A457925410cd3877d17b2fd4553b2C5',
       6: '0x255fc98fE2C2564CF361E6dCD233862f884826E5',
       100: '0x7eEae829DF28F9Ce522274D5771A6Be91d00E5ED',
+      42: '0x7eEae829DF28F9Ce522274D5771A6Be91d00E5ED',
       97: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB'
     }
   }

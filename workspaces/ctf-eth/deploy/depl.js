@@ -6,9 +6,10 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
     null : ethers.utils.hexlify(parseInt(process.env.GAS_PRICE_GWEI +'0'.repeat(9)))
 
 	let { deployer, metamask, forwarder } = await getNamedAccounts() 
-
+	let hub = process.env.RelayHubAddress
     if ( !forwarder ) {
         forwarder = require( '../build/gsn/Forwarder').address
+	 hub = require('../build/gsn/RelayHub').address
 
         //sanity check: the build/gsn was created on the currently running node.
         if ( await ethers.provider.getCode(forwarder).then(code=>code.length) == 2 ) {
@@ -32,12 +33,12 @@ if ( process.env.DEPLOY_PM ) {
     await pm.setTrustedForwarder(forwarder, { gasPrice })
   }
   if (await pm.getHubAddr() == constants.ZERO_ADDRESS) {
-    console.log('setting relayhub to: ', process.env.RelayHubAddress)
-    await pm.setRelayHub(process.env.RelayHubAddress, { gasPrice })
+    console.log('setting relayhub to: ', hub)
+    await pm.setRelayHub(hub, { gasPrice })
   }
   if (await pm.getRelayHubDeposit() == 0) {
     console.log('funding paymater with 0.5')
-    await ethers.provider.sendTransaction({
+    await ethers.provider.getSigner().sendTransaction({
       to: pm.address,
       value: ethers.utils.parseEther('0.5'),
       gasPrice
