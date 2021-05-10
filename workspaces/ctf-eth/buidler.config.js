@@ -58,6 +58,10 @@ module.exports = {
       url: `https://matic-mumbai.chainstacklabs.com`,
       accounts
     },
+    matic: {
+      url: `https://rpc-mainnet.maticvigil.com/`,
+      accounts
+    },
     kotti: {
       url: `https://kotti.connect.bloq.cloud/v1/roast-blossom-sentence`,
       accounts
@@ -85,7 +89,8 @@ module.exports = {
       6: '0x255fc98fE2C2564CF361E6dCD233862f884826E5',
       100: '0x7eEae829DF28F9Ce522274D5771A6Be91d00E5ED',
       42: '0x7eEae829DF28F9Ce522274D5771A6Be91d00E5ED',
-      97: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB'
+      97: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
+      137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d'
     }
   }
 }

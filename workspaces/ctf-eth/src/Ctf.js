@@ -65,7 +65,7 @@ export class Ctf {
 
     const currentBlock = await this.ethersProvider.getBlockNumber()
     //look at most one month back (in 12-second block
-    const startBlock = Math.max(1,currentBlock-30*24*3600/12)
+    const startBlock = Math.max(1,currentBlock- 990/* 30*24*3600/12 */)
     const logs = await this.theContract.queryFilter('FlagCaptured', startBlock)
     const lastLogs = await Promise.all(logs.slice(-count).map(e=>this.getEventInfo(e)))
     return lastLogs
@@ -141,8 +141,8 @@ export async function initCtf() {
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
 
     maxViewableGasLimit,
-    relayLookupWindowBlocks: 600000,
-    relayRegistrationLookupBlocks: 600000,
+    relayLookupWindowBlocks: 990,
+    relayRegistrationLookupBlocks: 990,
     loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: net.paymaster
   }
