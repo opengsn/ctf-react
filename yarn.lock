@@ -2387,17 +2387,16 @@
     safe-buffer "^5.1.1"
     util.promisify "^1.0.0"
 
-"@opengsn/cli@^2.2.0-alpha.1":
-  version "2.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@opengsn/cli/-/cli-2.2.0-alpha.1.tgz#0c3deee0ae48bf4adad3df56add5f9a07f1f55dd"
-  integrity sha512-w/g9KjRuBCMN0YV6xFys+9MT7UncWLYiRrT0T/908UQ0gZP/rZToqdAV3+W3fpemNF3WBbA0MyFN6C9OLVK9vw==
+"@opengsn/cli@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@opengsn/cli/-/cli-2.2.1.tgz#e7a26e420930da817ffbc0f467fc2afe3c61890e"
+  integrity sha512-WGjijw4P0gHwVFHz1WmKuaTCLuQJ0SkilKOz+3jI2mA9GqyvAyRLTgI2eOGYWm2bbP24yAx3Qp891DzEeRijsw==
   dependencies:
-    "@opengsn/common" "^2.2.0-alpha.1"
+    "@opengsn/common" "^2.2.1"
     "@truffle/hdwallet-provider" "1.0.34"
     "@types/asciichart" "^1.5.4"
     "@types/clear" "^0.1.1"
     "@types/cli-table" "^0.3.0"
-    "@types/lodash" "^4.14.161"
     "@types/node" "^13.0.0"
     "@types/web3-provider-engine" "^14.0.0"
     asciichart "^1.5.25"
@@ -2409,18 +2408,17 @@
     console-read-write "^0.1.1"
     date-format "^3.0.0"
     ethereumjs-tx "^2.1.2"
-    lodash "^4.17.20"
     moment "^2.29.1"
     terminal-link "^2.1.1"
     web3-provider-engine "14.1.0"
     winston "^3.3.3"
 
-"@opengsn/common@^2.2.0-alpha.1":
-  version "2.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@opengsn/common/-/common-2.2.0-alpha.1.tgz#f08caeeedb48bf1bc5499d33e21a055371c972c5"
-  integrity sha512-mgBbKgHIc0w6gHAzMNBA7ipTF5RWEcVx0pnPYAB3kCQijMkQH+xVBtG31P4jEsX0z6L/g847TdZGDlUEdq1Xcg==
+"@opengsn/common@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@opengsn/common/-/common-2.2.1.tgz#bb80830e185b27d6d3002ca35a57396c41268d9f"
+  integrity sha512-p9QX1YvNZftSfDEHZsvx96DmqvITxFChQcnjdDE9BktzgwPDyJxSd/itBPB53BL6IpM7qy6fb+P8wGEWn6leZw==
   dependencies:
-    "@opengsn/contracts" "^2.2.0-alpha.1"
+    "@opengsn/contracts" "^2.2.1"
     "@types/bn.js" "^5.1.0"
     "@types/eth-sig-util" "^2.1.0"
     "@types/semver" "^7.3.4"
@@ -2442,29 +2440,29 @@
     web3-eth-contract "1.2.6"
     web3-utils "1.2.6"
 
-"@opengsn/contracts@^2.2.0-alpha.1":
-  version "2.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@opengsn/contracts/-/contracts-2.2.0-alpha.1.tgz#6b689c402471a30d4ea943da229e1b1c3d11720c"
-  integrity sha512-pevxWz8NVL3jVjhfnAfZ/53jAGQDEuhigVthteJ6CkmJbR3ajdwqF3U219vrYyAALliQGKLjn/IImx7x/OjdQA==
+"@opengsn/contracts@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@opengsn/contracts/-/contracts-2.2.1.tgz#1dc7c54df012c44c1b4da215dd1aeb535a84b5d2"
+  integrity sha512-Rl869w7EDKvYFMe0WL90Z/D4ouxxgsARJlSncJ/0Pm6/oBi8abA5Z05flePWdKwBssKFpzeM7ej7zzFFDR6UyQ==
   dependencies:
     "@openzeppelin/contracts" "^3.4.0-solc-0.7"
 
-"@opengsn/dev@^2.2.0-alpha.1":
-  version "2.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@opengsn/dev/-/dev-2.2.0-alpha.1.tgz#2207c3e9751fc110d2c59ffc9545b3f0ca18a62c"
-  integrity sha512-dNXgsB5yjsB08sUufywwXDsQFzI7s77T20Y3D1an/MN4yc4kaWR/2DN0bOv7AtordIi80cf2N2guXxD7YVTcRg==
+"@opengsn/dev@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@opengsn/dev/-/dev-2.2.1.tgz#e0fe188259d647217b47f34fef8889457c5fff20"
+  integrity sha512-is488rDSf5av4oDVKmJ6rsEOp1DkGAPXBploFqOgao+lZAGBmqvI4gcQsQh4JoxK5hnWxVrmIguB8Au9e89+ug==
   dependencies:
-    "@opengsn/cli" "^2.2.0-alpha.1"
-    "@opengsn/contracts" "^2.2.0-alpha.1"
-    "@opengsn/provider" "^2.2.0-alpha.1"
-    "@opengsn/relay" "^2.2.0-alpha.1"
+    "@opengsn/cli" "^2.2.1"
+    "@opengsn/contracts" "^2.2.1"
+    "@opengsn/provider" "^2.2.1"
+    "@opengsn/relay" "^2.2.1"
 
-"@opengsn/provider@2.2.0-alpha.1", "@opengsn/provider@^2.2.0-alpha.1":
-  version "2.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@opengsn/provider/-/provider-2.2.0-alpha.1.tgz#2a743e9ed52046a29ff2d43ef675d4dbc03a6007"
-  integrity sha512-Rekw4yafieQV8IZgwIiqOuLZywnrX+gPTfDhq/V+Av1io+o2xAxStLsoNYf4RtpuWtkgCnqVA6GNosdLX9cEug==
+"@opengsn/provider@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@opengsn/provider/-/provider-2.2.1.tgz#fd1c638e9da785d6f0abec1ace0597ef6cde28dc"
+  integrity sha512-3RpgenuDCzE8e+1RLL5YWyUAuDFVtfTLPX+XfegR6czQpqZ/5rn8gle8p34crrNl9UCkqj7hkfOI4FaN5ZvUqA==
   dependencies:
-    "@opengsn/common" "^2.2.0-alpha.1"
+    "@opengsn/common" "^2.2.1"
     "@types/body-parser" "^1.19.0"
     "@types/eth-sig-util" "^2.1.0"
     "@types/express-serve-static-core" "^4.17.18"
@@ -2477,12 +2475,12 @@
     loglevel "^1.7.1"
     winston "^3.3.3"
 
-"@opengsn/relay@^2.2.0-alpha.1":
-  version "2.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@opengsn/relay/-/relay-2.2.0-alpha.1.tgz#086112363717c47af529bfa2afeb7060da3b4837"
-  integrity sha512-5dgXWXkMS/yarLLld1GwPPBb0ZvZABhkcaQ5eZOtlvHGUFb02cWVM/IZtrOAUFG6EHLzmw7BDN4uvAmqigFjwg==
+"@opengsn/relay@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@opengsn/relay/-/relay-2.2.1.tgz#de95549318c538753812164f24e2c11a1c42bef1"
+  integrity sha512-FXYI8I0HnqI26m8xt2aPXTbLNNYASaV483b+y/+sPaqv0z0UKlYwNJWHKPGr1Cj1oD7wiPji5WJAm+82uuLdJw==
   dependencies:
-    "@opengsn/common" "^2.2.0-alpha.1"
+    "@opengsn/common" "^2.2.1"
     "@types/cors" "^2.8.7"
     "@types/express" "^4.17.8"
     "@types/minimist" "^1.2.0"
@@ -2973,11 +2971,6 @@
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
   integrity sha512-3c+yGKvVP5Y9TYBEibGNR+kLtijnj7mYrXRg+WpFb2X9xm04g/DXYkfg4hmzJQosc9snFNUPkbYIhu+KAm6jJw==
-
-"@types/lodash@^4.14.161":
-  version "4.14.168"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
-  integrity sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==
 
 "@types/lru-cache@^5.1.0":
   version "5.1.0"

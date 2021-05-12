@@ -10,7 +10,6 @@ try {
   console.warn('No local network:', e.message)
 }
 
-//new deployment only on rinkeby, for now.
 const networks = {
   1: {
     name: 'Ethereum Mainnet',
@@ -21,8 +20,6 @@ const networks = {
   3: {
     name: 'Ropsten',
     etherscan: 'https://ropsten.etherscan.io/address/',
-    // paymaster: '0x246aC46ad7ee41A1Ba87DbF9Dd0592E8a20951D9',
-    // ctf: '0xcA04Ac9e60A76390936A1f4d4E10F0c9103DAb7d'
     paymaster: '0x05319d82fa69EA8434A967CdF4A2699Db4Ff40e8', //single-recipient
     ctf: '0xd4b5f1C12B46447693Ae5ec05880fFd117277D12'
   },
@@ -82,6 +79,10 @@ const networks = {
     ctf: '0x0aDF62f267206ff6EAD3d93f4d421f86b51C6B7D' //2.2
   },
 
+  1337: localnetwork
+}
+
+const oldnetworks = {
   137: {
     name: 'matic',
     etherscan: 'https://explorer-mainnet.maticvigil.com/address/',
@@ -89,50 +90,13 @@ const networks = {
     ctf: '0x7c3caB8e0E89dc268300e302c2b3Fd1f5210fB45' //2.2
   },
 
-  1337: localnetwork
-}
-
-const oldnetworks = {
-  42: {
-    name: 'Kovan',
-    etherscan: 'https://kovan.etherscan.io/address/',
-
-    paymaster: '0xC2171626e3d2Fc5F7Ac71567124AA9adB575a169', // 2.2.0-rc.1
-//    paymaster: '0x083082b7Eada37dbD8f263050570B31448E61c94', // 2.0.0
-    ctf: '0xbca9a2dd9b9fc1c04bb69ed8a18ecceb10fb3c1b' //2.2
-//    ctf: '0x22d1300304Ea3B658f0a6e925dd62bcfcDd91ce4' //2.0
-  },
-  4: {
-    name: 'Rinkeby',
-    etherscan: 'https://rinkeby.etherscan.io/address/',
-//depl:
-    paymaster: '0x82758f9D6853C2087832aCdcAa641Ed527891310',
-    ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA'
-  },
   5: {
     name: 'Goerli',
     etherscan: 'https://goerli.etherscan.io/address/',
     paymaster: '0x50d2b611CC85308CeEecd7a43D00168b97B71F9A',
     ctf: '0xEDdafFdb235dDB9A6189FbFEb9A572B65d6BB187'
   },
-  6: {
-    name: 'Kotti',
-    etherscan: 'https://blockscout.com/etc/kotti/address/',
-    paymaster: '0x9AE9FC73A7ad54004D7eEA2817787684FBE52433',
-    ctf: '0x7f5437b27478791642AE95Ce38b123b0107e0cEc'
-  },
-  61: {
-    name: 'Ethereum Classic',
-    etherscan: 'https://blockscout.com/etc/mainnet/address/',
-    paymaster: '0xB178ec1B785e02A94D6CB1704437A41D25BbB2ce',
-    ctf: '0xBfCB3c7FF9B3DE0e0F673818309BfB73ec27bB9F'
-  },
-  0x61: {
-    name: 'Binance Testnet',
-    etherscan: 'https://testnet.bscscan.com/address/',
-    paymaster: '0x30c42A5F0099f67c6d9036a61FED44C823B7CC83',
-    ctf: '0xCF8033797367D6d2690D2c8380ADCD55C83D1b8d'
-  },
+
   0x38: {
     name: 'Binance Smart Chain',
     etherscan: 'https://bscscan.com/address/',
