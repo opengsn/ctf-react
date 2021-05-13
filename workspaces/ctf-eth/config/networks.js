@@ -72,6 +72,15 @@ const networks = {
     ctf: '0x05319d82fa69EA8434A967CdF4A2699Db4Ff40e8'
   },
 
+  56: {
+    name: 'Binance Smart Chain',
+    etherscan: 'https://bscscan.com/address/',
+    paymaster: '0x01a5a06C5Ba6E5f8FC9CB060492fae1b3d03c69d',
+    ctf: '0xD8Cf3315FFD1A3ec74Dc2B02908AF60e5E330472',
+    relayLookupWindowBlocks: 4990,
+    relayRegistrationLookupBlocks: 4990
+  },
+
   42: {
     name: 'kovan',
     etherscan: 'https://kovan.etherscan.io/address/',
