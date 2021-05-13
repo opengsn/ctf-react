@@ -79,17 +79,19 @@ const networks = {
     ctf: '0x0aDF62f267206ff6EAD3d93f4d421f86b51C6B7D' //2.2
   },
 
-  1337: localnetwork
-}
-
-const oldnetworks = {
   137: {
     name: 'matic',
     etherscan: 'https://explorer-mainnet.maticvigil.com/address/',
     paymaster: '0x9d47218ce8b8F123Efbb1Db3E0DdBe6490Cf77E1', //2.2
-    ctf: '0x7c3caB8e0E89dc268300e302c2b3Fd1f5210fB45' //2.2
+    ctf: '0x7c3caB8e0E89dc268300e302c2b3Fd1f5210fB45', //2.2
+    relayLookupWindowBlocks: 990,
+    relayRegistrationLookupBlocks: 990
   },
 
+  1337: localnetwork
+}
+
+const oldnetworks = {
   5: {
     name: 'Goerli',
     etherscan: 'https://goerli.etherscan.io/address/',
