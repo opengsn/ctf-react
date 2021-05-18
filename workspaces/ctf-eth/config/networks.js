@@ -57,14 +57,6 @@ const networks = {
     ctf: '0xAa3E82b4c4093b4bA13Cb5714382C99ADBf750cA' //2.2
   },
 
-
-  100: {
-    name: 'xDai',
-    etherscan: 'https://testnet.bscscan.com/address',
-    paymaster: '0x01a5a06C5Ba6E5f8FC9CB060492fae1b3d03c69d', //2.2
-    ctf: '0x05319d82fa69EA8434A967CdF4A2699Db4Ff40e8' //2.2
-  },
-
   0x61: {
     name: 'Binance Testnet',
     etherscan: 'https://testnet.bscscan.com/address/',
