@@ -33,9 +33,13 @@ module.exports = {
   solc: {
     version: '0.7.6',
   },
+  defaultNetwork: 'development',
   networks: {
+    development: {
+      url: 'http://localhost:8545'
+    },
     fork: {
-      url: `http://localhost:8545`,
+      url: 'http://localhost:8545',
       accounts
     },
     mainnet: {

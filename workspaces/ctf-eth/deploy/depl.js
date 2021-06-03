@@ -1,4 +1,3 @@
-const { GsnTestEnvironment } = require ( '@opengsn/dev' )
 const { constants } = require( '@opengsn/common')
 module.exports=async function({getNamedAccounts, ethers, deployments}) {
 	const { deploy } = deployments
@@ -7,9 +6,10 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
 
 	let { deployer, metamask, forwarder } = await getNamedAccounts() 
 	let hub = process.env.RelayHubAddress
+
     if ( !forwarder ) {
         forwarder = require( '../build/gsn/Forwarder').address
-	 hub = require('../build/gsn/RelayHub').address
+      	hub = require('../build/gsn/RelayHub').address
 
         //sanity check: the build/gsn was created on the currently running node.
         if ( await ethers.provider.getCode(forwarder).then(code=>code.length) == 2 ) {
@@ -45,7 +45,10 @@ if ( process.env.DEPLOY_PM ) {
     })
   }
 } else {
-  console.log( 'env DEPLOY_PM not set. not deploying paymaster' )
+  //suppress warning on local network
+  if ( !require( '../build/gsn/Paymaster').address ) {
+    console.log( 'env DEPLOY_PM not set. not deploying paymaster' )
+  }
 }
 
 
