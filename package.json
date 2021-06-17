@@ -19,9 +19,5 @@
   },
   "workspaces": [
     "workspaces/*"
-  ],
-  "devDependencies": {
-    "@nomiclabs/buidler": "^1.4.7",
-    "@nomiclabs/buidler-waffle": "^2.1.0"
-  }
+  ]
 }

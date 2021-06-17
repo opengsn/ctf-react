@@ -85,8 +85,8 @@ export class CaptureTheFlag extends React.Component {
   render() {
 
     return <>
-      <h1>Capture The Flag </h1>
-      Click the button to capture the flag with your account.
+      <h1>Capture The Flag - Without Paying for Gas</h1>
+      Click the button to capture the flag with your account, using GSN
       <br/>
       { !this.state.account && <span> <ActionButton title="Connect to Metamask"
         action={window.ethereum.enable}
