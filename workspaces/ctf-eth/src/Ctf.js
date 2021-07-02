@@ -1,7 +1,7 @@
 import CtfArtifact from '@ctf/eth/artifacts/CaptureTheFlag.json'
-import ethers from 'ethers'
+import { ethers } from 'ethers'
 import {networks} from '../build/networks.js'
-import {RelayProvider, resolveConfigurationGSN} from "@opengsn/gsn";
+import {RelayProvider} from "@opengsn/provider";
 
 /**
  * a wrapper class for the CTF contract.
@@ -73,7 +73,9 @@ export class Ctf {
   }
 
   async capture() {
-    return await this.theContract.captureTheFlag()
+    const from = await this.getSigner()
+    console.log('FROM:', from)
+    return await this.theContract.captureTheFlag({ from })
   }
 }
 
@@ -116,7 +118,7 @@ export async function initCtf() {
     // send all log to central log server, for possible troubleshooting
     // loggerUrl: 'https://logger.opengsn.org',
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
-
+    flashbotsRelayUrl: 'https://relay-goerli.epheph.com',
     relayLookupWindowBlocks: 600000,
     loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: net.paymaster
@@ -124,6 +126,10 @@ export async function initCtf() {
   const gsnProvider =  RelayProvider.newProvider({provider:web3Provider, config:gsnConfig})
   await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider);
+
+  // TODO FLASHBOTS require gas to be paid
+  gsnProvider.relayClient.dependencies.accountManager.addAccount('0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d')
+
 
   const signer = provider2.getSigner()
 

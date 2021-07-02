@@ -25,7 +25,7 @@ const networks = {
   5: {
     name: "Goerli",
     etherscan: 'https://goerli.etherscan.io/address/',
-    paymaster: '0x50d2b611CC85308CeEecd7a43D00168b97B71F9A',
+    paymaster: '0x45fbf8a88080ce1d7fd3be4e045d27dbc8234e7a',
     ctf: '0xEDdafFdb235dDB9A6189FbFEb9A572B65d6BB187'
   },
   6: {
