@@ -78,7 +78,9 @@ export class Ctf {
 
   async capture() {
     this.ethersProvider.getGasPrice().then(price=>console.log( '== gas price=', price.toString()))
-    return await this.theContract.captureTheFlag()
+    const from = await this.getSigner()
+    console.log('FROM:', from)
+    return await this.theContract.captureTheFlag({ from })
   }
 }
 
@@ -144,12 +146,17 @@ export async function initCtf() {
     maxViewableGasLimit,
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
     relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,
+    flashbotsRelayUrl: 'https://relay-goerli.epheph.com',
     loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: net.paymaster
   }
   const gsnProvider =  RelayProvider.newProvider({provider:web3Provider, config:gsnConfig})
   await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider);
+
+  // TODO FLASHBOTS require gas to be paid
+  gsnProvider.relayClient.dependencies.accountManager.addAccount('0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d')
+
 
   const signer = provider2.getSigner()
 

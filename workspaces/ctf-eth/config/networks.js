@@ -29,12 +29,17 @@ const networks = {
     paymaster: '0xA6e10aA9B038c9Cddea24D2ae77eC3cE38a0c016',
     ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA'
   },
-
   80001: {
     name: 'Mumbai',
     etherscan: 'https://explorer-mumbai.maticvigil.com/address/',
     paymaster: '0xcA94aBEdcC18A10521aB7273B3F3D5ED28Cf7B8A',
     ctf: '0xB8308F78A8f56a0A57882Cd8b523F4580e58b7c7'
+  },
+  5: {
+    name: "Goerli",
+    etherscan: 'https://goerli.etherscan.io/address/',
+    paymaster: '0x45fbf8a88080ce1d7fd3be4e045d27dbc8234e7a',
+    ctf: '0xEDdafFdb235dDB9A6189FbFEb9A572B65d6BB187'
   },
 
   6: {
