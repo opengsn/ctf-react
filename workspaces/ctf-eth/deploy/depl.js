@@ -1,8 +1,8 @@
-const { GsnTestEnvironment } = require ( '@opengsn/gsn/dist/GsnTestEnvironment' )
+const { GsnTestEnvironment } = require ( '@opengsn/dev' )
 
 module.exports=async function({getNamedAccounts, ethers, deployments}) {
 	const { deploy } = deployments
-	let { deployer, metamask, forwarder } = await getNamedAccounts() 
+	let { deployer, metamask, forwarder } = await getNamedAccounts()
 
     const signer = ethers.provider.getSigner()
 	ret = await deploy( 'CaptureTheFlag', {from: deployer} )
