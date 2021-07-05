@@ -17,6 +17,10 @@
     "evm-with-gsn": "cd workspaces/ctf-eth; yarn evm-with-gsn",
     "clean": "cd workspaces/ctf-eth; yarn clean; cd ../react-app; yarn clean"
   },
+  "dependencies": {
+    "@opengsn/provider": "file:workspaces/ctf-eth/opengsn-provider-2.2.999-flashbots.4.tgz",
+    "@opengsn/common": "file:workspaces/ctf-eth/opengsn-common-2.2.999-flashbots.3.tgz"
+  },
   "workspaces": [
     "workspaces/*"
   ]

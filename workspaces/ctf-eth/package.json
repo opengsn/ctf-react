@@ -21,9 +21,9 @@
   },
   "dependencies": {
     "@opengsn/cli": "^2.2.2",
-    "@opengsn/contracts": "^2.2.2",
+    "@opengsn/common": "file:opengsn-common-2.2.999-flashbots.3.tgz",
     "@opengsn/dev": "^2.2.2",
-    "@opengsn/provider": "^2.2.2",
+    "@opengsn/provider": "file:opengsn-provider-2.2.999-flashbots.4.tgz",
     "buidler-deploy": "^0.6.0-beta.16"
   }
 }

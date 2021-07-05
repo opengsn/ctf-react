@@ -134,7 +134,7 @@ export async function initCtf() {
   }
 
   //on kotti (at least) using blockGasLimit breaks our code..
-  const maxViewableGasLimit = chainId===6 ? 5e6 : undefined
+  const maxViewableGasLimit = chainId===6 ? 5e6 : 10000000
 
   const gsnConfig = {
     //log everything (0=debug, 5=error)
@@ -146,7 +146,11 @@ export async function initCtf() {
     maxViewableGasLimit,
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
     relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,
-    flashbotsRelayUrl: 'https://relay-goerli.epheph.com',
+    flashbotsRelayUrl: 'https://relay.epheph.com',
+    forceMaxViewableGasLimit: maxViewableGasLimit,
+    // onlySimulate: true,
+    // includeGarbageTransactionInSimulation: true,
+    forceGasPrice: '0x37E11D600',
     loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: net.paymaster
   }
@@ -155,7 +159,7 @@ export async function initCtf() {
   const provider2 = new ethers.providers.Web3Provider(gsnProvider);
 
   // TODO FLASHBOTS require gas to be paid
-  gsnProvider.relayClient.dependencies.accountManager.addAccount('0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d')
+  gsnProvider.relayClient.dependencies.accountManager.addAccount('0x3653a4dd79f8156d6bbc499aca1d98026843b58136cc56a77ddc8d92ca525b34')
 
 
   const signer = provider2.getSigner()

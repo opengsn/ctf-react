@@ -14,7 +14,7 @@ const networks = {
   1: {
     name: 'Ethereum Mainnet',
     etherscan: 'https://etherscan.io/address/',
-    paymaster: '0x0886067579BA2AcEA3d3A1d12a5CB85af76ba526',
+    paymaster: '0x960917f0af534bB95e7A78d1E12729Fc3Af1c7Eb',
     ctf: '0x2b139777178Dc11516D3446367F5Bef96AB29941'
   },
   3: {
