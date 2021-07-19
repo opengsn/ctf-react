@@ -23,6 +23,7 @@
     "@opengsn/cli": "^2.2.2",
     "@opengsn/contracts": "^2.2.2",
     "@opengsn/dev": "^2.2.2",
+    "@opengsn/paymasters": "^2.2.2-rc.1",
     "@opengsn/provider": "^2.2.2",
     "ethers": "^5.4.1"
   }

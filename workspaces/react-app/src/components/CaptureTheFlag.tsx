@@ -15,6 +15,8 @@ interface CtfState {
   status?: string
   step?: number
   total?: number
+
+  hashcashProgress?: string
 }
 
 export class CaptureTheFlag extends Component {
@@ -23,8 +25,18 @@ export class CaptureTheFlag extends Component {
   gsnProvider: any
   ctf?: Ctf
 
+  async hashcashCallback(difficulty, nonce) {
+    await sleep(0)
+
+    let hashcashProgress = nonce ? `(checked so far ${nonce} from about ${2 << difficulty})` : null
+    this.setState({hashcashProgress})
+    return true
+  }
+
   async readContractInfo() {
     const ctf = this.ctf = await initCtf()
+
+    const ctf = await initCtf(this.hashcashCallback.bind(this))
 
     this.gsnProvider = ctf.gsnProvider
 
@@ -90,7 +102,9 @@ export class CaptureTheFlag extends Component {
   }
 
   async doCapture() {
-    this.setState({status: 'sending'})
+    this.abortHashcash = undefined
+
+    this.setState({status: 'sending', hashcashProgress: null})
     const res = await this.ctf!.capture()
     this.setState({status: "txhash=" + res.hash.slice(0, 20) + ' waiting for mining'})
     const res2 = await res.wait()
@@ -103,13 +117,21 @@ export class CaptureTheFlag extends Component {
     // @ts-ignore
     return <>
       <h1>Capture The Flag - Without Paying for Gas</h1>
+      <h3>Using <b>HashcashPaymaster</b></h3>
       Click the button to capture the flag with your account, using GSN
+      <br/>
+      This sample requires the browser to calculate a "hashcash" before submitting the transaction - much like block
+      mining - to prevent spamming
+      the API.
       <br/>
       {!this.state.account && <span> <ActionButton title="Connect to Metamask"
                                                    action={window.ethereum.enable}
                                                    onError={() => (e: Error) => this.setState({error: e ? e.message : "error"})}
-      /><p/></span>}
 
+      {this.state.hashcashProgress && !this.state.error && <>
+         Calculating hashcash: {this.state.hashcashProgress}
+        <br/>
+      </>}
       <ActionButton title="Click here to capture the flag"
                     enabled={!this.state.account}
                     action={() => this.doCapture()}

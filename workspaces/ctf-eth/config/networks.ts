@@ -13,7 +13,8 @@ try {
   console.log('==reading localnet dir=', __dirname)
   localnetwork = {
     name: 'local',
-    paymaster: require('../../build/gsn/Paymaster.json').address,
+    paymaster: require('../deployments/development/HashcashPaymaster.json').address,
+    // paymaster: require('../../build/gsn/Paymaster.json').address,
     ctf: require('../../deployments/development/CaptureTheFlag.json').address
   }
 } catch (e) {
