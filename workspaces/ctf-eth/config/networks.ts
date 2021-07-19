@@ -1,4 +1,3 @@
-import fs from 'fs'
 
 interface NetworkType {
   name: string
@@ -95,7 +94,7 @@ export const networks: { [chain: number]: NetworkType } = {
 
   137: {
     name: 'matic',
-    etherscan: 'https://polygonscan.com/address/',
+    etherscan: 'https://explorer-mainnet.maticvigil.com/address/',
     paymaster: '0x9d47218ce8b8F123Efbb1Db3E0DdBe6490Cf77E1', //2.2
     ctf: '0x7c3caB8e0E89dc268300e302c2b3Fd1f5210fB45', //2.2
     relayLookupWindowBlocks: 990,
@@ -104,3 +103,4 @@ export const networks: { [chain: number]: NetworkType } = {
 
   1337: localnetwork
 }
+

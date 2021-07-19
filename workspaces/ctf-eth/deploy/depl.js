@@ -22,7 +22,7 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
     const ctf = await new ethers.Contract(ret.address, ret.abi, signer)
     console.log( 'ctf address=', ctf.address)
 
-if ( process.env.DEPLOY_PM ) {
+if ( process.env.DEPLOY_PM || chainId == 1337 || chainId == 31337 ) {
   console.log('Deploying paymaster:')
   ret = await deploy('SingleRecipientPaymaster', { gasPrice, from: deployer, args: [ctf.address] })
   const pm = await new ethers.Contract(ret.address, ret.abi, signer)
