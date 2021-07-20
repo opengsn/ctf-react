@@ -1,5 +1,4 @@
-import CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
-import HashcashPaymasterArtifact from '../deployments/development/HashcashPaymaster.json'
+import deployedNetworks from '../build/deployed-networks.json'
 import {networks} from '../config/networks.js'
 import {RelayProvider} from "@opengsn/provider";
 import {createHashcashAsyncApproval} from "@opengsn/paymasters/dist/src/HashCashApproval";
@@ -126,14 +125,26 @@ export async function initCtf(paymasterUIupdateCallback) {
     const provider = new ethers.providers.Web3Provider(web3Provider);
     const network = await provider.getNetwork()
 
-    let chainId = network.chainId;
-    let net = networks[chainId]
+    const chainId = network.chainId;
+    const deployedNetwork = deployedNetworks[chainId]
+    if ( !deployedNetwork )
+        throw new Error( `Can't find deployed contracts on network ${chainId}`)
+    const PaymasterContract = deployedNetwork.contracts.HashcashPaymaster
+    const CtfContract = deployedNetwork.contracts.CaptureTheFlag
+    //we use addresses from deployed networks (deployed with "yarn deploy"), but
+    // the global "networks" still contain etherscan and default param se   ttings.
+    let net = {
+        ...networks[chainId],
+        paymaster: PaymasterContract.address,
+        ctf: CtfContract.address,
+    };
     //for Address
     global.network = net
     const netid = await provider.send('net_version')
-  console.log('chainid=',chainId, 'networkid=', netid)
-    if (chainId !== parseInt(netid))
-        console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`)
+    console.log('chainid=',chainId, 'networkid=', netid)
+    // that USED TO BE the case, but now they support
+    // if (chainId !== parseInt(netid))
+    //     console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`)
     if (!net) {
         if (chainId < 1000 || !window.location.href.match(/localhos1t|127.0.0.1/))
             throw new Error(`Unsupported network (chainId=${chainId}) . please switch to one of: ` + Object.values(networks).map(n => n.name).filter(n => n).join(' / '))

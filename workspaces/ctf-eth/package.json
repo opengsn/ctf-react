@@ -5,7 +5,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "compile": "hardhat compile; tsc",
-    "deploy": "hardhat deploy",
+    "deploy": "hardhat deploy --export-all build/deployed-networks.json",
     "clean": "rm -rf deployments/development build artifacts cache dist",
     "evm": "hardhat node --no-deploy",
     "evm-with-gsn": "run-with-testrpc --networkId 1337 --chainId 1337 'yarn run gsn-start' ",
