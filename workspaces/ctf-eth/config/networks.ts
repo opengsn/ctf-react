@@ -14,8 +14,8 @@ try {
   console.log('==reading localnet dir=', __dirname)
   localnetwork = {
     name: 'local',
-    paymaster: JSON.parse(require('../../build/gsn/Paymaster.json')).address,
-    ctf: JSON.parse(require('../../deployments/localhost/CaptureTheFlag.json')).address
+    paymaster: require('../../build/gsn/Paymaster.json').address,
+    ctf: require('../../deployments/development/CaptureTheFlag.json').address
   }
 } catch (e) {
   console.warn('No local network:', e.message)

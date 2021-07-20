@@ -1,3 +1,5 @@
+require('@nomiclabs/hardhat-waffle')
+require('hardhat-deploy')
 const fs = require('fs')
 
 let accounts
@@ -9,8 +11,6 @@ if (mnemonicFile) {
   accounts = { mnemonic }
 }
 
-usePlugin('@nomiclabs/buidler-waffle')
-usePlugin('buidler-deploy')
 
 // This is a sample Buidler task. To learn how to create your own go to
 // https://buidler.dev/guides/create-task.html
@@ -29,10 +29,7 @@ infura = process.env.INFURA_ID
 // defaultNetwork, networks, solc, and paths.
 // Go to https://buidler.dev/config/ to learn more
 module.exports = {
-  // This is a sample solc configuration that specifies which version of solc to use
-  solc: {
-    version: '0.7.6',
-  },
+  solidity: "0.7.6",
   defaultNetwork: 'development',
   networks: {
     development: {
@@ -89,7 +86,7 @@ module.exports = {
   },
 
   namedAccounts: {
-    deployer: 0,
+    deployer: { default: 0 },
     metamask: '0xd21934eD8eAf27a67f0A70042Af50A1D6d195E81',
 
     //official addresses from https://docs.opengsn.org/networks

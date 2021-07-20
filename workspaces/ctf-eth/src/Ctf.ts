@@ -2,7 +2,7 @@ import {networks} from '../config/networks'
 import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
 import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
 
-const CtfArtifact = require('@ctf/eth/artifacts/CaptureTheFlag.json')
+import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
@@ -164,8 +164,8 @@ export async function initCtf(): Promise<Ctf> {
   console.log('chainid=', chainId, 'networkid=', netid)
   if (chainId !== parseInt(netid))
     console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`)
-  if (!net) {
-    if (chainId < 1000 || !window.location.href.match(/localhos1t|127.0.0.1/))
+  if (!net || !net.paymaster) {
+    if (chainId < 1000 || !window.location.href.match(/localhost|127.0.0.1/))
       throw new Error(`Unsupported network (chainId=${chainId}) . please switch to one of: ` + Object.values(networks).map((n: any) => n.name).filter(n => n).join(' / '))
     else
       throw new Error('To run locally, you must run "yarn evm" and then "yarn deploy" before "yarn react-start" ')

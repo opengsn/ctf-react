@@ -26,3 +26,4 @@ yarn-error.log*
 cache
 artifacts
 dist
+/workspaces/ctf-eth/deployments/development
