@@ -2,7 +2,7 @@ import {networks} from '../config/networks'
 import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
 import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
 
-const CtfArtifact = require('../artifacts/CaptureTheFlag.json')
+const CtfArtifact = require('@ctf/eth/artifacts/CaptureTheFlag.json')
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }

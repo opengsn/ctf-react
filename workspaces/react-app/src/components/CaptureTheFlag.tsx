@@ -23,10 +23,6 @@ export class CaptureTheFlag extends Component {
   gsnProvider: any
   ctf?: Ctf
 
-  constructor(props: any) {
-    super(props)
-  }
-
   async readContractInfo() {
     const ctf = this.ctf = await initCtf()
 
