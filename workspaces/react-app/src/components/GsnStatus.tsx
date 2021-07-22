@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import {Address} from "./utils";
 import {Ctf, GsnStatusInfo} from "@ctf/eth/src/Ctf";
-import {ethers} from "ethers";
 
 declare let global: { network: any }
 

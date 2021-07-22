@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "buidler compile",
     "deploy": "buidler deploy",
-    "clean": "rm -rf deployments/localhost build artifacts cache",
+    "clean": "rm -rf deployments/localhost build artifacts cache dist",
     "evm": "buidler node --no-deploy",
     "evm-with-gsn": "run-with-testrpc --networkId 1337 --chainId 1337 'yarn run gsn-start' ",
     "gsn-start": "gsn start"
@@ -15,7 +15,6 @@
     "@nomiclabs/buidler": "^1.4.7",
     "@nomiclabs/buidler-ethers": "^2.0.2",
     "@nomiclabs/buidler-waffle": "^2.1.0",
-    "ethers": "5.0.15",
     "ganache-cli": "^6.11.0",
     "run-with-testrpc": "^0.3.1"
   },
