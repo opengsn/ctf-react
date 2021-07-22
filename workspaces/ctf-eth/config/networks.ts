@@ -1,16 +1,27 @@
-fs = require('fs')
+import fs from 'fs'
 
-let localnetwork = {}
+interface NetworkType {
+  name: string
+  etherscan?: string
+  paymaster: string
+  ctf: string
+  relayLookupWindowBlocks?: number,
+  relayRegistrationLookupBlocks?: number
+}
+
+let localnetwork: NetworkType = {} as any
 try {
+  console.log('==reading localnet dir=', __dirname)
   localnetwork = {
-    paymaster: JSON.parse(fs.readFileSync('../build/gsn/Paymaster.json')).address,
-    ctf: JSON.parse(require('../deployments/localhost/CaptureTheFlag.json')).address
+    name: 'local',
+    paymaster: JSON.parse(require('../../build/gsn/Paymaster.json')).address,
+    ctf: JSON.parse(require('../../deployments/localhost/CaptureTheFlag.json')).address
   }
 } catch (e) {
   console.warn('No local network:', e.message)
 }
 
-const networks = {
+export const networks: { [chain: number]: NetworkType } = {
   1: {
     name: 'Ethereum Mainnet',
     etherscan: 'https://etherscan.io/address/',
@@ -91,21 +102,3 @@ const networks = {
 
   1337: localnetwork
 }
-
-const oldnetworks = {
-  5: {
-    name: 'Goerli',
-    etherscan: 'https://goerli.etherscan.io/address/',
-    paymaster: '0x50d2b611CC85308CeEecd7a43D00168b97B71F9A',
-    ctf: '0xEDdafFdb235dDB9A6189FbFEb9A572B65d6BB187'
-  },
-
-  0x38: {
-    name: 'Binance Smart Chain',
-    etherscan: 'https://bscscan.com/address/',
-    paymaster: '0x407a5823F83159FaC2bE7a5228fbC1Ee140FEdfD',
-    ctf: '0x70B79568Bb07ddC5193eD4c6316d51Cd3f42773f'
-  },
-}
-
-module.exports = { networks }

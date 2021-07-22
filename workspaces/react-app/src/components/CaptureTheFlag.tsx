@@ -1,17 +1,34 @@
-import React from 'react';
-import {initCtf} from '@ctf/eth/src/Ctf'
-import {Progress, Address, ActionButton, Log, sleep} from './utils.jsx'
+import React, {Component} from 'react';
+import {Progress, Address, ActionButton, Log, sleep} from './utils'
 import {GsnStatus} from "./GsnStatus";
+import {Ctf, initCtf} from "@ctf/eth";
 
-export class CaptureTheFlag extends React.Component {
+declare let window: { ethereum: any }
 
-  constructor(props) {
+interface CtfState {
+  error?: string
+  current?: string
+  contractAddress?: string
+  account?: string
+  events?: any[]
+
+  status?: string
+  step?: number
+  total?: number
+}
+
+export class CaptureTheFlag extends Component {
+
+  state: CtfState = {}
+  gsnProvider: any
+  ctf?: Ctf
+
+  constructor(props: any) {
     super(props)
-    this.state = {}
   }
 
   async readContractInfo() {
-    const ctf = await initCtf()
+    const ctf = this.ctf = await initCtf()
 
     this.gsnProvider = ctf.gsnProvider
 
@@ -25,20 +42,19 @@ export class CaptureTheFlag extends React.Component {
       contractAddress: ctf.address,
       account,
       current,
-      events: this.prependEvents(null, events),
+      events: this.prependEvents(undefined, events),
     })
 
     ctf.listenToEvents(event => {
       this.log(event)
     }, ({event, step, total}) => {
       console.log({event, step, total})
-      this.progress({event,step,total})
+      this.progress({event, step, total})
     })
-
-    this.ctf = ctf
   }
 
-  progress({event, step, total, error}) {
+  // @ts-ignore
+  progress({event, step, total, error = null}) {
     this.setState({status: event, step, total, error})
   }
 
@@ -51,7 +67,7 @@ export class CaptureTheFlag extends React.Component {
   }
 
   componentWillUnmount() {
-    this.ctf.stopListenToEvents()
+    this.ctf!.stopListenToEvents()
   }
 
   async simSend() {
@@ -66,17 +82,17 @@ export class CaptureTheFlag extends React.Component {
 
   // add new events to the array. newer event is FIRST. keep only the first 5 lines
   // (that is, latest 5 events)
-  prependEvents(currentEvents, newEvents) {
-    return [...newEvents.reverse(), ...(currentEvents || [])].slice(0, 5)
+  prependEvents(currentEvents: any[] | undefined, newEvents: any[]) {
+    return [...(newEvents ?? []).reverse(), ...(currentEvents ?? [])].slice(0, 5)
   }
 
-  log(event) {
+  log(event: any) {
     this.setState({events: this.prependEvents(this.state.events, [event])})
   }
 
   async doCapture() {
     this.setState({status: 'sending'})
-    const res = await this.ctf.capture()
+    const res = await this.ctf!.capture()
     this.setState({status: "txhash=" + res.hash.slice(0, 20) + ' waiting for mining'})
     const res2 = await res.wait()
     this.setState({total: null, step: null, status: 'Mined in block: ' + res2.blockNumber})
@@ -84,19 +100,21 @@ export class CaptureTheFlag extends React.Component {
 
   render() {
 
+    // @ts-ignore
+    // @ts-ignore
     return <>
       <h1>Capture The Flag - Without Paying for Gas</h1>
       Click the button to capture the flag with your account, using GSN
       <br/>
-      { !this.state.account && <span> <ActionButton title="Connect to Metamask"
-        action={window.ethereum.enable}
-        onError={() => e => this.setState({error: e ? e.message : "error"})}
-        /><p/></span> }
+      {!this.state.account && <span> <ActionButton title="Connect to Metamask"
+                                                   action={window.ethereum.enable}
+                                                   onError={() => (e: Error) => this.setState({error: e ? e.message : "error"})}
+      /><p/></span>}
 
       <ActionButton title="Click here to capture the flag"
                     enabled={!this.state.account}
                     action={() => this.doCapture()}
-                    onError={(e) => {
+                    onError={(e?:Error) => {
                       console.log('==ex2', e)
                       this.setState({error: e ? e.message : null})
                     }}/>
@@ -108,17 +126,18 @@ export class CaptureTheFlag extends React.Component {
       <br/>
 
       {this.state.error ?
+        //@ts-ignore
         <font color="red">Error: {this.state.error}</font>
         :
         <Progress step={this.state.step} total={this.state.total} status={this.state.status}/>
       }
 
-      <div style={{textAlign:"left"}} >
+      <div style={{textAlign: "left"}}>
 
-      <Log events={this.state.events}/>
+        <Log events={this.state.events}/>
       </div>
 
-      {this.gsnProvider && <GsnStatus provider={this.gsnProvider} /> }
+      {this.ctf && <GsnStatus ctf={this.ctf} /> }
     </>
   }
 }
