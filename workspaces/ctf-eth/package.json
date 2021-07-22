@@ -2,7 +2,7 @@
   "name": "@ctf/eth",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "compile": "buidler compile",
     "deploy": "buidler deploy",
@@ -24,6 +24,7 @@
     "@opengsn/contracts": "^2.2.2",
     "@opengsn/dev": "^2.2.2",
     "@opengsn/provider": "^2.2.2",
-    "buidler-deploy": "^0.6.0-beta.16"
+    "buidler-deploy": "^0.6.0-beta.16",
+    "ethers": "^5.4.1"
   }
 }
