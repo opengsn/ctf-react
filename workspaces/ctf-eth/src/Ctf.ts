@@ -47,15 +47,16 @@ export class Ctf {
     return await this.theContract.currentHolder()
   }
 
-  listenToEvents(onEvent: (e:EventInfo)=>void, onProgress: (e: GsnEvent) => void) {
+  listenToEvents(onEvent: (e:EventInfo)=>void, onProgress?: (e: GsnEvent) => void) {
     // @ts-ignore
     let listener = async (from, to, event) => {
-      console.log('===', from, to, event)
       const info = await this.getEventInfo(event)
       onEvent(info);
     };
     this.theContract.on('FlagCaptured', listener)
-    this.gsnProvider.registerEventListener(onProgress)
+    if (onProgress!=undefined) {
+      this.gsnProvider.registerEventListener(onProgress)
+    }
   }
 
   stopListenToEvents(onEvent?: EventFilter, onProgress = null) {
@@ -74,7 +75,6 @@ export class Ctf {
 
   async getEventInfo(e: ethers.Event): Promise<EventInfo> {
     if (!e.args) {
-      console.log('==not a valid event: ', e)
       return {
         previousHolder: 'notevent',
         currentHolder: JSON.stringify(e)
@@ -190,7 +190,6 @@ export async function initCtf(): Promise<Ctf> {
   console.log('== gsnconfig=', gsnConfig)
   const gsnProvider = RelayProvider.newProvider({provider: web3Provider, config: gsnConfig})
   await gsnProvider.init()
-  console.log('== gsnProvider initialized')
   const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider);
 
   const signer = provider2.getSigner()

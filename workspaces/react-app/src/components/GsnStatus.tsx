@@ -28,43 +28,50 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
   }
 
 
-  async initProvider(): Promise<GsnStatusInfo> {
+  async initProvider() {
     // @ts-ignore
     if (!this.ctf.gsnProvider.relayClient.initialized) {
       console.log('not initialized. calling provider.init')
       await this.ctf.gsnProvider.init()
       console.log('after provider.init')
     }
-    return await this.ctf.getGsnStatus()
   }
 
-  init() {
+  async init() {
     const setState = this.setState.bind(this)
     console.log('== init before')
-    this.initProvider().then(gsnStatus => {
-      console.log('== after getGsnStatus', gsnStatus)
-      setState({
-        relayHubAddress: gsnStatus.relayHubAddress,
-        forwarderAddress: gsnStatus.forwarderAddress,
-        paymasterAddress: gsnStatus.paymasterAddress,
-      });
-      gsnStatus.getPaymasterBalance().then(bal => {
-        const b= parseFloat(bal.toString())
-        console.log('bal=', b)
-        setState({
-          paymasterBalance: (b/1e18).toFixed(6)
-        })
+    await this.initProvider()
+    //update UI after each TX (paymaster balance, active relayers)
+    this.ctf.listenToEvents(e=>this.updateDynamicInfo())
+    const gsnStatus = await this.ctf.getGsnStatus()
+    console.log('== after getGsnStatus', gsnStatus)
+    setState({
+      relayHubAddress: gsnStatus.relayHubAddress,
+      forwarderAddress: gsnStatus.forwarderAddress,
+      paymasterAddress: gsnStatus.paymasterAddress,
+    })
+    await this.updateDynamicInfo(gsnStatus)
+  }
+
+  async updateDynamicInfo(gsnStatus?: GsnStatusInfo) {
+    if (gsnStatus === undefined) {
+      gsnStatus = await this.ctf.getGsnStatus()
+    }
+    gsnStatus.getPaymasterBalance().then(bal => {
+      const b = parseFloat(bal.toString())
+      this.setState({
+        paymasterBalance: (b / 1e18).toFixed(6)
       })
-      gsnStatus.getActiveRelayers().then(count => {
-        setState({
-          totalRelayers: count.toString()
-        })
+    })
+    gsnStatus.getActiveRelayers().then(count => {
+      this.setState({
+        totalRelayers: count.toString()
       })
     })
   }
 
   componentDidMount() {
-    this.init()
+    this.init().then()
   }
 
   render() {
