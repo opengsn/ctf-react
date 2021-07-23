@@ -43,6 +43,9 @@ export class CaptureTheFlag extends Component {
 
     ctf.listenToEvents(event => {
       this.log(event)
+      this.setState({
+        current: event.currentHolder
+      })
     }, ({event, step, total}) => {
       console.log({event, step, total})
       this.progress({event, step, total})
