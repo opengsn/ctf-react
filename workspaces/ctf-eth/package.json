@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "dist/src/index.js",
   "scripts": {
-    "compile": "hardhat compile",
+    "compile": "hardhat compile; tsc",
     "deploy": "hardhat deploy",
     "clean": "rm -rf deployments/development build artifacts cache dist",
     "evm": "hardhat node --no-deploy",
