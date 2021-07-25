@@ -3,17 +3,21 @@
 This is a sample of using GSN with react application.
 It also adds some basic UI to the transaction progress.
 
-The main branch is a simple application, without any GSN support.
+This is the branch with GSN support.
+
+Running it now is slightly different, since GSN must be active when deploying the contract
+(this is no problem in testnet/mainnet, but requires one extra step on local network)
 
 to run it do:
 ```
 yarn install
-yarn evm
+yarn evm-with-gsn
 ```
-and in another window:
+And now in another window:
 
 ```
+yarn deploy
 yarn start.
 ```
 
-To run it with GSN, switch to the [**"with-gsn"**](https://github.com/opengsn/ctf-react/tree/with-gsn) branch
+A live deployment of this app is available at https://ctf-react.opengsn.org

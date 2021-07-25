@@ -1,6 +1,7 @@
 import React from 'react';
 import {initCtf} from '@ctf/eth/src/Ctf'
 import {Progress, Address, ActionButton, Log, sleep} from './utils.jsx'
+import {GsnStatus} from "./GsnStatus";
 
 export class CaptureTheFlag extends React.Component {
 
@@ -12,6 +13,8 @@ export class CaptureTheFlag extends React.Component {
   async readContractInfo() {
     const ctf = await initCtf()
 
+    this.gsnProvider = ctf.gsnProvider
+
     const [current, events, account] = await Promise.all([
       ctf.getCurrentFlagHolder(),
       ctf.getPastEvents(),
@@ -22,14 +25,14 @@ export class CaptureTheFlag extends React.Component {
       contractAddress: ctf.address,
       account,
       current,
-      events: this.prependEvents(null, events)
+      events: this.prependEvents(null, events),
     })
 
     ctf.listenToEvents(event => {
       this.log(event)
-    }, (event, step, total) => {
+    }, ({event, step, total}) => {
       console.log({event, step, total})
-      this.progress(event)
+      this.progress({event,step,total})
     })
 
     this.ctf = ctf
@@ -110,7 +113,12 @@ export class CaptureTheFlag extends React.Component {
         <Progress step={this.state.step} total={this.state.total} status={this.state.status}/>
       }
 
+      <div style={{textAlign:"left"}} >
+
       <Log events={this.state.events}/>
+      </div>
+
+      {this.gsnProvider && <GsnStatus provider={this.gsnProvider} /> }
     </>
   }
 }
