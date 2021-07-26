@@ -4,7 +4,7 @@ module.exports = async function ({getNamedAccounts, ethers, deployments}) {
   const gasPrice = process.env.GAS_PRICE_GWEI == null ?
     null : ethers.utils.hexlify(parseInt(process.env.GAS_PRICE_GWEI + '0'.repeat(9)))
 
-  let {deployer, metamask, forwarder} = await getNamedAccounts()
+  let {deployer, forwarder} = await getNamedAccounts()
   let hub = process.env.RelayHubAddress
 
   if (!forwarder) {
@@ -23,39 +23,27 @@ module.exports = async function ({getNamedAccounts, ethers, deployments}) {
   console.log('ctf address=', ctf.address)
 
   const chainId = await ethers.provider.getNetwork().then(net => net.chainId)
-  if (process.env.DEPLOY_PM || chainId == 1337 || chainId == 31337) {
-    console.log('Deploying paymaster:')
-    // ret = await deploy('SingleRecipientPaymaster', { gasPrice, from: deployer, args: [ctf.address] })
-    ret = await deploy('HashcashPaymaster', {gasPrice, from: deployer, args: [15]})
-    const pm = await new ethers.Contract(ret.address, ret.abi, signer)
-    console.log('pm address=', pm.address)
-    const currentForwrader = await pm.trustedForwarder()
-    if (currentForwrader == constants.ZERO_ADDRESS) {
-      console.log('setting pm.forwrader')
-      await pm.setTrustedForwarder(forwarder, {gasPrice})
-    }
-    if (await pm.getHubAddr() == constants.ZERO_ADDRESS) {
-      console.log('setting relayhub to: ', hub)
-      await pm.setRelayHub(hub, {gasPrice})
-    }
-    if (await pm.getRelayHubDeposit() == 0) {
-      console.log('funding paymater with 0.5')
-      await ethers.provider.getSigner().sendTransaction({
-        to: pm.address,
-        value: ethers.utils.parseEther('0.5'),
-        gasPrice
-      })
-    }
-  } else {
-    //suppress warning on local network
-    if (!require('../build/gsn/Paymaster').address) {
-      console.log('env DEPLOY_PM not set. not deploying paymaster')
-    }
+  console.log('Deploying paymaster:')
+  // ret = await deploy('SingleRecipientPaymaster', { gasPrice, from: deployer, args: [ctf.address] })
+  ret = await deploy('HashcashPaymaster', {gasPrice, from: deployer, args: [15]})
+  const pm = await new ethers.Contract(ret.address, ret.abi, signer)
+  console.log('pm address=', pm.address)
+  const currentForwrader = await pm.trustedForwarder()
+  if (currentForwrader == constants.ZERO_ADDRESS) {
+    console.log('setting pm.forwrader')
+    await pm.setTrustedForwarder(forwarder, {gasPrice})
   }
-
-
-  //move some ether to my metamask account
-  // await signer.sendTransaction( {to:metamask, value:ethers.utils.parseEther('1')})
-  // console.log( 'metasmask', metamask, 'balance=', ethers.utils.formatEther(await ethers.provider.getBalance(metamask)))
+  if (await pm.getHubAddr() == constants.ZERO_ADDRESS) {
+    console.log('setting relayhub to: ', hub)
+    await pm.setRelayHub(hub, {gasPrice})
+  }
+  if (await pm.getRelayHubDeposit() == 0) {
+    console.log('funding paymater with 0.5')
+    await ethers.provider.getSigner().sendTransaction({
+      to: pm.address,
+      value: ethers.utils.parseEther('0.5'),
+      gasPrice
+    })
+  }
 }
 

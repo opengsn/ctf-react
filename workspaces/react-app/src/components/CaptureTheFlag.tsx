@@ -24,8 +24,9 @@ export class CaptureTheFlag extends Component {
   state: CtfState = {}
   gsnProvider: any
   ctf?: Ctf
+  abortHashcash?: boolean
 
-  async hashcashCallback(difficulty, nonce) {
+  async hashcashCallback(difficulty:number, nonce?:string) {
     await sleep(0)
 
     let hashcashProgress = nonce ? `(checked so far ${nonce} from about ${2 << difficulty})` : null
@@ -34,9 +35,8 @@ export class CaptureTheFlag extends Component {
   }
 
   async readContractInfo() {
-    const ctf = this.ctf = await initCtf()
 
-    const ctf = await initCtf(this.hashcashCallback.bind(this))
+    const ctf = this.ctf = await initCtf(this.hashcashCallback.bind(this))
 
     this.gsnProvider = ctf.gsnProvider
 
@@ -127,6 +127,7 @@ export class CaptureTheFlag extends Component {
       {!this.state.account && <span> <ActionButton title="Connect to Metamask"
                                                    action={window.ethereum.enable}
                                                    onError={() => (e: Error) => this.setState({error: e ? e.message : "error"})}
+      /><p/></span>}
 
       {this.state.hashcashProgress && !this.state.error && <>
          Calculating hashcash: {this.state.hashcashProgress}

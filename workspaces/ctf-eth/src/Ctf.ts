@@ -1,8 +1,12 @@
 import {networks} from '../config/networks'
 import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
 import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
-
+import deployedNetworks from '../build/deployed-networks.json'
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
+
+import {MultiExport} from 'hardhat-deploy/types'
+import {createHashcashAsyncApproval} from "@opengsn/paymasters/dist/src/HashCashApproval";
+import {ContractExport, Export} from "hardhat-deploy/dist/types";
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
@@ -15,7 +19,7 @@ export interface EventInfo {
 
 export interface GsnStatusInfo {
   getActiveRelayers: () => Promise<number>
-  getPaymasterBalance: ()=>Promise<string>
+  getPaymasterBalance: () => Promise<string>
   relayHubAddress: string
   paymasterAddress: string
   forwarderAddress: string
@@ -47,14 +51,14 @@ export class Ctf {
     return await this.theContract.currentHolder()
   }
 
-  listenToEvents(onEvent: (e:EventInfo)=>void, onProgress?: (e: GsnEvent) => void) {
+  listenToEvents(onEvent: (e: EventInfo) => void, onProgress?: (e: GsnEvent) => void) {
     // @ts-ignore
     let listener = async (from, to, event) => {
       const info = await this.getEventInfo(event)
       onEvent(info);
     };
     this.theContract.on('FlagCaptured', listener)
-    if (onProgress!=undefined) {
+    if (onProgress != undefined) {
       this.gsnProvider.registerEventListener(onProgress)
     }
   }
@@ -76,7 +80,7 @@ export class Ctf {
   async getEventInfo(e: ethers.Event): Promise<EventInfo> {
     if (!e.args) {
       return {
-        previousHolder: 'notevent',
+        previousHolder: 'not-event',
         currentHolder: JSON.stringify(e)
       }
     }
@@ -95,8 +99,7 @@ export class Ctf {
     const startBlock = Math.max(1, currentBlock - lookupWindow)
 
     const logs = await this.theContract.queryFilter(this.theContract.filters.FlagCaptured(), startBlock)
-    const lastLogs = await Promise.all(logs.slice(-count).map(e => this.getEventInfo(e)))
-    return lastLogs
+    return  await Promise.all(logs.slice(-count).map(e => this.getEventInfo(e)))
   }
 
   getSigner() {
@@ -116,15 +119,36 @@ export class Ctf {
       forwarderAddress: ci.forwarderInstance.address,
       paymasterAddress: ci.paymasterInstance.address,
 
-      getPaymasterBalance: ()=> ci.paymasterInstance.getRelayHubDeposit(),
+      getPaymasterBalance: () => ci.paymasterInstance.getRelayHubDeposit(),
       getActiveRelayers: async () => relayClient.dependencies.knownRelaysManager.refresh().then(() =>
-         relayClient.dependencies.knownRelaysManager.allRelayers.length
+        relayClient.dependencies.knownRelaysManager.allRelayers.length
       )
     }
   }
 }
 
-export async function initCtf(): Promise<Ctf> {
+async function getHashcashPaymasterDifficulty(provider: ethers.providers.BaseProvider, contract: ContractExport): Promise<number> {
+  const pm = new ethers.Contract(contract.address, contract.abi, provider)
+  try {
+    return  await pm.difficulty().then((ret:any)=>parseInt(ret.toString()))
+  } catch (e) {
+    const pmVer = await pm.versionPaymaster().catch(() => null)
+    if (pmVer)
+      throw new Error(`Not a Hashcash-paymaster: ${contract.address} - ${pmVer}`)
+
+    if (await provider.getCode(contract.address).then(code => code.length) < 10)
+      throw new Error(`No contract at paymaster address: ${contract.address} on network ${await provider.getNetwork()}`)
+
+    throw new Error(e.message)
+  }
+}
+
+/**
+ * initialize CTF
+ * @param paymasterUiUpdateCallback - callback to be called periodically while we calculate the hashcash
+ * @return {Promise<Ctf>}
+ */
+export async function initCtf(paymasterUiUpdateCallback: (difficulty:number, nonce?:string) => void): Promise<Ctf> {
 
   let web3Provider = window.ethereum
 
@@ -135,8 +159,8 @@ export async function initCtf(): Promise<Ctf> {
     console.log('chainChanged', chainId)
     window.location.reload()
   })
-  web3Provider.on('accountsChanged', (accs: any[]) => {
-    console.log('accountChanged', accs)
+  web3Provider.on('accountsChanged', (accounts: any[]) => {
+    console.log('accountChanged', accounts)
     window.location.reload()
   })
 
@@ -158,12 +182,21 @@ export async function initCtf(): Promise<Ctf> {
   const provider = new ethers.providers.Web3Provider(web3Provider);
   const network = await provider.getNetwork()
 
-  const chainId = network.chainId;
-  const net = global.network = networks[chainId]
-  const netid = await provider.send('net_version', [])
-  console.log('chainid=', chainId, 'networkid=', netid)
-  if (chainId !== parseInt(netid))
-    console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`)
+  const chainId = network.chainId
+  const deployedNetwork = Object.values((deployedNetworks as MultiExport)[chainId] ?? {})[0]
+  if (!deployedNetwork)
+    throw new Error(`Can't find deployed contracts on network ${chainId}`)
+  const PaymasterContract = deployedNetwork.contracts.HashcashPaymaster
+  const CtfContract = deployedNetwork.contracts.CaptureTheFlag
+  //we use addresses from deployed networks (deployed with "yarn deploy"), but
+  // the global "networks" still contain etherscan and default param settings.
+  let net = {
+    ...networks[chainId],
+    paymaster: PaymasterContract.address,
+    ctf: CtfContract.address,
+  };
+  //for Address
+  global.network = net
   if (!net || !net.paymaster) {
     if (chainId < 1000 || !window.location.href.match(/localhost|127.0.0.1/))
       throw new Error(`Unsupported network (chainId=${chainId}) . please switch to one of: ` + Object.values(networks).map((n: any) => n.name).filter(n => n).join(' / '))
@@ -181,14 +214,20 @@ export async function initCtf(): Promise<Ctf> {
     // loggerUrl: 'https://logger.opengsn.org',
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
 
+    requiredVersionRange: '^2.2.0',
     maxViewableGasLimit,
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
     relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,
     loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: net.paymaster
   }
-  console.log('== gsnconfig=', gsnConfig)
-  const gsnProvider = RelayProvider.newProvider({provider: web3Provider, config: gsnConfig})
+  const difficulty = await getHashcashPaymasterDifficulty(provider, PaymasterContract) -1
+  const gsnProvider = RelayProvider.newProvider({
+    provider: web3Provider, config: gsnConfig, overrideDependencies: {
+      asyncApprovalData: createHashcashAsyncApproval(difficulty, 1000, paymasterUiUpdateCallback)
+      // asyncApprovalData: async ()=>'0x'.padEnd(130,'0')
+    }
+  })
   await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider);
 
