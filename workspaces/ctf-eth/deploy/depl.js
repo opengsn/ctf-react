@@ -17,12 +17,20 @@ module.exports = async function ({getNamedAccounts, ethers, deployments}) {
     }
   }
 
+  const chainId = await ethers.provider.getNetwork().then(net => net.chainId)
+
+  if (chainId != 1337 && chainId != 31337) {
+    const accounts = await ethers.provider.listAccounts()
+    if (accounts.length == 0) {
+      throw new Error('no account to deploy with. must set MNEMONIC_FILE')
+    }
+  }
+
   const signer = ethers.provider.getSigner()
   ret = await deploy('CaptureTheFlag', {gasPrice, from: deployer, args: [forwarder]})
   const ctf = await new ethers.Contract(ret.address, ret.abi, signer)
   console.log('ctf address=', ctf.address)
 
-  const chainId = await ethers.provider.getNetwork().then(net => net.chainId)
   console.log('Deploying paymaster:')
   // ret = await deploy('SingleRecipientPaymaster', { gasPrice, from: deployer, args: [ctf.address] })
   ret = await deploy('HashcashPaymaster', {gasPrice, from: deployer, args: [15]})
@@ -34,14 +42,19 @@ module.exports = async function ({getNamedAccounts, ethers, deployments}) {
     await pm.setTrustedForwarder(forwarder, {gasPrice})
   }
   if (await pm.getHubAddr() == constants.ZERO_ADDRESS) {
+    if (hub == null)
+      throw new Error('cat set hub of paymaster: RelayHubAddress env not set')
     console.log('setting relayhub to: ', hub)
-    await pm.setRelayHub(hub, {gasPrice})
+    const tx = await pm.setRelayHub(hub, {gasPrice})
+    await tx.wait()
+  } else {
+    console.log('pm\'s hub=', await pm.getHubAddr())
   }
   if (await pm.getRelayHubDeposit() == 0) {
-    console.log('funding paymater with 0.5')
+    console.log('funding paymater with 1')
     await ethers.provider.getSigner().sendTransaction({
       to: pm.address,
-      value: ethers.utils.parseEther('0.5'),
+      value: ethers.utils.parseEther('1'),
       gasPrice
     })
   }

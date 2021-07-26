@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Progress, Address, ActionButton, Log, sleep} from './utils'
 import {GsnStatus} from "./GsnStatus";
-import {Ctf, initCtf} from "@ctf/eth";
+// @ts-ignore
+import {Ctf, initCtf, InitCtfCallback} from "@ctf/eth";
 
 declare let window: { ethereum: any }
 
@@ -26,7 +27,7 @@ export class CaptureTheFlag extends Component {
   ctf?: Ctf
   abortHashcash?: boolean
 
-  async hashcashCallback(difficulty:number, nonce?:string) {
+  async hashcashCallback(difficulty:number, nonce?:string): Promise<boolean> {
     await sleep(0)
 
     let hashcashProgress = nonce ? `(checked so far ${nonce} from about ${2 << difficulty})` : null
@@ -36,7 +37,8 @@ export class CaptureTheFlag extends Component {
 
   async readContractInfo() {
 
-    const ctf = this.ctf = await initCtf(this.hashcashCallback.bind(this))
+    let paymasterUiUpdateCallback: InitCtfCallback = this.hashcashCallback.bind(this);
+    const ctf = this.ctf = await initCtf(paymasterUiUpdateCallback )
 
     this.gsnProvider = ctf.gsnProvider
 

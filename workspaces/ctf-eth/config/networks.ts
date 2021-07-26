@@ -10,7 +10,6 @@ interface NetworkType {
 
 let localnetwork: NetworkType = {} as any
 try {
-  console.log('==reading localnet dir=', __dirname)
   localnetwork = {
     name: 'local',
     paymaster: require('../../deployments/development/HashcashPaymaster.json').address,

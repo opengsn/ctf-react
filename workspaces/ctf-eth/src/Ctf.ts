@@ -99,7 +99,7 @@ export class Ctf {
     const startBlock = Math.max(1, currentBlock - lookupWindow)
 
     const logs = await this.theContract.queryFilter(this.theContract.filters.FlagCaptured(), startBlock)
-    return  await Promise.all(logs.slice(-count).map(e => this.getEventInfo(e)))
+    return await Promise.all(logs.slice(-count).map(e => this.getEventInfo(e)))
   }
 
   getSigner() {
@@ -130,7 +130,7 @@ export class Ctf {
 async function getHashcashPaymasterDifficulty(provider: ethers.providers.BaseProvider, contract: ContractExport): Promise<number> {
   const pm = new ethers.Contract(contract.address, contract.abi, provider)
   try {
-    return  await pm.difficulty().then((ret:any)=>parseInt(ret.toString()))
+    return await pm.difficulty().then((ret: any) => parseInt(ret.toString()))
   } catch (e) {
     const pmVer = await pm.versionPaymaster().catch(() => null)
     if (pmVer)
@@ -143,12 +143,14 @@ async function getHashcashPaymasterDifficulty(provider: ethers.providers.BasePro
   }
 }
 
+export type InitCtfCallback = (difficulty: number, nonce?: string) => Promise<boolean>;
+
 /**
  * initialize CTF
  * @param paymasterUiUpdateCallback - callback to be called periodically while we calculate the hashcash
  * @return {Promise<Ctf>}
  */
-export async function initCtf(paymasterUiUpdateCallback: (difficulty:number, nonce?:string) => void): Promise<Ctf> {
+export async function initCtf(paymasterUiUpdateCallback: InitCtfCallback): Promise<Ctf> {
 
   let web3Provider = window.ethereum
 
@@ -184,10 +186,15 @@ export async function initCtf(paymasterUiUpdateCallback: (difficulty:number, non
 
   const chainId = network.chainId
   const deployedNetwork = Object.values((deployedNetworks as MultiExport)[chainId] ?? {})[0]
+  const allNetworkIds = Object.keys(deployedNetworks).join("/")
   if (!deployedNetwork)
-    throw new Error(`Can't find deployed contracts on network ${chainId}`)
-  const PaymasterContract = deployedNetwork.contracts.HashcashPaymaster
+    throw new Error(`Can't find deployed contracts on network ${chainId}. Switch to one of ${allNetworkIds}`)
   const CtfContract = deployedNetwork.contracts.CaptureTheFlag
+  if (CtfContract == null)
+    throw new Error(`Ctf not deployed on network ${chainId}`)
+  const PaymasterContract = deployedNetwork.contracts.HashcashPaymaster
+  if (PaymasterContract == null)
+    throw new Error(`Paymaster not deployed on network ${chainId}`)
   //we use addresses from deployed networks (deployed with "yarn deploy"), but
   // the global "networks" still contain etherscan and default param settings.
   let net = {
@@ -221,7 +228,7 @@ export async function initCtf(paymasterUiUpdateCallback: (difficulty:number, non
     loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: net.paymaster
   }
-  const difficulty = await getHashcashPaymasterDifficulty(provider, PaymasterContract) -1
+  const difficulty = await getHashcashPaymasterDifficulty(provider, PaymasterContract)
   const gsnProvider = RelayProvider.newProvider({
     provider: web3Provider, config: gsnConfig, overrideDependencies: {
       asyncApprovalData: createHashcashAsyncApproval(difficulty, 1000, paymasterUiUpdateCallback)

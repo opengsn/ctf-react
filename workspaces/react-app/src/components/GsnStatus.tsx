@@ -39,7 +39,6 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
 
   async init() {
     const setState = this.setState.bind(this)
-    console.log('== init before')
     await this.initProvider()
     //update UI after each TX (paymaster balance, active relayers)
     this.ctf.listenToEvents(e=>this.updateDynamicInfo())

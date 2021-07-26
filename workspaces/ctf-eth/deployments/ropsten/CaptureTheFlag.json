@@ -1,0 +1,177 @@
+{
+  "address": "0xDFF48025A15644cB0785f9DF2fc410AaFe5298A0",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "forwarder",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "previousHolder",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "currentHolder",
+          "type": "address"
+        }
+      ],
+      "name": "FlagCaptured",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "captureTheFlag",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "currentHolder",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "forwarder",
+          "type": "address"
+        }
+      ],
+      "name": "isTrustedForwarder",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "trustedForwarder",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "versionRecipient",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xe0499b9274c27ab42ba435afe06b4c6ce33bc89495daa4f99b48f8b65a205ec6",
+  "receipt": {
+    "to": null,
+    "from": "0xd21934eD8eAf27a67f0A70042Af50A1D6d195E81",
+    "contractAddress": "0xDFF48025A15644cB0785f9DF2fc410AaFe5298A0",
+    "transactionIndex": 0,
+    "gasUsed": "348176",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xf1238215bc43675ccde03edb9a553af8491977bde99bcfdff4f9c7d1ce761a89",
+    "transactionHash": "0xe0499b9274c27ab42ba435afe06b4c6ce33bc89495daa4f99b48f8b65a205ec6",
+    "logs": [],
+    "blockNumber": 10712363,
+    "cumulativeGasUsed": "348176",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB"
+  ],
+  "solcInputHash": "d1ba8e77270b2d8dbbb7bb89c54804f2",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"forwarder\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"previousHolder\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"currentHolder\",\"type\":\"address\"}],\"name\":\"FlagCaptured\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"captureTheFlag\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"currentHolder\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"forwarder\",\"type\":\"address\"}],\"name\":\"isTrustedForwarder\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"trustedForwarder\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"versionRecipient\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"isTrustedForwarder(address)\":{\"notice\":\"return if the forwarder is trusted to forward relayed transactions to us. the forwarder is required to verify the sender's signature, and verify the call is not a replay.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/CaptureTheFlag.sol\":\"CaptureTheFlag\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@opengsn/contracts/src/BaseRelayRecipient.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0-only\\n// solhint-disable no-inline-assembly\\npragma solidity >=0.7.6;\\n\\nimport \\\"./interfaces/IRelayRecipient.sol\\\";\\n\\n/**\\n * A base contract to be inherited by any contract that want to receive relayed transactions\\n * A subclass must use \\\"_msgSender()\\\" instead of \\\"msg.sender\\\"\\n */\\nabstract contract BaseRelayRecipient is IRelayRecipient {\\n\\n    /*\\n     * Forwarder singleton we accept calls from\\n     */\\n    address public trustedForwarder;\\n\\n    function isTrustedForwarder(address forwarder) public override view returns(bool) {\\n        return forwarder == trustedForwarder;\\n    }\\n\\n    /**\\n     * return the sender of this call.\\n     * if the call came through our trusted forwarder, return the original sender.\\n     * otherwise, return `msg.sender`.\\n     * should be used in the contract anywhere instead of msg.sender\\n     */\\n    function _msgSender() internal override virtual view returns (address payable ret) {\\n        if (msg.data.length >= 20 && isTrustedForwarder(msg.sender)) {\\n            // At this point we know that the sender is a trusted forwarder,\\n            // so we trust that the last bytes of msg.data are the verified sender address.\\n            // extract sender address from the end of msg.data\\n            assembly {\\n                ret := shr(96,calldataload(sub(calldatasize(),20)))\\n            }\\n        } else {\\n            return msg.sender;\\n        }\\n    }\\n\\n    /**\\n     * return the msg.data of this call.\\n     * if the call came through our trusted forwarder, then the real sender was appended as the last 20 bytes\\n     * of the msg.data - so this method will strip those 20 bytes off.\\n     * otherwise, return `msg.data`\\n     * should be used in the contract instead of msg.data, where the difference matters (e.g. when explicitly\\n     * signing or hashing the\\n     */\\n    function _msgData() internal override virtual view returns (bytes memory ret) {\\n        if (msg.data.length >= 20 && isTrustedForwarder(msg.sender)) {\\n            return msg.data[0:msg.data.length-20];\\n        } else {\\n            return msg.data;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xc52d38ab8f48b44bda064f803f2400e5d2d971969f1490430951e79135708fd2\",\"license\":\"GPL-3.0-only\"},\"@opengsn/contracts/src/interfaces/IRelayRecipient.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0-only\\npragma solidity >=0.7.6;\\n\\n/**\\n * a contract must implement this interface in order to support relayed transaction.\\n * It is better to inherit the BaseRelayRecipient as its implementation.\\n */\\nabstract contract IRelayRecipient {\\n\\n    /**\\n     * return if the forwarder is trusted to forward relayed transactions to us.\\n     * the forwarder is required to verify the sender's signature, and verify\\n     * the call is not a replay.\\n     */\\n    function isTrustedForwarder(address forwarder) public virtual view returns(bool);\\n\\n    /**\\n     * return the sender of this call.\\n     * if the call came through our trusted forwarder, then the real sender is appended as the last 20 bytes\\n     * of the msg.data.\\n     * otherwise, return `msg.sender`\\n     * should be used in the contract anywhere instead of msg.sender\\n     */\\n    function _msgSender() internal virtual view returns (address payable);\\n\\n    /**\\n     * return the msg.data of this call.\\n     * if the call came through our trusted forwarder, then the real sender was appended as the last 20 bytes\\n     * of the msg.data - so this method will strip those 20 bytes off.\\n     * otherwise (if the call was made directly and not through the forwarder), return `msg.data`\\n     * should be used in the contract instead of msg.data, where this difference matters.\\n     */\\n    function _msgData() internal virtual view returns (bytes memory);\\n\\n    function versionRecipient() external virtual view returns (string memory);\\n}\\n\",\"keccak256\":\"0x6243d3a925653ed0bde57e9fae7fb87f12c58a2376b27ae23b53502322532e00\",\"license\":\"GPL-3.0-only\"},\"contracts/CaptureTheFlag.sol\":{\"content\":\"/**\\n * SPDX-License-Identifier:MIT\\n */\\npragma solidity ^0.7.6;\\nimport \\\"@opengsn/contracts/src/BaseRelayRecipient.sol\\\";\\n\\ncontract CaptureTheFlag is BaseRelayRecipient {\\n\\n    event FlagCaptured(address previousHolder, address currentHolder);\\n\\n    address public currentHolder = address(0);\\n\\n    function captureTheFlag() external {\\n        address previousHolder = currentHolder;\\n\\n        currentHolder = _msgSender();\\n\\n        emit FlagCaptured(previousHolder, currentHolder);\\n    }\\n\\n    constructor(address forwarder) {\\n        trustedForwarder = forwarder;\\n    }\\n\\n    string public override versionRecipient = \\\"2.2.0\\\";\\n}\\n\",\"keccak256\":\"0x82359317023767ccc59603ea5bf0281e7739455c0aa8e80877f0cfc66e895234\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60806040526000600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506040518060400160405280600581526020017f322e322e3000000000000000000000000000000000000000000000000000000081525060029080519060200190610091929190610118565b5034801561009e57600080fd5b5060405161062e38038061062e833981810160405260208110156100c157600080fd5b8101908080519060200190929190505050806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550506101c3565b828054600181600116156101000203166002900490600052602060002090601f01602090048101928261014e5760008555610195565b82601f1061016757805160ff1916838001178555610195565b82800160010185558215610195579182015b82811115610194578251825591602001919060010190610179565b5b5090506101a291906101a6565b5090565b5b808211156101bf5760008160009055506001016101a7565b5090565b61045c806101d26000396000f3fe608060405234801561001057600080fd5b50600436106100565760003560e01c80624225b81461005b578063239e26f21461008f578063486ff0cd14610099578063572b6c051461011c5780637da0a87714610176575b600080fd5b6100636101aa565b604051808273ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100976101d0565b005b6100a16102cf565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156100e15780820151818401526020810190506100c6565b50505050905090810190601f16801561010e5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b61015e6004803603602081101561013257600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061036d565b60405180821515815260200191505060405180910390f35b61017e6103c6565b604051808273ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690506101ff6103ea565b600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055507facc718a11fbc93a22905740808767480f9efd07b1c0b0128095790cd1440048d81600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16604051808373ffffffffffffffffffffffffffffffffffffffff1681526020018273ffffffffffffffffffffffffffffffffffffffff1681526020019250505060405180910390a150565b60028054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156103655780601f1061033a57610100808354040283529160200191610365565b820191906000526020600020905b81548152906001019060200180831161034857829003601f168201915b505050505081565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff16149050919050565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000601460003690501015801561040657506104053361036d565b5b1561041a57601436033560601c9050610422565b339050610423565b5b9056fea2646970667358221220b09cac1670f57c6259b83e0b0ce7e2706d3e9abf4fda2418d8726fccbc2aed4d64736f6c63430007060033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100565760003560e01c80624225b81461005b578063239e26f21461008f578063486ff0cd14610099578063572b6c051461011c5780637da0a87714610176575b600080fd5b6100636101aa565b604051808273ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100976101d0565b005b6100a16102cf565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156100e15780820151818401526020810190506100c6565b50505050905090810190601f16801561010e5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b61015e6004803603602081101561013257600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061036d565b60405180821515815260200191505060405180910390f35b61017e6103c6565b604051808273ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690506101ff6103ea565b600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055507facc718a11fbc93a22905740808767480f9efd07b1c0b0128095790cd1440048d81600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16604051808373ffffffffffffffffffffffffffffffffffffffff1681526020018273ffffffffffffffffffffffffffffffffffffffff1681526020019250505060405180910390a150565b60028054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156103655780601f1061033a57610100808354040283529160200191610365565b820191906000526020600020905b81548152906001019060200180831161034857829003601f168201915b505050505081565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff16149050919050565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000601460003690501015801561040657506104053361036d565b5b1561041a57601436033560601c9050610422565b339050610423565b5b9056fea2646970667358221220b09cac1670f57c6259b83e0b0ce7e2706d3e9abf4fda2418d8726fccbc2aed4d64736f6c63430007060033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "isTrustedForwarder(address)": {
+        "notice": "return if the forwarder is trusted to forward relayed transactions to us. the forwarder is required to verify the sender's signature, and verify the call is not a replay."
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 7,
+        "contract": "contracts/CaptureTheFlag.sol:CaptureTheFlag",
+        "label": "trustedForwarder",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 126,
+        "contract": "contracts/CaptureTheFlag.sol:CaptureTheFlag",
+        "label": "currentHolder",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      },
+      {
+        "astId": 158,
+        "contract": "contracts/CaptureTheFlag.sol:CaptureTheFlag",
+        "label": "versionRecipient",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_string_storage"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
