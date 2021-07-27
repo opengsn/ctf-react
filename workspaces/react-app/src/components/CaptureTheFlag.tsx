@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Progress, Address, ActionButton, Log, sleep} from './utils'
 import {GsnStatus} from "./GsnStatus";
-// @ts-ignore
 import {Ctf, initCtf, InitCtfCallback} from "@ctf/eth";
 
 declare let window: { ethereum: any }

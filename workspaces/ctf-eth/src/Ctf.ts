@@ -5,8 +5,8 @@ import deployedNetworks from '../build/deployed-networks.json'
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
 
 import {MultiExport} from 'hardhat-deploy/types'
-import {createHashcashAsyncApproval} from "@opengsn/paymasters/dist/src/HashCashApproval";
-import {ContractExport, Export} from "hardhat-deploy/dist/types";
+import {createHashcashAsyncApproval} from "@opengsn/paymasters";
+import {ContractExport} from "hardhat-deploy/dist/types";
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
