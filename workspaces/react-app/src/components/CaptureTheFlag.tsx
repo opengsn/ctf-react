@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Progress, Address, ActionButton, Log, sleep} from './utils'
 import {GsnStatus} from "./GsnStatus";
 import {Ctf, initCtf} from "@ctf/eth";
-
+import ReCAPTCHA from "react-google-recaptcha";
 declare let window: { ethereum: any }
 
 interface CtfState {
@@ -11,6 +11,8 @@ interface CtfState {
   contractAddress?: string
   account?: string
   events?: any[]
+
+  googleCaptchaResponse?: string
 
   status?: string
   step?: number
@@ -97,6 +99,9 @@ export class CaptureTheFlag extends Component {
     this.setState({total: null, step: null, status: 'Mined in block: ' + res2.blockNumber})
   }
 
+  captchaChanged(googleCaptchaResponse:string|null) {
+    this.ctf!.captchaChanged(googleCaptchaResponse)
+  }
   render() {
 
     // @ts-ignore
@@ -111,7 +116,7 @@ export class CaptureTheFlag extends Component {
       /><p/></span>}
 
 
-        <div className="g-recaptcha" data-sitekey="6LdZ4MIbAAAAAPliyu1Y_gVA0MCiDol6mY6cnn9Y"></div><br/>
+        <ReCAPTCHA sitekey={"6LdZ4MIbAAAAAPliyu1Y_gVA0MCiDol6mY6cnn9Y"} onChange={(gresp)=>this.captchaChanged(gresp)}/>
         <ActionButton title="Click here to capture the flag"
                       enabled={!this.state.account}
                       action={() => this.doCapture()}

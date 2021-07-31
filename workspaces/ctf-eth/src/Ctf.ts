@@ -9,8 +9,8 @@ import {RelayRequest} from "@opengsn/common/dist/EIP712/RelayRequest";
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
-//defined by     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-declare let grecaptcha: any
+
+var lastGoogleCaptchaResponse = 'no-response'
 
 export interface EventInfo {
   date?: Date
@@ -108,6 +108,10 @@ export class Ctf {
     return this.theContract.signer.getAddress()
   }
 
+  captchaChanged(googleCaptchaResponse: string|null) {
+    lastGoogleCaptchaResponse = googleCaptchaResponse ?? 'no-respnse'
+  }
+
   async capture() {
     this.ethersProvider.getGasPrice().then(price => console.log('== gas price=', price.toString()))
     return await this.theContract.captureTheFlag()
@@ -131,19 +135,11 @@ export class Ctf {
 
 function createCaptchaApprovalData(paymasterAddress:string, pmContract?:Contract): (req:RelayRequest)=>Promise<string> {
   return async (req: RelayRequest) => {
-    if (typeof grecaptcha != 'object') {
-      // must follow the instructions on https://developers.google.com/recaptcha/docs/display
-      // to add the re-captcha button and global grecaptcha result object.
-      throw new Error('no grecaptcha (google re-CAPTCHA) in page. See https://developers.google.com/recaptcha/docs/display')
-    }
-    console.log('grecaptcha:', Object.keys(grecaptcha))
-    console.log('captcha ready: ', grecaptcha.ready)
-    const gresponse = grecaptcha.getResponse() ?? 'no-gresponse'
     try {
       let captchaServiceUrl = 'https://captcha-service.netlify.app/validate-captcha';
       captchaServiceUrl = 'http://localhost:8888/validate-captcha'
       const response = await axios.post(captchaServiceUrl, {
-        gresponse,
+        gresponse: lastGoogleCaptchaResponse,
         userdata: req
       })
 
