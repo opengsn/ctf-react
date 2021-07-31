@@ -110,13 +110,15 @@ export class CaptureTheFlag extends Component {
                                                    onError={() => (e: Error) => this.setState({error: e ? e.message : "error"})}
       /><p/></span>}
 
-      <ActionButton title="Click here to capture the flag"
-                    enabled={!this.state.account}
-                    action={() => this.doCapture()}
-                    onError={(e?:Error) => {
-                      console.log('==ex2', e)
-                      this.setState({error: e ? e.message : null})
-                    }}/>
+
+        <div className="g-recaptcha" data-sitekey="6LdZ4MIbAAAAAPliyu1Y_gVA0MCiDol6mY6cnn9Y"></div><br/>
+        <ActionButton title="Click here to capture the flag"
+                      enabled={!this.state.account}
+                      action={() => this.doCapture()}
+                      onError={(e?:Error) => {
+                        console.log('==ex2', e)
+                        this.setState({error: e ? e.message : null})
+                      }}/>
       <br/>
       Your account:<Address addr={this.state.account}/> <br/>
       CTF Contract: <Address addr={this.state.contractAddress}/><br/>

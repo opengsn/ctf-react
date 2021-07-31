@@ -1,11 +1,16 @@
 import {networks} from '../config/networks'
 import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
 import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
-
+import deployedNetworks from '../build/deployed-networks.json'
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
+import axios from 'axios'
+import {MultiExport} from 'hardhat-deploy/types'
+import {RelayRequest} from "@opengsn/common/dist/EIP712/RelayRequest";
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
+//defined by     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+declare let grecaptcha: any
 
 export interface EventInfo {
   date?: Date
@@ -15,7 +20,7 @@ export interface EventInfo {
 
 export interface GsnStatusInfo {
   getActiveRelayers: () => Promise<number>
-  getPaymasterBalance: ()=>Promise<string>
+  getPaymasterBalance: () => Promise<string>
   relayHubAddress: string
   paymasterAddress: string
   forwarderAddress: string
@@ -47,14 +52,14 @@ export class Ctf {
     return await this.theContract.currentHolder()
   }
 
-  listenToEvents(onEvent: (e:EventInfo)=>void, onProgress?: (e: GsnEvent) => void) {
+  listenToEvents(onEvent: (e: EventInfo) => void, onProgress?: (e: GsnEvent) => void) {
     // @ts-ignore
     let listener = async (from, to, event) => {
       const info = await this.getEventInfo(event)
       onEvent(info);
     };
     this.theContract.on('FlagCaptured', listener)
-    if (onProgress!=undefined) {
+    if (onProgress != undefined) {
       this.gsnProvider.registerEventListener(onProgress)
     }
   }
@@ -116,13 +121,54 @@ export class Ctf {
       forwarderAddress: ci.forwarderInstance.address,
       paymasterAddress: ci.paymasterInstance.address,
 
-      getPaymasterBalance: ()=> ci.paymasterInstance.getRelayHubDeposit(),
+      getPaymasterBalance: () => ci.paymasterInstance.getRelayHubDeposit(),
       getActiveRelayers: async () => relayClient.dependencies.knownRelaysManager.refresh().then(() =>
-         relayClient.dependencies.knownRelaysManager.allRelayers.length
+        relayClient.dependencies.knownRelaysManager.allRelayers.length
       )
     }
   }
 }
+
+function createCaptchaApprovalData(paymasterAddress:string, pmContract?:Contract): (req:RelayRequest)=>Promise<string> {
+  return async (req: RelayRequest) => {
+    if (typeof grecaptcha != 'object') {
+      // must follow the instructions on https://developers.google.com/recaptcha/docs/display
+      // to add the re-captcha button and global grecaptcha result object.
+      throw new Error('no grecaptcha (google re-CAPTCHA) in page. See https://developers.google.com/recaptcha/docs/display')
+    }
+    console.log('grecaptcha:', Object.keys(grecaptcha))
+    console.log('captcha ready: ', grecaptcha.ready)
+    const gresponse = grecaptcha.getResponse() ?? 'no-gresponse'
+    try {
+      let captchaServiceUrl = 'https://captcha-service.netlify.app/validate-captcha';
+      captchaServiceUrl = 'http://localhost:8888/validate-captcha'
+      const response = await axios.post(captchaServiceUrl, {
+        gresponse,
+        userdata: req
+      })
+
+      const json = await response.data
+      if (!json.success) {
+        throw new Error('service failed:' + JSON.stringify(json))
+      }
+
+      //santify check: make sure the service we're usingconnected to is using the same paymaster
+      if ( pmContract!=null ) {
+        const pmSigner = await pmContract.functions.signer()
+        if (json.address.toLowerCase() != pmSigner.toString().toLowerCase()) {
+          throw new Error('wrong verification signer pmsigner=' + pmSigner + ' resp signer=' + json.address)
+        }
+      }
+
+      return json.approvalData
+    } catch (e) {
+      console.log('===ex', e)
+      throw e
+    }
+
+  };
+}
+
 
 export async function initCtf(): Promise<Ctf> {
 
@@ -159,11 +205,24 @@ export async function initCtf(): Promise<Ctf> {
   const network = await provider.getNetwork()
 
   const chainId = network.chainId;
-  const net = global.network = networks[chainId]
-  const netid = await provider.send('net_version', [])
-  console.log('chainid=', chainId, 'networkid=', netid)
-  if (chainId !== parseInt(netid))
-    console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`)
+  const deployedNetwork = Object.values((deployedNetworks as MultiExport)[chainId] ?? {})[0]
+  if (!deployedNetwork)
+    throw new Error(`Can't find deployed contracts on network ${chainId}`)
+
+  console.log('==network', deployedNetwork)
+  console.log('===found deployed contracts: ', Object.keys(deployedNetwork.contracts))
+  const PaymasterContract = deployedNetwork.contracts.VerifyingPaymaster
+  const CtfContract = deployedNetwork.contracts.CaptureTheFlag
+
+  //we use addresses from deployed networks (deployed with "yarn deploy"), but
+  // the global "networks" still contain etherscan and default param settings.
+  let net = {
+    ...networks[chainId],
+    paymaster: PaymasterContract.address,
+    ctf: CtfContract.address,
+  };
+  //for Address
+  global.network = net
   if (!net || !net.paymaster) {
     if (chainId < 1000 || !window.location.href.match(/localhost|127.0.0.1/))
       throw new Error(`Unsupported network (chainId=${chainId}) . please switch to one of: ` + Object.values(networks).map((n: any) => n.name).filter(n => n).join(' / '))
@@ -181,14 +240,20 @@ export async function initCtf(): Promise<Ctf> {
     // loggerUrl: 'https://logger.opengsn.org',
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
 
+    requiredVersionRange: '^2.2.0',
     maxViewableGasLimit,
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
     relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,
     loggerConfiguration: {logLevel: 'debug'},
-    paymasterAddress: net.paymaster
+    paymasterAddress: PaymasterContract.address
   }
   console.log('== gsnconfig=', gsnConfig)
-  const gsnProvider = RelayProvider.newProvider({provider: web3Provider, config: gsnConfig})
+  const gsnProvider = RelayProvider.newProvider({
+    provider: web3Provider, config: gsnConfig, overrideDependencies: {
+      asyncApprovalData: createCaptchaApprovalData(PaymasterContract.address)
+      // asyncApprovalData: async ()=>'0x'.padEnd(130,'0')
+    }
+  })
   await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider);
 

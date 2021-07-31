@@ -5,7 +5,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "compile": "hardhat compile; tsc",
-    "deploy": "hardhat deploy",
+    "deploy": "hardhat deploy --export-all build/deployed-networks.json",
     "clean": "rm -rf deployments/development build artifacts cache dist",
     "evm": "hardhat node --no-deploy",
     "evm-with-gsn": "run-with-testrpc --networkId 1337 --chainId 1337 'yarn run gsn-start' ",
@@ -21,8 +21,10 @@
   },
   "dependencies": {
     "@opengsn/cli": "^2.2.2",
+    "@opengsn/common": "^2.2.2",
     "@opengsn/contracts": "^2.2.2",
     "@opengsn/dev": "^2.2.2",
+    "@opengsn/paymasters": "../../opengsn-paymasters-v2.2.3-rc.1.tgz",
     "@opengsn/provider": "^2.2.2",
     "ethers": "^5.4.1"
   }
