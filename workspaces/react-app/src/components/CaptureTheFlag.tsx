@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Progress, Address, ActionButton, Log, sleep} from './utils'
 import {GsnStatus} from "./GsnStatus";
 import {Ctf, initCtf} from "@ctf/eth";
-import ReCAPTCHA from "react-google-recaptcha";
+import {CaptchaPaymaster} from "./CaptchaPaymaster";
+
 declare let window: { ethereum: any }
 
 interface CtfState {
@@ -24,10 +25,16 @@ export class CaptureTheFlag extends Component {
   state: CtfState = {}
   gsnProvider: any
   ctf?: Ctf
+  paymasterRef = React.createRef<CaptchaPaymaster>();
 
   async readContractInfo() {
-    const ctf = this.ctf = await initCtf()
+    //TODO: type-mismatch as "Contract" is seen as imported from different packages, even though all do
+    // "import {Contract} from 'ethers'" ...
+    //@ts-ignore
+    const ctf = this.ctf = await initCtf(this.paymasterRef.current!.createApprovalData)
 
+    const paymasterAddress = ctf.gsnProvider.relayClient.config.paymasterAddress!
+    this.paymasterRef.current!.setInfo(paymasterAddress)
     this.gsnProvider = ctf.gsnProvider
 
     const [current, events, account] = await Promise.all([
@@ -99,16 +106,16 @@ export class CaptureTheFlag extends Component {
     this.setState({total: null, step: null, status: 'Mined in block: ' + res2.blockNumber})
   }
 
-  captchaChanged(googleCaptchaResponse:string|null) {
-    this.ctf!.captchaChanged(googleCaptchaResponse)
-  }
   render() {
 
     // @ts-ignore
     // @ts-ignore
     return <>
       <h1>Capture The Flag - Without Paying for Gas</h1>
-      Click the button to capture the flag with your account, using GSN
+      Click the button to capture the flag with your account, using GSN<br/>
+      The on-chain <b>Paymaster</b> contract only accepts requests with a valid CAPTCHA.<br/> Try to "cheat" (attempt to
+      capture the flag withput captcha, or re-using the same captcha for multiple requests)
+
       <br/>
       {!this.state.account && <span> <ActionButton title="Connect to Metamask"
                                                    action={window.ethereum.enable}
@@ -116,14 +123,14 @@ export class CaptureTheFlag extends Component {
       /><p/></span>}
 
 
-        <ReCAPTCHA sitekey={"6LdZ4MIbAAAAAPliyu1Y_gVA0MCiDol6mY6cnn9Y"} onChange={(gresp)=>this.captchaChanged(gresp)}/>
-        <ActionButton title="Click here to capture the flag"
-                      enabled={!this.state.account}
-                      action={() => this.doCapture()}
-                      onError={(e?:Error) => {
-                        console.log('==ex2', e)
-                        this.setState({error: e ? e.message : null})
-                      }}/>
+      <CaptchaPaymaster ref={this.paymasterRef} sitekey={"6LdZ4MIbAAAAAPliyu1Y_gVA0MCiDol6mY6cnn9Y"}/>
+      <ActionButton title="Click here to capture the flag"
+                    enabled={!this.state.account}
+                    action={() => this.doCapture()}
+                    onError={(e?: Error) => {
+                      console.log('==ex2', e)
+                      this.setState({error: e ? e.message : null})
+                    }}/>
       <br/>
       Your account:<Address addr={this.state.account}/> <br/>
       CTF Contract: <Address addr={this.state.contractAddress}/><br/>
@@ -143,7 +150,7 @@ export class CaptureTheFlag extends Component {
         <Log events={this.state.events}/>
       </div>
 
-      {this.ctf && <GsnStatus ctf={this.ctf} /> }
+      {this.ctf && <GsnStatus ctf={this.ctf}/>}
     </>
   }
 }

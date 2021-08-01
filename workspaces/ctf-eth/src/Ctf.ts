@@ -3,14 +3,11 @@ import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
 import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
 import deployedNetworks from '../build/deployed-networks.json'
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
-import axios from 'axios'
 import {MultiExport} from 'hardhat-deploy/types'
-import {RelayRequest} from "@opengsn/common/dist/EIP712/RelayRequest";
+import {AsyncDataCallback} from "@opengsn/common/dist/types/Aliases";
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
-
-var lastGoogleCaptchaResponse = 'no-response'
 
 export interface EventInfo {
   date?: Date
@@ -108,10 +105,6 @@ export class Ctf {
     return this.theContract.signer.getAddress()
   }
 
-  captchaChanged(googleCaptchaResponse: string|null) {
-    lastGoogleCaptchaResponse = googleCaptchaResponse ?? 'no-respnse'
-  }
-
   async capture() {
     this.ethersProvider.getGasPrice().then(price => console.log('== gas price=', price.toString()))
     return await this.theContract.captureTheFlag()
@@ -133,40 +126,11 @@ export class Ctf {
   }
 }
 
-function createCaptchaApprovalData(paymasterAddress:string, pmContract?:Contract): (req:RelayRequest)=>Promise<string> {
-  return async (req: RelayRequest) => {
-    try {
-      let captchaServiceUrl = 'https://captcha-service.netlify.app/validate-captcha';
-      captchaServiceUrl = 'http://localhost:8888/validate-captcha'
-      const response = await axios.post(captchaServiceUrl, {
-        gresponse: lastGoogleCaptchaResponse,
-        userdata: req
-      })
 
-      const json = await response.data
-      if (!json.success) {
-        throw new Error('service failed:' + JSON.stringify(json))
-      }
+//a function to generate "asyncApprovalData" function for the given paymaster address
+export type CreatePaymasterApprovalFunc = (paymaster?: Contract)=>Promise<AsyncDataCallback>
 
-      //santify check: make sure the service we're usingconnected to is using the same paymaster
-      if ( pmContract!=null ) {
-        const pmSigner = await pmContract.functions.signer()
-        if (json.address.toLowerCase() != pmSigner.toString().toLowerCase()) {
-          throw new Error('wrong verification signer pmsigner=' + pmSigner + ' resp signer=' + json.address)
-        }
-      }
-
-      return json.approvalData
-    } catch (e) {
-      console.log('===ex', e)
-      throw e
-    }
-
-  };
-}
-
-
-export async function initCtf(): Promise<Ctf> {
+export async function initCtf(createApprovalFunc: CreatePaymasterApprovalFunc): Promise<Ctf> {
 
   let web3Provider = window.ethereum
 
@@ -182,21 +146,6 @@ export async function initCtf(): Promise<Ctf> {
     window.location.reload()
   })
 
-  //TEMP: logging provider..
-  // const orig=web3Provider
-  // web3Provider = {
-  //   send(r,cb) {
-  //     const now = Date.now()
-  //     console.log('>>> ',r)
-  //     if ( r && r.params && r.params[0] && r.params[0].fromBlock == 1 ) {
-  //       console.log('=== big wait!')
-  //     }
-  //     orig.send(r,(err,res)=>{
-  //       console.log('<<<', Date.now()-now, err, res)
-  //       cb(err,res)
-  //     })
-  //   }
-  // }
   const provider = new ethers.providers.Web3Provider(web3Provider);
   const network = await provider.getNetwork()
 
@@ -243,11 +192,12 @@ export async function initCtf(): Promise<Ctf> {
     loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: PaymasterContract.address
   }
+
+  const paymaster = new Contract(PaymasterContract.address, PaymasterContract.abi, provider)
   console.log('== gsnconfig=', gsnConfig)
   const gsnProvider = RelayProvider.newProvider({
     provider: web3Provider, config: gsnConfig, overrideDependencies: {
-      asyncApprovalData: createCaptchaApprovalData(PaymasterContract.address)
-      // asyncApprovalData: async ()=>'0x'.padEnd(130,'0')
+      asyncApprovalData: await createApprovalFunc(paymaster)
     }
   })
   await gsnProvider.init()

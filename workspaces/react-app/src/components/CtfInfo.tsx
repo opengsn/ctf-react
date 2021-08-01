@@ -8,7 +8,8 @@ export const CtfInfo = () => <><p/><table border="1" style={{fontSize:-5, textAl
     All transactions go through GSN - you are only asked to sign, and not to pay for the transactions<br/>
     You can click the CTF contract link, and see that it indeed has its state changed and emitted events - but only through internal transactions.
     The actual transaction is always on the RelayHub<p/>
-    The paymaster that pays for the transaction is also not called directly, but as internal transaction from the same RelayHub transaction.
+    The paymaster that pays for the transaction is also not called directly, but as internal transaction from the same RelayHub transaction.<p/>
+    This sample uses a <b>VerifyingPaymaster</b>, which requires a signature before it accepts the call. The signature is created
     <p/>
     NOTE: if the paymaster's balance is too low, you can send some test eth to it, to "top it up". <p/>
     For the purpose of this demo, the paymaster is very naive paymaster, and will accept to pay for any request.
