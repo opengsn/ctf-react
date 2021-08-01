@@ -2382,16 +2382,17 @@
     "@opengsn/provider" "^2.2.2"
     "@opengsn/relay" "^2.2.2"
 
-"@opengsn/paymasters@../../opengsn-paymasters-v2.2.3-rc.1.tgz":
-  version "2.2.3-rc.1"
-  resolved "../../opengsn-paymasters-v2.2.3-rc.1.tgz#7ee856b01fad115b4dab710cde07d32b3c7a53ce"
+"@opengsn/paymasters@^2.2.3-rc.2":
+  version "2.2.3-rc.2"
+  resolved "https://registry.yarnpkg.com/@opengsn/paymasters/-/paymasters-2.2.3-rc.2.tgz#99094ee90ae5c662adea021ebbf735dd1c3ede57"
+  integrity sha512-ZhdNHhYBxnLNQgWt/IM0IO4b6Kl5NnGwIMCaeTMe2MU2ztl5UEAf/yGx3LNcWei61P/rycEKa4hw5+aOksbNhg==
   dependencies:
     "@opengsn/common" "^2.2.2"
     "@opengsn/contracts" "^2.2.2"
     "@opengsn/dev" "^2.2.2"
     "@opengsn/provider" "^2.2.2"
     "@openzeppelin/contracts" "^3.4.0-solc-0.7"
-    ethereumjs-util "^6.1.0"
+    ethereumjs-util "^7.1.0"
 
 "@opengsn/provider@^2.2.2":
   version "2.2.2"

@@ -24,7 +24,7 @@
     "@opengsn/common": "^2.2.2",
     "@opengsn/contracts": "^2.2.2",
     "@opengsn/dev": "^2.2.2",
-    "@opengsn/paymasters": "../../opengsn-paymasters-v2.2.3-rc.1.tgz",
+    "@opengsn/paymasters": "^2.2.3-rc.2",
     "@opengsn/provider": "^2.2.2",
     "ethers": "^5.4.1"
   }
