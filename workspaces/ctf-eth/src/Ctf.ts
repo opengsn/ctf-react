@@ -1,5 +1,5 @@
 import {networks} from '../config/networks'
-import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
+import { arbitrumBaseRelayFeeBidModeParams, GSNConfig, GsnEvent, RelayProvider } from '@opengsn/provider'
 import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
 
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
@@ -172,7 +172,7 @@ export async function initCtf(): Promise<Ctf> {
   }
 
   //on kotti (at least) using blockGasLimit breaks our code..
-  const maxViewableGasLimit = chainId === 6 ? 5e6 : undefined
+  const maxViewableGasLimit = chainId === 6 ? 5e6 : 10000000
 
   const gsnConfig: Partial<GSNConfig> = {
     //log everything (0=debug, 5=error)
@@ -181,6 +181,8 @@ export async function initCtf(): Promise<Ctf> {
     // loggerUrl: 'https://logger.opengsn.org',
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
 
+    baseRelayFeeBidModeParams: arbitrumBaseRelayFeeBidModeParams,
+    requiredVersionRange: '2.2.3',
     maxViewableGasLimit,
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
     relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,

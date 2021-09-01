@@ -17,7 +17,7 @@ try {
     paymaster: require('../../build/gsn/Paymaster.json').address,
     ctf: require('../../deployments/development/CaptureTheFlag.json').address
   }
-} catch (e) {
+} catch (e: any) {
   console.warn('No local network:', e.message)
 }
 
@@ -98,6 +98,15 @@ export const networks: { [chain: number]: NetworkType } = {
     etherscan: 'https://polygonscan.com/address/',
     paymaster: '0x9d47218ce8b8F123Efbb1Db3E0DdBe6490Cf77E1', //2.2
     ctf: '0x7c3caB8e0E89dc268300e302c2b3Fd1f5210fB45', //2.2
+    relayLookupWindowBlocks: 990,
+    relayRegistrationLookupBlocks: 990
+  },
+
+  421611: {
+    name: 'arbitrum_rinkeby',
+    etherscan: 'https://rinkeby-explorer.arbitrum.io/#/',
+    paymaster: '0x59d3631c86BbE35EF041872d502F218A39FBa150',
+    ctf: '0xDb56f2e9369E0D7bD191099125a3f6C370F8ed15',
     relayLookupWindowBlocks: 990,
     relayRegistrationLookupBlocks: 990
   },

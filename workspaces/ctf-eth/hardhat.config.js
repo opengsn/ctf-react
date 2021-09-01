@@ -79,6 +79,10 @@ module.exports = {
       url: `https://data-seed-prebsc-1-s1.binance.org:8545`,
       accounts
     },
+    arbitrum_rinkeby:{
+      url: 'https://rinkeby.arbitrum.io/rpc',
+      accounts
+    },
     bsc: {
       url: `https://bsc-dataseed.binance.org/`,
       accounts
@@ -101,7 +105,8 @@ module.exports = {
       42: '0x7eEae829DF28F9Ce522274D5771A6Be91d00E5ED',
       97: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
       56: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
-      137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d'
+      137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d',
+      421611: '0x254dffcd3277C0b1660F6d42EFbB754edaBAbC2B'
     }
   }
 }

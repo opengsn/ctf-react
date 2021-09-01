@@ -23,7 +23,8 @@
     "@opengsn/cli": "^2.2.2",
     "@opengsn/contracts": "^2.2.2",
     "@opengsn/dev": "^2.2.2",
-    "@opengsn/provider": "^2.2.2",
+    "@opengsn/common": "file:/Users/alexf/ctf-react/opengsn-common-v2.2.2.tgz",
+    "@opengsn/provider": "file:/Users/alexf/ctf-react/opengsn-provider-v2.2.2.tgz",
     "ethers": "^5.4.1"
   }
 }
