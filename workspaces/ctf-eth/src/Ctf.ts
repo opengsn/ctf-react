@@ -3,6 +3,7 @@ import { arbitrumBaseRelayFeeBidModeParams, GSNConfig, GsnEvent, RelayProvider }
 import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
 
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
+import { environments } from '@opengsn/common'
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
@@ -180,10 +181,11 @@ export async function initCtf(): Promise<Ctf> {
     // send all log to central log server, for possible troubleshooting
     // loggerUrl: 'https://logger.opengsn.org',
     // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
-
+    environment: environments.arbitrum,
     baseRelayFeeBidModeParams: arbitrumBaseRelayFeeBidModeParams,
     requiredVersionRange: '2.2.3',
-    maxViewableGasLimit,
+    requestValidBlocks: '100000000',
+    maxViewableGasLimit: maxViewableGasLimit.toString(),
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
     relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,
     loggerConfiguration: {logLevel: 'debug'},
