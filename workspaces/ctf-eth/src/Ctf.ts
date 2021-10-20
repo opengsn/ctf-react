@@ -172,14 +172,9 @@ export async function initCtf(): Promise<Ctf> {
   }
 
   //on kotti (at least) using blockGasLimit breaks our code..
-  const maxViewableGasLimit = chainId === 6 ? 5e6 : undefined
+  const maxViewableGasLimit = chainId === 6 ? 5e6.toString() : undefined
 
   const gsnConfig: Partial<GSNConfig> = {
-    //log everything (0=debug, 5=error)
-    // logLevel:'error',
-    // send all log to central log server, for possible troubleshooting
-    // loggerUrl: 'https://logger.opengsn.org',
-    // loggerApplicationId: 'ctf' // by default, set to application's URL (unless on localhost)
 
     maxViewableGasLimit,
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,

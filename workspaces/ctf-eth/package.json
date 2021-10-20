@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "dist/src/index.js",
   "scripts": {
-    "compile": "hardhat compile; tsc",
+    "compile": "hardhat compile && tsc",
     "deploy": "hardhat deploy",
     "clean": "rm -rf deployments/development build artifacts cache dist",
     "evm": "hardhat node --no-deploy",
@@ -20,10 +20,10 @@
     "run-with-testrpc": "^0.3.1"
   },
   "dependencies": {
-    "@opengsn/cli": "^2.2.2",
-    "@opengsn/contracts": "^2.2.2",
-    "@opengsn/dev": "^2.2.2",
-    "@opengsn/provider": "^2.2.2",
+    "@opengsn/cli": "^2.2.4",
+    "@opengsn/contracts": "^2.2.4",
+    "@opengsn/dev": "^2.2.4",
+    "@opengsn/provider": "^2.2.4",
     "ethers": "^5.4.1"
   }
 }
