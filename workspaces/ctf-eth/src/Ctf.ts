@@ -172,7 +172,7 @@ export async function initCtf(): Promise<Ctf> {
   }
 
   //on kotti (at least) using blockGasLimit breaks our code..
-  const maxViewableGasLimit = chainId === 6 ? 5e6.toString() : undefined
+  const maxViewableGasLimit = chainId === 6 ? 5e6 : undefined
 
   const gsnConfig: Partial<GSNConfig> = {
 
