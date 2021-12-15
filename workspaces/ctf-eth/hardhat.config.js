@@ -82,6 +82,10 @@ module.exports = {
     bsc: {
       url: `https://bsc-dataseed.binance.org/`,
       accounts
+    },
+    optimism_kovan: {
+      url: `https://kovan.optimism.io`,
+      accounts
     }
   },
 
@@ -101,7 +105,8 @@ module.exports = {
       42: '0x7eEae829DF28F9Ce522274D5771A6Be91d00E5ED',
       97: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
       56: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
-      137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d'
+      137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d',
+      69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae'
     }
   }
 }

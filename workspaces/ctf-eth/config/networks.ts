@@ -94,6 +94,13 @@ export const networks: { [chain: number]: NetworkType } = {
     relayRegistrationLookupBlocks: 9007199254740991
   },
 
+  69: {
+    name: 'Optimism kovan',
+    etherscan: 'https://kovan-optimistic.etherscan.io/address/',
+    paymaster: '0x6B43C92C4661c8555D5D060144457D9bF0fD0D34', //2.2
+    ctf: '0xE7cca55311516c05e5E28EBcec5e231c922d4298' //2.2
+  },
+
   137: {
     name: 'matic',
     etherscan: 'https://explorer-mainnet.maticvigil.com/address/',
