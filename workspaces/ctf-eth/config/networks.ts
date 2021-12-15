@@ -17,7 +17,7 @@ try {
     ctf: require('../../deployments/development/CaptureTheFlag.json').address
   }
 } catch (e) {
-  console.warn('No local network:', e.message)
+  console.warn('No local network:', (e as Error).message)
 }
 
 export const networks: { [chain: number]: NetworkType } = {
