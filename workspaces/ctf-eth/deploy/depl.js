@@ -1,6 +1,9 @@
 const { constants } = require( '@opengsn/common')
 module.exports=async function({getNamedAccounts, ethers, deployments}) {
 	const { deploy } = deployments
+
+  const network = await ethers.provider.getNetwork().then()
+  const chainId = network.chainId
   const gasPrice = process.env.GAS_PRICE_GWEI==null ?
     null : ethers.utils.hexlify(parseInt(process.env.GAS_PRICE_GWEI +'0'.repeat(9)))
 
