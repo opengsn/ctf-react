@@ -180,6 +180,7 @@ export async function initCtf(): Promise<Ctf> {
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
     relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,
     loggerConfiguration: {logLevel: 'debug'},
+    pastEventsQueryMaxPageSize: global.network.pastEventsQueryMaxPageSize || Number.MAX_SAFE_INTEGER,
     paymasterAddress: net.paymaster
   }
   console.log('== gsnconfig=', gsnConfig)

@@ -86,7 +86,12 @@ module.exports = {
     optimism_kovan: {
       url: `https://kovan.optimism.io`,
       accounts
+    },
+    optimism: {
+      url: `https://mainnet.optimism.io`,
+      accounts
     }
+
   },
 
   namedAccounts: {
@@ -106,7 +111,8 @@ module.exports = {
       97: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
       56: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
       137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d',
-      69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae'
+      69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae',
+      10: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715'
     }
   }
 }

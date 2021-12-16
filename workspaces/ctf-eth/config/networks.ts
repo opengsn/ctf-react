@@ -6,6 +6,7 @@ interface NetworkType {
   ctf: string
   relayLookupWindowBlocks?: number,
   relayRegistrationLookupBlocks?: number
+  pastEventsQueryMaxPageSize?: number
 }
 
 let localnetwork: NetworkType = {} as any
@@ -99,6 +100,16 @@ export const networks: { [chain: number]: NetworkType } = {
     etherscan: 'https://kovan-optimistic.etherscan.io/address/',
     paymaster: '0x6B43C92C4661c8555D5D060144457D9bF0fD0D34', //2.2
     ctf: '0xE7cca55311516c05e5E28EBcec5e231c922d4298' //2.2
+  },
+
+  10: {
+    name: 'Optimism',
+    etherscan: 'https://optimistic.etherscan.io/address/',
+    paymaster: '0x28E036dB9727a9d5ee9373DBAAe14B422D83a017',
+    ctf: '0x6C28AfC105e65782D9Ea6F2cA68df84C9e7d750d',
+    pastEventsQueryMaxPageSize: 9900,
+    relayRegistrationLookupBlocks: 250000,
+    relayLookupWindowBlocks: 250000
   },
 
   137: {
