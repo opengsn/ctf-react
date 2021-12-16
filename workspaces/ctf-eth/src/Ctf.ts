@@ -157,10 +157,14 @@ export async function initCtf(): Promise<Ctf> {
   //   }
   // }
   const provider = new ethers.providers.Web3Provider(web3Provider);
+  const accounts = await provider.listAccounts()
+  if (accounts.length==0) throw new Error('Please connect Metamask')
+  console.log( 'connected, account=', accounts)
   const network = await provider.getNetwork()
 
   const chainId = network.chainId;
   const net = global.network = networks[chainId]
+
   const netid = await provider.send('net_version', [])
   console.log('chainid=', chainId, 'networkid=', netid, net)
   

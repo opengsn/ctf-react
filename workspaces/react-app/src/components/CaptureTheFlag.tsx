@@ -106,7 +106,7 @@ export class CaptureTheFlag extends Component {
       Click the button to capture the flag with your account, using GSN
       <br/>
       {!this.state.account && <span> <ActionButton title="Connect to Metamask"
-                                                   action={window.ethereum.enable}
+                                                   action={()=>window.ethereum.enable()}
                                                    onError={() => (e: Error) => this.setState({error: e ? e.message : "error"})}
       /><p/></span>}
 
@@ -136,7 +136,7 @@ export class CaptureTheFlag extends Component {
         <Log events={this.state.events}/>
       </div>
 
-      {this.ctf && <GsnStatus ctf={this.ctf} /> }
+      {this.ctf?.capture && this.state.account && <GsnStatus ctf={this.ctf} /> }
     </>
   }
 }
