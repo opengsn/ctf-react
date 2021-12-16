@@ -9,7 +9,8 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
 
 	let { deployer, metamask, forwarder } = await getNamedAccounts() 
 	let hub = process.env.RelayHubAddress
-
+    console.log( 'net forwarder=', forwarder)
+    console.log( 'net=', await ethers.provider.getNetwork())
     if ( !forwarder ) {
         forwarder = require( '../build/gsn/Forwarder').address
       	hub = require('../build/gsn/RelayHub').address
@@ -21,6 +22,8 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
     }
 
     const signer = ethers.provider.getSigner()
+    console.log( 'signer=',await signer.getAddress())
+    console.log( 'signer balance=', await ethers.provider.getBalance(await signer.getAddress()).then(x=>x/1e18))
     ret = await deploy( 'CaptureTheFlag', {gasPrice, from: deployer, args: [forwarder]} )
     const ctf = await new ethers.Contract(ret.address, ret.abi, signer)
     console.log( 'ctf address=', ctf.address)

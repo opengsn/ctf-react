@@ -55,6 +55,10 @@ module.exports = {
       url: `https://ropsten.infura.io/v3/${infura}`,
       accounts
     },
+    rarb: {
+      url: `https://arbitrum-rinkeby.infura.io/v3/${infura}`,
+      accounts
+    },
     mumbai: {
       url: `https://matic-mumbai.chainstacklabs.com`,
       accounts
@@ -106,7 +110,8 @@ module.exports = {
       97: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
       56: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
       137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d',
-      69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae'
+      69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae',
+      421611: '0xB851B09eFe4A5021E9a4EcDDbc5D9c9cE2640CCb',
     }
   }
 }

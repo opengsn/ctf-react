@@ -110,6 +110,15 @@ export const networks: { [chain: number]: NetworkType } = {
     relayRegistrationLookupBlocks: 990
   },
 
+  421611: {
+    name: 'Arbitrum-rinkeby',
+    etherscan: 'https://rinkeby-explorer.arbitrum.io/address/',
+    paymaster: '0x57c231C5C49b59ef10cAAFcD7EC7f1190502cF40',
+    ctf: '0xFE3c979D854Ab165c303a5E18253E220D44627d6',
+    relayLookupWindowBlocks: 99000,
+    relayRegistrationLookupBlocks: 99000
+  },
+
   1337: localnetwork
 }
 

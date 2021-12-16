@@ -104,8 +104,9 @@ export class Ctf {
   }
 
   async capture() {
-    this.ethersProvider.getGasPrice().then(price => console.log('== gas price=', price.toString()))
-    return await this.theContract.captureTheFlag()
+    const price = this.ethersProvider.getGasPrice()
+    console.log('== gas price=', price.toString())
+    return await this.theContract.captureTheFlag({gasPrice:price})
   }
 
   async getGsnStatus(): Promise<GsnStatusInfo> {
@@ -161,24 +162,27 @@ export async function initCtf(): Promise<Ctf> {
   const chainId = network.chainId;
   const net = global.network = networks[chainId]
   const netid = await provider.send('net_version', [])
-  console.log('chainid=', chainId, 'networkid=', netid)
+  console.log('chainid=', chainId, 'networkid=', netid, net)
+  
   if (chainId !== parseInt(netid))
     console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`)
   if (!net || !net.paymaster) {
-    if (chainId < 1000 || !window.location.href.match(/localhost|127.0.0.1/))
+    //1337 (ganache/local geth) and 31337 () are considered test networks
+    if ( !chainId.toString().match(/1337/) || !window.location.href.match(/localhost|127.0.0.1/))
       throw new Error(`Unsupported network (chainId=${chainId}) . please switch to one of: ` + Object.values(networks).map((n: any) => n.name).filter(n => n).join(' / '))
     else
       throw new Error('To run locally, you must run "yarn evm" and then "yarn deploy" before "yarn react-start" ')
   }
 
   //on kotti (at least) using blockGasLimit breaks our code..
-  const maxViewableGasLimit = chainId === 6 ? 5e6 : undefined
+  const maxViewableGasLimit = chainId === 6 ? 5e6.toString() : undefined
 
   const gsnConfig: Partial<GSNConfig> = {
 
     maxViewableGasLimit,
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
     relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,
+    requestValidBlocks: 1e8.toString(),   //must be a large number, to cover L1/L2 differences.
     loggerConfiguration: {logLevel: 'debug'},
     paymasterAddress: net.paymaster
   }

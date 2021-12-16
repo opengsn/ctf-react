@@ -1948,7 +1948,7 @@
     "@types/sinon-chai" "^3.2.3"
     "@types/web3" "1.0.19"
 
-"@opengsn/cli@^2.2.4":
+"@opengsn/cli@^2.2.3", "@opengsn/cli@^2.2.4":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@opengsn/cli/-/cli-2.2.4.tgz#479695d1910fd726d2882adac6c7e4f4d0383c8f"
   integrity sha512-6J+2XivjBz2SUiUNZhQ5zr4HlEEcu6PrM67D8oYlP6wE8M/7/9GDHxwgeIVqugcDM8U1NRXXAcnaCrPYxqaRWA==
@@ -2004,14 +2004,14 @@
     web3-eth-contract "1.2.6"
     web3-utils "1.2.6"
 
-"@opengsn/contracts@^2.2.4":
+"@opengsn/contracts@^2.2.3", "@opengsn/contracts@^2.2.4":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@opengsn/contracts/-/contracts-2.2.4.tgz#8b46baf2f1f86f30fbcffa1347df3fad2a24d55c"
   integrity sha512-3FG8vqGSJSGYRmSeDHp9hUsVFAAL1fOu6UQ6yFUQFJzUYamimF/Ywelm8CtyTwpE54as2ZqnzTOFlDCJmZgXcg==
   dependencies:
     "@openzeppelin/contracts" "^4.2.0"
 
-"@opengsn/dev@^2.2.4":
+"@opengsn/dev@^2.2.3":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@opengsn/dev/-/dev-2.2.4.tgz#b6859891ffc45bee5dfe07aebbef62238c3863b6"
   integrity sha512-wlcgnduDbjYHdgLxlIOf4xBy0Hw+68CyQm7vVZGPpeqzKVkMgHtDELJHPyk2pJGHtFDtU49dVZdXnXVaxjP/1A==
@@ -2021,7 +2021,7 @@
     "@opengsn/provider" "^2.2.4"
     "@opengsn/relay" "^2.2.4"
 
-"@opengsn/provider@^2.2.4":
+"@opengsn/provider@^2.2.3", "@opengsn/provider@^2.2.4":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@opengsn/provider/-/provider-2.2.4.tgz#cbfd9b6b3cb3b7334d0beaeefbff6fff8bf15172"
   integrity sha512-prep14pwOz13YTb97CWLfa9Ou3zdyM2YRRAIXXPyBfFY7LKf6Lm2rmAtjYLqqJwKHJW0FpyvIfXnHcUkKGP7BQ==
