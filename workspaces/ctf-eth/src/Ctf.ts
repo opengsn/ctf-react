@@ -89,7 +89,7 @@ export class Ctf {
 
   async getPastEvents(count = 5) {
 
-    const currentBlock = await this.ethersProvider.getBlockNumber()
+    const currentBlock = (await this.ethersProvider.getBlockNumber()) - 1
     //look at most one month back (in 12-second block
     const lookupWindow = global.network?.relayLookupWindowBlocks || 30 * 24 * 3600 / 12
     const startBlock = Math.max(1, currentBlock - lookupWindow)
