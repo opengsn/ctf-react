@@ -104,8 +104,9 @@ export class Ctf {
   }
 
   async capture() {
-    this.ethersProvider.getGasPrice().then(price => console.log('== gas price=', price.toString()))
-    return await this.theContract.captureTheFlag()
+    const gasPrice = this.ethersProvider.getGasPrice()
+    console.log('== gas price=', gasPrice.toString())
+    return await this.theContract.captureTheFlag({gasPrice})
   }
 
   async getGsnStatus(): Promise<GsnStatusInfo> {
@@ -172,7 +173,7 @@ export async function initCtf(): Promise<Ctf> {
   }
 
   //on kotti (at least) using blockGasLimit breaks our code..
-  const maxViewableGasLimit = chainId === 6 ? 5e6 : undefined
+  const maxViewableGasLimit = chainId === 6 ? 5e6.toString() : undefined
 
   const gsnConfig: Partial<GSNConfig> = {
 

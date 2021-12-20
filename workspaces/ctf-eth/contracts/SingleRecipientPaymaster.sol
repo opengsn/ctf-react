@@ -1272,7 +1272,7 @@ contract SingleRecipientPaymaster is BasePaymaster {
     }
 
     function versionPaymaster() external view override virtual returns (string memory){
-        return "2.2.0+opengsn.recipient.ipaymaster";
+        return "3.0.0+opengsn.recipient.ipaymaster";
     }
 
     function preRelayedCall(
