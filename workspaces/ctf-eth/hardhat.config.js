@@ -90,7 +90,8 @@ module.exports = {
     optimism: {
       url: `https://mainnet.optimism.io`,
       accounts
-    }
+    },
+    rarb: { accounts, url: `https://arbitrum-rinkeby.infura.io/v3/${infura}` },
 
   },
 
@@ -112,7 +113,8 @@ module.exports = {
       56: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
       137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d',
       69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae',
-      10: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715'
+      10: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715',
+      421611: '0x7436B070b662bFC1619BdE0B6c8b2fbe086c62de'
     }
   }
 }

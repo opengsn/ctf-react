@@ -104,9 +104,10 @@ export class Ctf {
   }
 
   async capture() {
-    const gasPrice = this.ethersProvider.getGasPrice()
-    console.log('== gas price=', gasPrice.toString())
-    return await this.theContract.captureTheFlag({gasPrice})
+    const gasPrice = await this.ethersProvider.getGasPrice()
+    const gasLimit = await this.theContract.estimateGas.captureTheFlag()
+    console.log('== capture: gas price=', gasPrice.toString(), 'gasLimit:', gasLimit.toString())
+    return await this.theContract.captureTheFlag({gasPrice, gasLimit})
   }
 
   async getGsnStatus(): Promise<GsnStatusInfo> {
@@ -180,6 +181,8 @@ export async function initCtf(): Promise<Ctf> {
     maxViewableGasLimit,
     relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
     relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,
+    requestValidBlocks: 1e8.toString(),   //Arbitrum TEMP: until we change expiration to timestamp. must be a large number, to cover L1/L2 differences.
+
     loggerConfiguration: {logLevel: 'debug'},
     pastEventsQueryMaxPageSize: global.network.pastEventsQueryMaxPageSize || Number.MAX_SAFE_INTEGER,
     paymasterAddress: net.paymaster
