@@ -38,6 +38,9 @@ export const networks: { [chain: number]: NetworkType } = {
     name: 'Rinkeby',
     etherscan: 'https://rinkeby.etherscan.io/address/',
     paymaster: '0xA6e10aA9B038c9Cddea24D2ae77eC3cE38a0c016',
+    pastEventsQueryMaxPageSize: 2e4,
+    relayLookupWindowBlocks: 1e5,
+    relayRegistrationLookupBlocks: 1e5,
     ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA'
   },
 
