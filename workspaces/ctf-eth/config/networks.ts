@@ -22,6 +22,7 @@ try {
 }
 
 export const networks: { [chain: number]: NetworkType } = {
+  /* old deployments - not 3.0 alpha...
   1: {
     name: 'Ethereum Mainnet',
     etherscan: 'https://etherscan.io/address/',
@@ -120,11 +121,20 @@ export const networks: { [chain: number]: NetworkType } = {
     relayLookupWindowBlocks: 990,
     relayRegistrationLookupBlocks: 990
   },
+*/
   421611: {
     name: 'Arbitrum-Rinkeby',
     etherscan: 'https://testnet.arbiscan.io/address/',
     paymaster: '0x6D9282ED66d3DDDe461f8a59A574767bA1e77044',
     ctf: '0x1B9F8a3612f4ED01c8E7D2DC7ea270eB0Ea6b6E8', 
+    relayLookupWindowBlocks: 99000,
+    relayRegistrationLookupBlocks: 99000
+  },
+  200: {
+    name: 'Arbitrum-xDai',
+    etherscan: 'https://blockscout.com/xdai/aox/address/',
+    paymaster: '0x255fc98fE2C2564CF361E6dCD233862f884826E5',
+    ctf: '0x762745B16190F68F4eBD30EA159526FEA13d15a9', 
     relayLookupWindowBlocks: 99000,
     relayRegistrationLookupBlocks: 99000
   },

@@ -92,6 +92,7 @@ module.exports = {
       accounts
     },
     rarb: { accounts, url: `https://arbitrum-rinkeby.infura.io/v3/${infura}` },
+    aox: { accounts, url: 'https://arbitrum.xdaichain.com/' },
 
   },
 
@@ -114,7 +115,8 @@ module.exports = {
       137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d',
       69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae',
       10: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715',
-      421611: '0x7436B070b662bFC1619BdE0B6c8b2fbe086c62de'
+      421611: '0x7436B070b662bFC1619BdE0B6c8b2fbe086c62de',
+      200: '0xDFdA581eE8bf25Ade192DE74BcaE0A60b9860B33'
     }
   }
 }
