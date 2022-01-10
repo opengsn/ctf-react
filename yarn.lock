@@ -1948,15 +1948,15 @@
     "@types/sinon-chai" "^3.2.3"
     "@types/web3" "1.0.19"
 
-"@opengsn/cli@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@opengsn/cli/-/cli-2.2.4.tgz#479695d1910fd726d2882adac6c7e4f4d0383c8f"
-  integrity sha512-6J+2XivjBz2SUiUNZhQ5zr4HlEEcu6PrM67D8oYlP6wE8M/7/9GDHxwgeIVqugcDM8U1NRXXAcnaCrPYxqaRWA==
+"@opengsn/cli@^2.2.5":
+  version "2.2.5"
+  resolved "http://localhost:4873/@opengsn%2fcli/-/cli-2.2.5.tgz#c9ab876ce826ae98b4af53a41f713e9d0b8dc7ea"
+  integrity sha512-iYg4Y3NXA3SIqhfyos5rDlpVEfmD4cOTNefUNlFl+CkNUO8biUVGZjqyW8nCP09xyPJC8aVgq2kl3JGqXZO5FA==
   dependencies:
     "@ethereumjs/tx" "^3.2.0"
-    "@opengsn/common" "^2.2.4"
-    "@opengsn/provider" "^2.2.4"
-    "@opengsn/relay" "^2.2.4"
+    "@opengsn/common" "^2.2.5"
+    "@opengsn/provider" "^2.2.5"
+    "@opengsn/relay" "^2.2.5"
     "@truffle/hdwallet-provider" "1.0.34"
     "@types/asciichart" "^1.5.4"
     "@types/clear" "^0.1.1"
@@ -1977,13 +1977,13 @@
     web3-provider-engine "14.1.0"
     winston "^3.3.3"
 
-"@opengsn/common@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@opengsn/common/-/common-2.2.4.tgz#1f75d24b1690e41dc01dc2d2e24f492379b46d55"
-  integrity sha512-kmvnvmHUyKfpcQNxSQVeHOIIKg5KQlnlCPQMa+yyokimqE8yQb6vL59o946PciwZ6ieNVVZoSFHPTYla03dZaQ==
+"@opengsn/common@^2.2.5":
+  version "2.2.5"
+  resolved "http://localhost:4873/@opengsn%2fcommon/-/common-2.2.5.tgz#3a8bcaab8ad39f3ad2b0361363c98483ea6fa7ab"
+  integrity sha512-+kJFLquwMos5If7a4K9Du01Mt55EDnCD7cLxyjqDQv2BiSSgTRpYYihpmtR2xnANfbwAZKNwcCRWdE7+MVVFjg==
   dependencies:
     "@ethereumjs/tx" "^3.2.0"
-    "@opengsn/contracts" "^2.2.4"
+    "@opengsn/contracts" "^2.2.5"
     "@types/bn.js" "^5.1.0"
     "@types/eth-sig-util" "^2.1.0"
     "@types/semver" "^7.3.4"
@@ -2004,30 +2004,30 @@
     web3-eth-contract "1.2.6"
     web3-utils "1.2.6"
 
-"@opengsn/contracts@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@opengsn/contracts/-/contracts-2.2.4.tgz#8b46baf2f1f86f30fbcffa1347df3fad2a24d55c"
-  integrity sha512-3FG8vqGSJSGYRmSeDHp9hUsVFAAL1fOu6UQ6yFUQFJzUYamimF/Ywelm8CtyTwpE54as2ZqnzTOFlDCJmZgXcg==
+"@opengsn/contracts@^2.2.5":
+  version "2.2.5"
+  resolved "http://localhost:4873/@opengsn%2fcontracts/-/contracts-2.2.5.tgz#d65ea2e94ffc788918d3cd2d18938f548246aaeb"
+  integrity sha512-002ox+2mreIAi6HW0SEObnqPgHK23bRS14NVGAP8F8zB1mkrQ3hnspUezYyuYX8s2kGA9Rr9TrzxwalaLTmPGw==
   dependencies:
     "@openzeppelin/contracts" "^4.2.0"
 
-"@opengsn/dev@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@opengsn/dev/-/dev-2.2.4.tgz#b6859891ffc45bee5dfe07aebbef62238c3863b6"
-  integrity sha512-wlcgnduDbjYHdgLxlIOf4xBy0Hw+68CyQm7vVZGPpeqzKVkMgHtDELJHPyk2pJGHtFDtU49dVZdXnXVaxjP/1A==
+"@opengsn/dev@^2.2.5":
+  version "2.2.5"
+  resolved "http://localhost:4873/@opengsn%2fdev/-/dev-2.2.5.tgz#f53a9d9b8a3e276dd1f483bfa2c9f55c339245e6"
+  integrity sha512-/K1SZL+T8j/CXRX34zxGg6WQHtRoER7ECEsNRIxJadmQ7461ENZS8wDe5MGcLMy3Ne91j29xzH+/aVO9uMWBBw==
   dependencies:
-    "@opengsn/cli" "^2.2.4"
-    "@opengsn/contracts" "^2.2.4"
-    "@opengsn/provider" "^2.2.4"
-    "@opengsn/relay" "^2.2.4"
+    "@opengsn/cli" "^2.2.5"
+    "@opengsn/contracts" "^2.2.5"
+    "@opengsn/provider" "^2.2.5"
+    "@opengsn/relay" "^2.2.5"
 
-"@opengsn/provider@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@opengsn/provider/-/provider-2.2.4.tgz#cbfd9b6b3cb3b7334d0beaeefbff6fff8bf15172"
-  integrity sha512-prep14pwOz13YTb97CWLfa9Ou3zdyM2YRRAIXXPyBfFY7LKf6Lm2rmAtjYLqqJwKHJW0FpyvIfXnHcUkKGP7BQ==
+"@opengsn/provider@^2.2.5":
+  version "2.2.5"
+  resolved "http://localhost:4873/@opengsn%2fprovider/-/provider-2.2.5.tgz#4cf2b2f81db42434e8a58b2d853fd3ea2fb040c0"
+  integrity sha512-64z+lgN5wwlwfhg2Mwsfz04x25+pCvYD/CuqYkEZj49L+ufT/C3okSqy/ENGMcEklBj/pEXlfDbq4cPUEWQFaw==
   dependencies:
     "@ethereumjs/tx" "^3.2.0"
-    "@opengsn/common" "^2.2.4"
+    "@opengsn/common" "^2.2.5"
     "@types/body-parser" "^1.19.0"
     "@types/eth-sig-util" "^2.1.0"
     "@types/express-serve-static-core" "^4.17.18"
@@ -2039,13 +2039,13 @@
     loglevel "^1.7.1"
     winston "^3.3.3"
 
-"@opengsn/relay@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@opengsn/relay/-/relay-2.2.4.tgz#cb4dc54f8205ed2c6fba324da226f6ca93f05d8a"
-  integrity sha512-XbqhUiBpG9rDaTljqnX4pcGZNXvnprAJMn+Azh2bndubosLhlxoDZ/uZeufglBv4/JijTKLmLnVVXMQ3fud0tA==
+"@opengsn/relay@^2.2.5":
+  version "2.2.5"
+  resolved "http://localhost:4873/@opengsn%2frelay/-/relay-2.2.5.tgz#3bed30fe37388d1cb03c370faf39635a46937c85"
+  integrity sha512-3IOhjcDRaSSWbjkFsTx2P0whMa+KBLewM49xvee4uDe35VzPUpljTR/Grc0bNIUvH2tvAjELrQmDpmDXaaF+sg==
   dependencies:
     "@ethereumjs/tx" "^3.2.0"
-    "@opengsn/common" "^2.2.4"
+    "@opengsn/common" "^2.2.5"
     "@types/cors" "^2.8.7"
     "@types/express" "^4.17.8"
     "@types/minimist" "^1.2.0"
@@ -16784,9 +16784,9 @@ web3-provider-engine@14.2.1:
     xhr "^2.2.0"
     xtend "^4.0.1"
 
-"web3-provider-engine@git+https://github.com/trufflesuite/provider-engine.git#web3-one":
+"web3-provider-engine@https://github.com/trufflesuite/provider-engine#web3-one":
   version "14.0.6"
-  resolved "git+https://github.com/trufflesuite/provider-engine.git#9694f5b4e5500651bd2ff689df8529bb5cf6b96f"
+  resolved "https://github.com/trufflesuite/provider-engine#9694f5b4e5500651bd2ff689df8529bb5cf6b96f"
   dependencies:
     async "^2.5.0"
     backoff "^2.5.0"
