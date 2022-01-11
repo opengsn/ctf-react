@@ -167,7 +167,7 @@ export async function initCtf(): Promise<Ctf> {
   if (chainId !== parseInt(netid))
     console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`)
   if (!net || !net.paymaster) {
-    if (chainId < 1000 || !window.location.href.match(/localhost|127.0.0.1/))
+    if (chainId.toString().match(/1337/) || !window.location.href.match(/localhost|127.0.0.1/))
       throw new Error(`Unsupported network (chainId=${chainId}) . please switch to one of: ` + Object.values(networks).map((n: any) => n.name).filter(n => n).join(' / '))
     else
       throw new Error('To run locally, you must run "yarn evm" and then "yarn deploy" before "yarn react-start" ')
