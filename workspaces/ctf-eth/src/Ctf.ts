@@ -104,10 +104,9 @@ export class Ctf {
   }
 
   async capture() {
-    const gasPrice = await this.ethersProvider.getGasPrice()
-    const gasLimit = await this.theContract.estimateGas.captureTheFlag()
-    console.log('== capture: gas price=', gasPrice.toString(), 'gasLimit:', gasLimit.toString())
-    return await this.theContract.captureTheFlag({gasPrice, gasLimit})
+    this.ethersProvider.getGasPrice().then(price => console.log('== gas price=', price.toString()))
+    const gasFees = await this.gsnProvider.calculateGasFees()
+    return await this.theContract.captureTheFlag({...gasFees})
   }
 
   async getGsnStatus(): Promise<GsnStatusInfo> {
@@ -118,7 +117,7 @@ export class Ctf {
       forwarderAddress: ci.forwarderInstance.address,
       paymasterAddress: ci.paymasterInstance.address,
 
-      getPaymasterBalance: ()=> ci.paymasterInstance.getRelayHubDeposit(),
+      getPaymasterBalance: ()=> ci.relayHubInstance.balanceOf(ci.paymasterInstance.address),
       getActiveRelayers: async () => relayClient.dependencies.knownRelaysManager.refresh().then(() =>
          relayClient.dependencies.knownRelaysManager.allRelayers.length
       )
@@ -173,18 +172,9 @@ export async function initCtf(): Promise<Ctf> {
       throw new Error('To run locally, you must run "yarn evm" and then "yarn deploy" before "yarn react-start" ')
   }
 
-  //on kotti (at least) using blockGasLimit breaks our code..
-  const maxViewableGasLimit = chainId === 6 ? 5e6.toString() : undefined
-
   const gsnConfig: Partial<GSNConfig> = {
 
-    maxViewableGasLimit,
-    relayLookupWindowBlocks: global.network.relayLookupWindowBlocks || 600000,
-    relayRegistrationLookupBlocks: global.network.relayRegistrationLookupBlocks || 600000,
-    requestValidBlocks: 1e8.toString(),   //Arbitrum TEMP: until we change expiration to timestamp. must be a large number, to cover L1/L2 differences.
-
-    loggerConfiguration: {logLevel: 'debug'},
-    pastEventsQueryMaxPageSize: global.network.pastEventsQueryMaxPageSize || Number.MAX_SAFE_INTEGER,
+    loggerConfiguration: { logLevel: 'debug' },
     paymasterAddress: net.paymaster
   }
   console.log('== gsnconfig=', gsnConfig)

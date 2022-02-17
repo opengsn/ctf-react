@@ -22,7 +22,7 @@ try {
 }
 
 export const networks: { [chain: number]: NetworkType } = {
-  /* old deployments - not 3.0 alpha...
+  /* old deployments - not 3.0 alpha 2...
   1: {
     name: 'Ethereum Mainnet',
     etherscan: 'https://etherscan.io/address/',
@@ -36,9 +36,13 @@ export const networks: { [chain: number]: NetworkType } = {
     ctf: '0xd4b5f1C12B46447693Ae5ec05880fFd117277D12'
   },
   4: {
-    name: 'Rinkeby',
+    name: 'Rinkeby - eywa relayer',
     etherscan: 'https://rinkeby.etherscan.io/address/',
-    paymaster: '0xA6e10aA9B038c9Cddea24D2ae77eC3cE38a0c016',
+//TEMP 
+    paymaster: '0x972Ed0F36cEc3c792D46Ef7158FA7138D88e195C',
+//    pastEventsQueryMaxPageSize: 2e4,
+//    relayLookupWindowBlocks: 1e5,
+//    relayRegistrationLookupBlocks: 1e5,
     ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA'
   },
 
@@ -87,15 +91,6 @@ export const networks: { [chain: number]: NetworkType } = {
     relayRegistrationLookupBlocks: 4990
   },
 
-  42: {
-    name: 'kovan',
-    etherscan: 'https://kovan.etherscan.io/address/',
-    paymaster: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d', //2.2
-    ctf: '0x0aDF62f267206ff6EAD3d93f4d421f86b51C6B7D', //2.2
-    relayLookupWindowBlocks: 9007199254740991,
-    relayRegistrationLookupBlocks: 9007199254740991
-  },
-
   69: {
     name: 'Optimism kovan',
     etherscan: 'https://kovan-optimistic.etherscan.io/address/',
@@ -121,7 +116,8 @@ export const networks: { [chain: number]: NetworkType } = {
     relayLookupWindowBlocks: 990,
     relayRegistrationLookupBlocks: 990
   },
-*/
+
+//alpha 1
   421611: {
     name: 'Arbitrum-Rinkeby',
     etherscan: 'https://testnet.arbiscan.io/address/',
@@ -138,6 +134,41 @@ export const networks: { [chain: number]: NetworkType } = {
     relayLookupWindowBlocks: 99000,
     relayRegistrationLookupBlocks: 99000
   },
+  42: {
+    name: 'kovan',
+    etherscan: 'https://kovan.etherscan.io/address/',
+    paymaster: '0xB997D12580ddBAf6d193E361f4C7a0A918743B6d', //3-alpha2
+    ctf: '0x8c956d2104D7B8483572b02A945230E0dEF90cc9', //3-alpha2
+  },
+  421611: {
+    name: 'Arbitrum-Rinkeby',
+    etherscan: 'https://testnet.arbiscan.io/address/',
+    paymaster: '0x745daDe3c11b80806180953d32f75B2B8b96BDa9',
+    ctf: '0x741940C70E23402ea897678E1bAF8C044BDB8c0D', 
+  },
+  200: {
+    name: 'Arbitrum-xDai',
+    etherscan: 'https://blockscout.com/xdai/aox/address/',
+    paymaster: '0x255fc98fE2C2564CF361E6dCD233862f884826E5',
+    ctf: '0x762745B16190F68F4eBD30EA159526FEA13d15a9', 
+    relayLookupWindowBlocks: 99000,
+    relayRegistrationLookupBlocks: 99000
+  },
+*/
+  42: {
+    name: 'kovan',
+    etherscan: 'https://kovan.etherscan.io/address/',
+    paymaster: '0x432c8e88294e1c64bF590D092130C82545639894', //3-alpha3
+    ctf: '0x8c956d2104D7B8483572b02A945230E0dEF90cc9', //3-alpha2
+  },
+  
+  421611: {
+    name: 'Arbitrum-Rinkeby',
+    etherscan: 'https://testnet.arbiscan.io/address/',
+    paymaster: '0x745daDe3c11b80806180953d32f75B2B8b96BDa9',
+    ctf: '0x741940C70E23402ea897678E1bAF8C044BDB8c0D', 
+  },
+
 
   1337: localnetwork
 }

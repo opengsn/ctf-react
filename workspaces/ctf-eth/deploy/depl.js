@@ -10,7 +10,7 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
 	let { deployer, metamask, forwarder } = await getNamedAccounts() 
 	let hub = process.env.RelayHubAddress
    if ( !deployer ) throw new Error('must set MNEMONIC_FILE for deployer')
-   console.log( 'delpoyer=', deployer, 'balance=', ethers.utils.formatEther(await ethers.provider.getBalance(deployer)))
+   console.log( 'deployer=', deployer, 'balance=', ethers.utils.formatEther(await ethers.provider.getBalance(deployer)))
     if ( !forwarder ) {
         forwarder = require( '../build/gsn/Forwarder').address
       	hub = require('../build/gsn/RelayHub').address

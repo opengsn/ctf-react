@@ -1,33 +1,35 @@
 
 // File: @openzeppelin/contracts/utils/Context.sol
 // SPDX-License-Identifier: MIT
+// OpenZeppelin Contracts v4.4.1 (utils/Context.sol)
 
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity ^0.8.0;
 
-/*
+/**
  * @dev Provides information about the current execution context, including the
  * sender of the transaction and its data. While these are generally available
  * via msg.sender and msg.data, they should not be accessed in such a direct
- * manner, since when dealing with GSN meta-transactions the account sending and
+ * manner, since when dealing with meta-transactions the account sending and
  * paying for execution may not be the actual sender (as far as an application
  * is concerned).
  *
  * This contract is only required for intermediate, library-like contracts.
  */
 abstract contract Context {
-    function _msgSender() internal view virtual returns (address payable) {
+    function _msgSender() internal view virtual returns (address) {
         return msg.sender;
     }
 
-    function _msgData() internal view virtual returns (bytes memory) {
-        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
+    function _msgData() internal view virtual returns (bytes calldata) {
         return msg.data;
     }
 }
 
 // File: @openzeppelin/contracts/access/Ownable.sol
+// OpenZeppelin Contracts v4.4.1 (access/Ownable.sol)
 
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity ^0.8.0;
+
 
 /**
  * @dev Contract module which provides a basic access control mechanism, where
@@ -49,10 +51,8 @@ abstract contract Ownable is Context {
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor () internal {
-        address msgSender = _msgSender();
-        _owner = msgSender;
-        emit OwnershipTransferred(address(0), msgSender);
+    constructor() {
+        _transferOwnership(_msgSender());
     }
 
     /**
@@ -78,8 +78,7 @@ abstract contract Ownable is Context {
      * thereby removing any functionality that is only available to the owner.
      */
     function renounceOwnership() public virtual onlyOwner {
-        emit OwnershipTransferred(_owner, address(0));
-        _owner = address(0);
+        _transferOwnership(address(0));
     }
 
     /**
@@ -88,17 +87,217 @@ abstract contract Ownable is Context {
      */
     function transferOwnership(address newOwner) public virtual onlyOwner {
         require(newOwner != address(0), "Ownable: new owner is the zero address");
-        emit OwnershipTransferred(_owner, newOwner);
+        _transferOwnership(newOwner);
+    }
+
+    /**
+     * @dev Transfers ownership of the contract to a new account (`newOwner`).
+     * Internal function without access restriction.
+     */
+    function _transferOwnership(address newOwner) internal virtual {
+        address oldOwner = _owner;
         _owner = newOwner;
+        emit OwnershipTransferred(oldOwner, newOwner);
     }
 }
+
+// File: @openzeppelin/contracts/utils/introspection/IERC165.sol
+// OpenZeppelin Contracts v4.4.1 (utils/introspection/IERC165.sol)
+
+pragma solidity ^0.8.0;
+
+/**
+ * @dev Interface of the ERC165 standard, as defined in the
+ * https://eips.ethereum.org/EIPS/eip-165[EIP].
+ *
+ * Implementers can declare support of contract interfaces, which can then be
+ * queried by others ({ERC165Checker}).
+ *
+ * For an implementation, see {ERC165}.
+ */
+interface IERC165 {
+    /**
+     * @dev Returns true if this contract implements the interface defined by
+     * `interfaceId`. See the corresponding
+     * https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section]
+     * to learn more about how these ids are created.
+     *
+     * This function call must use less than 30 000 gas.
+     */
+    function supportsInterface(bytes4 interfaceId) external view returns (bool);
+}
+
+// File: @openzeppelin/contracts/utils/introspection/ERC165.sol
+// OpenZeppelin Contracts v4.4.1 (utils/introspection/ERC165.sol)
+
+pragma solidity ^0.8.0;
+
+
+/**
+ * @dev Implementation of the {IERC165} interface.
+ *
+ * Contracts that want to implement ERC165 should inherit from this contract and override {supportsInterface} to check
+ * for the additional interface id that will be supported. For example:
+ *
+ * ```solidity
+ * function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+ *     return interfaceId == type(MyInterface).interfaceId || super.supportsInterface(interfaceId);
+ * }
+ * ```
+ *
+ * Alternatively, {ERC165Storage} provides an easier to use but more expensive implementation.
+ */
+abstract contract ERC165 is IERC165 {
+    /**
+     * @dev See {IERC165-supportsInterface}.
+     */
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+        return interfaceId == type(IERC165).interfaceId;
+    }
+}
+
+// File: @openzeppelin/contracts/utils/introspection/ERC165Checker.sol
+// OpenZeppelin Contracts v4.4.1 (utils/introspection/ERC165Checker.sol)
+
+pragma solidity ^0.8.0;
+
+
+/**
+ * @dev Library used to query support of an interface declared via {IERC165}.
+ *
+ * Note that these functions return the actual result of the query: they do not
+ * `revert` if an interface is not supported. It is up to the caller to decide
+ * what to do in these cases.
+ */
+library ERC165Checker {
+    // As per the EIP-165 spec, no interface should ever match 0xffffffff
+    bytes4 private constant _INTERFACE_ID_INVALID = 0xffffffff;
+
+    /**
+     * @dev Returns true if `account` supports the {IERC165} interface,
+     */
+    function supportsERC165(address account) internal view returns (bool) {
+        // Any contract that implements ERC165 must explicitly indicate support of
+        // InterfaceId_ERC165 and explicitly indicate non-support of InterfaceId_Invalid
+        return
+            _supportsERC165Interface(account, type(IERC165).interfaceId) &&
+            !_supportsERC165Interface(account, _INTERFACE_ID_INVALID);
+    }
+
+    /**
+     * @dev Returns true if `account` supports the interface defined by
+     * `interfaceId`. Support for {IERC165} itself is queried automatically.
+     *
+     * See {IERC165-supportsInterface}.
+     */
+    function supportsInterface(address account, bytes4 interfaceId) internal view returns (bool) {
+        // query support of both ERC165 as per the spec and support of _interfaceId
+        return supportsERC165(account) && _supportsERC165Interface(account, interfaceId);
+    }
+
+    /**
+     * @dev Returns a boolean array where each value corresponds to the
+     * interfaces passed in and whether they're supported or not. This allows
+     * you to batch check interfaces for a contract where your expectation
+     * is that some interfaces may not be supported.
+     *
+     * See {IERC165-supportsInterface}.
+     *
+     * _Available since v3.4._
+     */
+    function getSupportedInterfaces(address account, bytes4[] memory interfaceIds)
+        internal
+        view
+        returns (bool[] memory)
+    {
+        // an array of booleans corresponding to interfaceIds and whether they're supported or not
+        bool[] memory interfaceIdsSupported = new bool[](interfaceIds.length);
+
+        // query support of ERC165 itself
+        if (supportsERC165(account)) {
+            // query support of each interface in interfaceIds
+            for (uint256 i = 0; i < interfaceIds.length; i++) {
+                interfaceIdsSupported[i] = _supportsERC165Interface(account, interfaceIds[i]);
+            }
+        }
+
+        return interfaceIdsSupported;
+    }
+
+    /**
+     * @dev Returns true if `account` supports all the interfaces defined in
+     * `interfaceIds`. Support for {IERC165} itself is queried automatically.
+     *
+     * Batch-querying can lead to gas savings by skipping repeated checks for
+     * {IERC165} support.
+     *
+     * See {IERC165-supportsInterface}.
+     */
+    function supportsAllInterfaces(address account, bytes4[] memory interfaceIds) internal view returns (bool) {
+        // query support of ERC165 itself
+        if (!supportsERC165(account)) {
+            return false;
+        }
+
+        // query support of each interface in _interfaceIds
+        for (uint256 i = 0; i < interfaceIds.length; i++) {
+            if (!_supportsERC165Interface(account, interfaceIds[i])) {
+                return false;
+            }
+        }
+
+        // all interfaces supported
+        return true;
+    }
+
+    /**
+     * @notice Query if a contract implements an interface, does not check ERC165 support
+     * @param account The address of the contract to query for support of an interface
+     * @param interfaceId The interface identifier, as specified in ERC-165
+     * @return true if the contract at account indicates support of the interface with
+     * identifier interfaceId, false otherwise
+     * @dev Assumes that account contains a contract that supports ERC165, otherwise
+     * the behavior of this method is undefined. This precondition can be checked
+     * with {supportsERC165}.
+     * Interface identification is specified in ERC-165.
+     */
+    function _supportsERC165Interface(address account, bytes4 interfaceId) private view returns (bool) {
+        bytes memory encodedParams = abi.encodeWithSelector(IERC165.supportsInterface.selector, interfaceId);
+        (bool success, bytes memory result) = account.staticcall{gas: 30000}(encodedParams);
+        if (result.length < 32) return false;
+        return success && abi.decode(result, (bool));
+    }
+}
+
+// File: @openzeppelin/contracts/interfaces/IERC165.sol
+// OpenZeppelin Contracts v4.4.1 (interfaces/IERC165.sol)
+
+pragma solidity ^0.8.0;
+
 
 // File: @opengsn/contracts/src/forwarder/IForwarder.sol
 pragma solidity >=0.7.6;
 pragma abicoder v2;
 
-interface IForwarder {
 
+/**
+ * @title The Forwarder Interface
+ * @notice The contracts implementing this interface take a role of authorization, authentication and replay protection
+ * for contracts that choose to trust a `Forwarder`, instead of relying on a mechanism built into the Ethereum protocol.
+ *
+ * @notice if the `Forwarder` contract decides that an incoming `ForwardRequest` is valid, it must append 20 bytes that
+ * represent the caller to the `data` field of the request and send this new data to the target address (the `to` field)
+ *
+ * :warning: **Warning** :warning: The Forwarder can have a full control over a `Recipient` contract.
+ * Any vulnerability in a `Forwarder` implementation can make all of its `Recipient` contracts susceptible!
+ * Recipient contracts should only trust forwarders that passed through security audit,
+ * otherwise they are susceptible to identity theft.
+ */
+interface IForwarder is IERC165 {
+
+    /**
+     * @notice A representation of a request for a `Forwarder` to send `data` on behalf of a `from` to a target (`to`).
+     */
     struct ForwardRequest {
         address from;
         address to;
@@ -106,22 +305,27 @@ interface IForwarder {
         uint256 gas;
         uint256 nonce;
         bytes data;
-        uint256 validUntil;
+        uint256 validUntilTime;
     }
 
     event DomainRegistered(bytes32 indexed domainSeparator, bytes domainValue);
 
     event RequestTypeRegistered(bytes32 indexed typeHash, string typeStr);
 
+    /**
+     * @param from The address of a sender.
+     * @return The nonce for this address.
+     */
     function getNonce(address from)
     external view
     returns(uint256);
 
     /**
-     * verify the transaction would execute.
-     * validate the signature and the nonce of the request.
-     * revert if either signature or nonce are incorrect.
-     * also revert if domainSeparator or requestTypeHash are not registered.
+     * @notice Verify the transaction is valid and can be executed.
+     * Implementations must validate the signature and the nonce of the request are correct.
+     * Does not revert and returns successfully if the input is valid.
+     * Reverts if any validation has failed. For instance, if either signature or nonce are incorrect.
+     * Reverts if `domainSeparator` or `requestTypeHash` are not registered as well.
      */
     function verify(
         ForwardRequest calldata forwardRequest,
@@ -132,17 +336,22 @@ interface IForwarder {
     ) external view;
 
     /**
-     * execute a transaction
-     * @param forwardRequest - all transaction parameters
-     * @param domainSeparator - domain used when signing this request
-     * @param requestTypeHash - request type used when signing this request.
-     * @param suffixData - the extension data used when signing this request.
-     * @param signature - signature to validate.
+     * @notice Executes a transaction specified by the `ForwardRequest`.
+     * The transaction is first verified and then executed.
+     * The success flag and returned bytes array of the `CALL` are returned as-is.
      *
-     * the transaction is verified, and then executed.
-     * the success and ret of "call" are returned.
-     * This method would revert only verification errors. target errors
-     * are reported using the returned "success" and ret string
+     * This method would revert only in case of a verification error.
+     *
+     * All the target errors are reported using the returned success flag and returned bytes array.
+     *
+     * @param forwardRequest All requested transaction parameters.
+     * @param domainSeparator The domain used when signing this request.
+     * @param requestTypeHash The request type used when signing this request.
+     * @param suffixData The ABI-encoded extension data for the current `RequestType` used when signing this request.
+     * @param signature The client signature to be validated.
+     *
+     * @return success The success flag of the underlying `CALL` to the target address.
+     * @return ret The byte array returned by the underlying `CALL` to the target address.
      */
     function execute(
         ForwardRequest calldata forwardRequest,
@@ -155,34 +364,42 @@ interface IForwarder {
     returns (bool success, bytes memory ret);
 
     /**
-     * Register a new Request typehash.
-     * @param typeName - the name of the request type.
-     * @param typeSuffix - any extra data after the generic params.
-     *  (must add at least one param. The generic ForwardRequest type is always registered by the constructor)
+     * @notice Register a new Request typehash.
+     *
+     * @notice This is necessary for the Forwarder to be able to verify the signatures conforming to the ERC-712.
+     *
+     * @param typeName The name of the request type.
+     * @param typeSuffix Any extra data after the generic params. Must contain add at least one param.
+     * The generic ForwardRequest type is always registered by the constructor.
      */
     function registerRequestType(string calldata typeName, string calldata typeSuffix) external;
 
     /**
-     * Register a new domain separator.
-     * The domain separator must have the following fields: name,version,chainId, verifyingContract.
-     * the chainId is the current network's chainId, and the verifyingContract is this forwarder.
-     * This method is given the domain name and version to create and register the domain separator value.
-     * @param name the domain's display name
-     * @param version the domain/protocol version
+     * @notice Register a new domain separator.
+     *
+     * @notice This is necessary for the Forwarder to be able to verify the signatures conforming to the ERC-712.
+     *
+     * @notice The domain separator must have the following fields: `name`, `version`, `chainId`, `verifyingContract`.
+     * The `chainId` is the current network's `chainId`, and the `verifyingContract` is this Forwarder's address.
+     * This method accepts the domain name and version to create and register the domain separator value.
+     * @param name The domain's display name.
+     * @param version The domain/protocol version.
      */
     function registerDomainSeparator(string calldata name, string calldata version) external;
 }
 
 // File: @opengsn/contracts/src/utils/GsnTypes.sol
-pragma solidity >=0.7.6;
+pragma solidity ^0.8.0;
 
 
 interface GsnTypes {
-    /// @notice gasPrice, pctRelayFee and baseRelayFee must be validated inside of the paymaster's preRelayedCall in order not to overpay
+    /// @notice maxFeePerGas, maxPriorityFeePerGas, pctRelayFee and baseRelayFee must be validated inside of the paymaster's preRelayedCall in order not to overpay
     struct RelayData {
-        uint256 gasPrice;
+        uint256 maxFeePerGas;
+        uint256 maxPriorityFeePerGas;
         uint256 pctRelayFee;
         uint256 baseRelayFee;
+        uint256 transactionCalldataGasUsed;
         address relayWorker;
         address paymaster;
         address forwarder;
@@ -201,31 +418,18 @@ interface GsnTypes {
 pragma solidity >=0.7.6;
 
 
-interface IPaymaster {
 
+/**
+ * @title The Paymaster Interface
+ * @notice Contracts implementing this interface exist to make decision about paying the transaction fee to the relay.
+ *
+ * @notice There are two callbacks here that are executed by the RelayHub: `preRelayedCall` and `postRelayedCall`.
+ *
+ * @notice It is recommended that your implementation inherits from the abstract BasePaymaster contract.
+*/
+interface IPaymaster is IERC165 {
     /**
-     * @param acceptanceBudget -
-     *      Paymaster expected gas budget to accept (or reject) a request
-     *      This a gas required by any calculations that might need to reject the
-     *      transaction, by preRelayedCall, forwarder and recipient.
-     *      See value in BasePaymaster.PAYMASTER_ACCEPTANCE_BUDGET
-     *      Transaction that gets rejected above that gas usage is on the paymaster's expense.
-     *      As long this value is above preRelayedCallGasLimit (see defaults in BasePaymaster), the
-     *      Paymaster is guaranteed it will never pay for rejected transactions.
-     *      If this value is below preRelayedCallGasLimt, it might might make Paymaster open to a "griefing" attack.
-     *
-     *      Specifying value too high might make the call rejected by some relayers.
-     *
-     *      From a Relay's point of view, this is the highest gas value a paymaster might "grief" the relay,
-     *      since the paymaster will pay anything above that (regardless if the tx reverts)
-     *
-     * @param preRelayedCallGasLimit - the max gas usage of preRelayedCall. any revert (including OOG)
-     *      of preRelayedCall is a reject by the paymaster.
-     *      as long as acceptanceBudget is above preRelayedCallGasLimit, any such revert (including OOG)
-     *      is not payed by the paymaster.
-     * @param postRelayedCallGasLimit - the max gas usage of postRelayedCall.
-     *      note that an OOG will revert the transaction, but the paymaster already committed to pay,
-     *      so the relay will get compensated, at the expense of the paymaster
+     * @notice The limits this Paymaster wants to be imposed by the RelayHub on user input. See `getGasAndDataLimits`.
      */
     struct GasAndDataLimits {
         uint256 acceptanceBudget;
@@ -235,7 +439,33 @@ interface IPaymaster {
     }
 
     /**
-     * Return the Gas Limits and msg.data max size constants used by the Paymaster.
+     * @notice Return the Gas Limits for Paymaster's functions and maximum msg.data length values for this Paymaster.
+     * This function allows different paymasters to have different properties without changes to the RelayHub.
+     * @return limits An instance of the `GasAndDataLimits` struct
+     *
+     * ##### `acceptanceBudget`
+     * If the transactions consumes more than `acceptanceBudget` this Paymaster will be charged for gas no matter what.
+     * Transaction that gets rejected after consuming more than `acceptanceBudget` gas is on this Paymaster's expense.
+     *
+     * Should be set to an amount gas this Paymaster expects to spend deciding whether to accept or reject a request.
+     * This includes gas consumed by calculations in the `preRelayedCall`, `Forwarder` and the recipient contract.
+     *
+     * :warning: **Warning** :warning: As long this value is above `preRelayedCallGasLimit`
+     * (see defaults in `BasePaymaster`), the Paymaster is guaranteed it will never pay for rejected transactions.
+     * If this value is below `preRelayedCallGasLimit`, it might might make Paymaster open to a "griefing" attack.
+     *
+     * The relayers should prefer lower `acceptanceBudget`, as it improves their chances of being compensated.
+     * From a Relay's point of view, this is the highest gas value a bad Paymaster may cost the relay,
+     * since the paymaster will pay anything above that value regardless of whether the transaction succeeds or reverts.
+     * Specifying value too high might make the call rejected by relayers (see `maxAcceptanceBudget` in server config).
+     *
+     * ##### `preRelayedCallGasLimit`
+     * The max gas usage of preRelayedCall. Any revert of the `preRelayedCall` is a request rejection by the paymaster.
+     * As long as `acceptanceBudget` is above `preRelayedCallGasLimit`, any such revert is not payed by the paymaster.
+     *
+     * ##### `postRelayedCallGasLimit`
+     * The max gas usage of postRelayedCall. The Paymaster is not charged for the maximum, only for actually used gas.
+     * Note that an OOG will revert the inner transaction, but the paymaster will be charged for it anyway.
      */
     function getGasAndDataLimits()
     external
@@ -244,50 +474,53 @@ interface IPaymaster {
         GasAndDataLimits memory limits
     );
 
-    function trustedForwarder() external view returns (IForwarder);
-
-/**
- * return the relayHub of this contract.
- */
-    function getHubAddr() external view returns (address);
-
     /**
-     * Can be used to determine if the contract can pay for incoming calls before making any.
-     * @return the paymaster's deposit in the RelayHub.
+     * @notice :warning: **Warning** :warning: using incorrect Forwarder may cause the Paymaster to agreeing to pay for invalid transactions.
+     * @return trustedForwarder The address of the `Forwarder` that is trusted by this Paymaster to execute the requests.
      */
-    function getRelayHubDeposit() external view returns (uint256);
+    function getTrustedForwarder() external view returns (address trustedForwarder);
 
     /**
-     * Called by Relay (and RelayHub), to validate if the paymaster agrees to pay for this call.
+     * @return relayHub The address of the `RelayHub` that is trusted by this Paymaster to execute the requests.
+     */
+    function getRelayHub() external view returns (address relayHub);
+
+    /**
+     * @notice Called by the Relay in view mode and later by the `RelayHub` on-chain to validate that
+     * the Paymaster agrees to pay for this call.
      *
-     * MUST be protected with relayHubOnly() in case it modifies state.
+     * :warning: **Warning** :warning: This method MUST be protected with `relayHubOnly()` in case it modifies state.
      *
-     * The Paymaster rejects by the following "revert" operations
-     *  - preRelayedCall() method reverts
-     *  - the forwarder reverts because of nonce or signature error
-     *  - the paymaster returned "rejectOnRecipientRevert", and the recipient contract reverted.
-     * In any of the above cases, all paymaster calls (and recipient call) are reverted.
-     * In any other case, the paymaster agrees to pay for the gas cost of the transaction (note
-     *  that this includes also postRelayedCall revert)
+     * The request is considered to be rejected by the Paymaster in one of the following conditions:
+     *  - `preRelayedCall()` method reverts
+     *  - the `Forwarder` reverts because of nonce or signature error
+     *  - the `Paymaster` returned `rejectOnRecipientRevert: true` and the recipient contract reverted
+     *    (and all that did not consume more than `acceptanceBudget` gas).
      *
-     * The rejectOnRecipientRevert flag means the Paymaster "delegate" the rejection to the recipient
-     *  code.  It also means the Paymaster trust the recipient to reject fast: both preRelayedCall,
-     *  forwarder check and receipient checks must fit into the GasLimits.acceptanceBudget,
-     *  otherwise the TX is paid by the Paymaster.
+     * In any of the above cases, all Paymaster calls and the recipient call are reverted.
+     * In any other case the Paymaster will pay for the gas cost of the transaction.
+     * Note that even if `postRelayedCall` is reverted the Paymaster will be charged.
      *
-     *  @param relayRequest - the full relay request structure
-     *  @param signature - user's EIP712-compatible signature of the {@link relayRequest}.
-     *              Note that in most cases the paymaster shouldn't try use it at all. It is always checked
-     *              by the forwarder immediately after preRelayedCall returns.
-     *  @param approvalData - extra dapp-specific data (e.g. signature from trusted party)
-     *  @param maxPossibleGas - based on values returned from {@link getGasAndDataLimits},
-     *         the RelayHub will calculate the maximum possible amount of gas the user may be charged for.
-     *         In order to convert this value to wei, the Paymaster has to call "relayHub.calculateCharge()"
-     *  return:
-     *      a context to be passed to postRelayedCall
-     *      rejectOnRecipientRevert - TRUE if paymaster want to reject the TX if the recipient reverts.
-     *          FALSE means that rejects by the recipient will be completed on chain, and paid by the paymaster.
-     *          (note that in the latter case, the preRelayedCall and postRelayedCall are not reverted).
+
+     * @param relayRequest - the full relay request structure
+     * @param signature - user's EIP712-compatible signature of the `relayRequest`.
+     * Note that in most cases the paymaster shouldn't try use it at all. It is always checked
+     * by the forwarder immediately after preRelayedCall returns.
+     * @param approvalData - extra dapp-specific data (e.g. signature from trusted party)
+     * @param maxPossibleGas - based on values returned from `getGasAndDataLimits`
+     * the RelayHub will calculate the maximum possible amount of gas the user may be charged for.
+     * In order to convert this value to wei, the Paymaster has to call "relayHub.calculateCharge()"
+     *
+     * @return context
+     * A byte array to be passed to postRelayedCall.
+     * Can contain any data needed by this Paymaster in any form or be empty if no extra data is needed.
+     * @return rejectOnRecipientRevert
+     * The flag that allows a Paymaster to "delegate" the rejection to the recipient code.
+     * It also means the Paymaster trust the recipient to reject fast: both preRelayedCall,
+     * forwarder check and recipient checks must fit into the GasLimits.acceptanceBudget,
+     * otherwise the TX is paid by the Paymaster.
+     * `true` if the Paymaster wants to reject the TX if the recipient reverts.
+     * `false` if the Paymaster wants rejects by the recipient to be completed on chain and paid by the Paymaster.
      */
     function preRelayedCall(
         GsnTypes.RelayRequest calldata relayRequest,
@@ -299,19 +532,20 @@ interface IPaymaster {
     returns (bytes memory context, bool rejectOnRecipientRevert);
 
     /**
-     * This method is called after the actual relayed function call.
+     * @notice This method is called after the actual relayed function call.
      * It may be used to record the transaction (e.g. charge the caller by some contract logic) for this call.
      *
-     * MUST be protected with relayHubOnly() in case it modifies state.
-     *
-     * @param context - the call context, as returned by the preRelayedCall
-     * @param success - true if the relayed call succeeded, false if it reverted
-     * @param gasUseWithoutPost - the actual amount of gas used by the entire transaction, EXCEPT
-     *        the gas used by the postRelayedCall itself.
-     * @param relayData - the relay params of the request. can be used by relayHub.calculateCharge()
+     * :warning: **Warning** :warning: This method MUST be protected with relayHubOnly() in case it modifies state.
      *
      * Revert in this functions causes a revert of the client's relayed call (and preRelayedCall(), but the Paymaster
      * is still committed to pay the relay for the entire transaction.
+     *
+     * @param context The call context, as returned by the preRelayedCall
+     * @param success `true` if the relayed call succeeded, false if it reverted
+     * @param gasUseWithoutPost The actual amount of gas used by the entire transaction, EXCEPT
+     *        the gas used by the postRelayedCall itself.
+     * @param relayData The relay params of the request. can be used by relayHub.calculateCharge()
+     *
      */
     function postRelayedCall(
         bytes calldata context,
@@ -320,327 +554,282 @@ interface IPaymaster {
         GsnTypes.RelayData calldata relayData
     ) external;
 
+    /**
+     * @return version The SemVer string of this Paymaster's version.
+     */
     function versionPaymaster() external view returns (string memory);
 }
 
-// File: @openzeppelin/contracts/math/SafeMath.sol
+// File: @openzeppelin/contracts/token/ERC20/IERC20.sol
+// OpenZeppelin Contracts v4.4.1 (token/ERC20/IERC20.sol)
 
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity ^0.8.0;
 
 /**
- * @dev Wrappers over Solidity's arithmetic operations with added overflow
- * checks.
- *
- * Arithmetic operations in Solidity wrap on overflow. This can easily result
- * in bugs, because programmers usually assume that an overflow raises an
- * error, which is the standard behavior in high level programming languages.
- * `SafeMath` restores this intuition by reverting the transaction when an
- * operation overflows.
- *
- * Using this library instead of the unchecked operations eliminates an entire
- * class of bugs, so it's recommended to use it always.
+ * @dev Interface of the ERC20 standard as defined in the EIP.
  */
-library SafeMath {
+interface IERC20 {
     /**
-     * @dev Returns the addition of two unsigned integers, with an overflow flag.
-     *
-     * _Available since v3.4._
+     * @dev Returns the amount of tokens in existence.
      */
-    function tryAdd(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        uint256 c = a + b;
-        if (c < a) return (false, 0);
-        return (true, c);
-    }
+    function totalSupply() external view returns (uint256);
 
     /**
-     * @dev Returns the substraction of two unsigned integers, with an overflow flag.
-     *
-     * _Available since v3.4._
+     * @dev Returns the amount of tokens owned by `account`.
      */
-    function trySub(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        if (b > a) return (false, 0);
-        return (true, a - b);
-    }
+    function balanceOf(address account) external view returns (uint256);
 
     /**
-     * @dev Returns the multiplication of two unsigned integers, with an overflow flag.
+     * @dev Moves `amount` tokens from the caller's account to `recipient`.
      *
-     * _Available since v3.4._
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * Emits a {Transfer} event.
      */
-    function tryMul(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-        // benefit is lost if 'b' is also tested.
-        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-        if (a == 0) return (true, 0);
-        uint256 c = a * b;
-        if (c / a != b) return (false, 0);
-        return (true, c);
-    }
+    function transfer(address recipient, uint256 amount) external returns (bool);
 
     /**
-     * @dev Returns the division of two unsigned integers, with a division by zero flag.
+     * @dev Returns the remaining number of tokens that `spender` will be
+     * allowed to spend on behalf of `owner` through {transferFrom}. This is
+     * zero by default.
      *
-     * _Available since v3.4._
+     * This value changes when {approve} or {transferFrom} are called.
      */
-    function tryDiv(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        if (b == 0) return (false, 0);
-        return (true, a / b);
-    }
+    function allowance(address owner, address spender) external view returns (uint256);
 
     /**
-     * @dev Returns the remainder of dividing two unsigned integers, with a division by zero flag.
+     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
      *
-     * _Available since v3.4._
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * IMPORTANT: Beware that changing an allowance with this method brings the risk
+     * that someone may use both the old and the new allowance by unfortunate
+     * transaction ordering. One possible solution to mitigate this race
+     * condition is to first reduce the spender's allowance to 0 and set the
+     * desired value afterwards:
+     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+     *
+     * Emits an {Approval} event.
      */
-    function tryMod(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        if (b == 0) return (false, 0);
-        return (true, a % b);
-    }
+    function approve(address spender, uint256 amount) external returns (bool);
 
     /**
-     * @dev Returns the addition of two unsigned integers, reverting on
-     * overflow.
+     * @dev Moves `amount` tokens from `sender` to `recipient` using the
+     * allowance mechanism. `amount` is then deducted from the caller's
+     * allowance.
      *
-     * Counterpart to Solidity's `+` operator.
+     * Returns a boolean value indicating whether the operation succeeded.
      *
-     * Requirements:
-     *
-     * - Addition cannot overflow.
+     * Emits a {Transfer} event.
      */
-    function add(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 c = a + b;
-        require(c >= a, "SafeMath: addition overflow");
-        return c;
-    }
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
 
     /**
-     * @dev Returns the subtraction of two unsigned integers, reverting on
-     * overflow (when the result is negative).
+     * @dev Emitted when `value` tokens are moved from one account (`from`) to
+     * another (`to`).
      *
-     * Counterpart to Solidity's `-` operator.
-     *
-     * Requirements:
-     *
-     * - Subtraction cannot overflow.
+     * Note that `value` may be zero.
      */
-    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        require(b <= a, "SafeMath: subtraction overflow");
-        return a - b;
-    }
+    event Transfer(address indexed from, address indexed to, uint256 value);
 
     /**
-     * @dev Returns the multiplication of two unsigned integers, reverting on
-     * overflow.
-     *
-     * Counterpart to Solidity's `*` operator.
-     *
-     * Requirements:
-     *
-     * - Multiplication cannot overflow.
+     * @dev Emitted when the allowance of a `spender` for an `owner` is set by
+     * a call to {approve}. `value` is the new allowance.
      */
-    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        if (a == 0) return 0;
-        uint256 c = a * b;
-        require(c / a == b, "SafeMath: multiplication overflow");
-        return c;
-    }
-
-    /**
-     * @dev Returns the integer division of two unsigned integers, reverting on
-     * division by zero. The result is rounded towards zero.
-     *
-     * Counterpart to Solidity's `/` operator. Note: this function uses a
-     * `revert` opcode (which leaves remaining gas untouched) while Solidity
-     * uses an invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        require(b > 0, "SafeMath: division by zero");
-        return a / b;
-    }
-
-    /**
-     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
-     * reverting when dividing by zero.
-     *
-     * Counterpart to Solidity's `%` operator. This function uses a `revert`
-     * opcode (which leaves remaining gas untouched) while Solidity uses an
-     * invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function mod(uint256 a, uint256 b) internal pure returns (uint256) {
-        require(b > 0, "SafeMath: modulo by zero");
-        return a % b;
-    }
-
-    /**
-     * @dev Returns the subtraction of two unsigned integers, reverting with custom message on
-     * overflow (when the result is negative).
-     *
-     * CAUTION: This function is deprecated because it requires allocating memory for the error
-     * message unnecessarily. For custom revert reasons use {trySub}.
-     *
-     * Counterpart to Solidity's `-` operator.
-     *
-     * Requirements:
-     *
-     * - Subtraction cannot overflow.
-     */
-    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        require(b <= a, errorMessage);
-        return a - b;
-    }
-
-    /**
-     * @dev Returns the integer division of two unsigned integers, reverting with custom message on
-     * division by zero. The result is rounded towards zero.
-     *
-     * CAUTION: This function is deprecated because it requires allocating memory for the error
-     * message unnecessarily. For custom revert reasons use {tryDiv}.
-     *
-     * Counterpart to Solidity's `/` operator. Note: this function uses a
-     * `revert` opcode (which leaves remaining gas untouched) while Solidity
-     * uses an invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        require(b > 0, errorMessage);
-        return a / b;
-    }
-
-    /**
-     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
-     * reverting with custom message when dividing by zero.
-     *
-     * CAUTION: This function is deprecated because it requires allocating memory for the error
-     * message unnecessarily. For custom revert reasons use {tryMod}.
-     *
-     * Counterpart to Solidity's `%` operator. This function uses a `revert`
-     * opcode (which leaves remaining gas untouched) while Solidity uses an
-     * invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        require(b > 0, errorMessage);
-        return a % b;
-    }
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
 // File: @opengsn/contracts/src/interfaces/IStakeManager.sol
 pragma solidity >=0.7.6;
 
 
+/**
+ * @title The StakeManager Interface
+ * @notice In order to prevent an attacker from registering a large number of unresponsive relays, the GSN requires
+ * the Relay Server to maintain a permanently locked stake in the system before being able to register.
+ *
+ * @notice Also, in some cases the behavior of a Relay Server may be found to be illegal by a `Penalizer` contract.
+ * In such case, the stake will never be returned to the Relay Server operator and will be slashed.
+ *
+ * @notice An implementation of this interface is tasked with keeping Relay Servers' stakes, made in any ERC-20 token.
+ * Note that the `RelayHub` chooses which ERC-20 tokens to support and how much stake is needed.
+ */
 interface IStakeManager {
 
-    /// Emitted when a stake or unstakeDelay are initialized or increased
+    /// @notice Emitted when a `stake` or `unstakeDelay` are initialized or increased.
     event StakeAdded(
         address indexed relayManager,
         address indexed owner,
+        IERC20 token,
         uint256 stake,
         uint256 unstakeDelay
     );
 
-    /// Emitted once a stake is scheduled for withdrawal
+    /// @notice Emitted once a stake is scheduled for withdrawal.
     event StakeUnlocked(
         address indexed relayManager,
         address indexed owner,
-        uint256 withdrawBlock
+        uint256 withdrawTime
     );
 
-    /// Emitted when owner withdraws relayManager funds
+    /// @notice Emitted when owner withdraws `relayManager` funds.
     event StakeWithdrawn(
         address indexed relayManager,
         address indexed owner,
+        IERC20 token,
         uint256 amount
     );
 
-    /// Emitted when an authorized Relay Hub penalizes a relayManager
+    /// @notice Emitted when an authorized `RelayHub` penalizes a `relayManager`.
     event StakePenalized(
         address indexed relayManager,
         address indexed beneficiary,
+        IERC20 token,
         uint256 reward
     );
 
+    /// @notice Emitted when a `relayManager` adds a new `RelayHub` to a list of authorized.
     event HubAuthorized(
         address indexed relayManager,
         address indexed relayHub
     );
 
+    /// @notice Emitted when a `relayManager` removes a `RelayHub` from a list of authorized.
     event HubUnauthorized(
         address indexed relayManager,
         address indexed relayHub,
-        uint256 removalBlock
+        uint256 removalTime
     );
 
+    /// @notice Emitted when a `relayManager` sets its `owner`. This is necessary to prevent stake hijacking.
     event OwnerSet(
         address indexed relayManager,
         address indexed owner
     );
 
-    /// @param stake - amount of ether staked for this relay
-    /// @param unstakeDelay - number of blocks to elapse before the owner can retrieve the stake after calling 'unlock'
-    /// @param withdrawBlock - first block number 'withdraw' will be callable, or zero if the unlock has not been called
-    /// @param owner - address that receives revenue and manages relayManager's stake
+    /// @notice Emitted when a `burnAddress` is changed.
+    event BurnAddressSet(
+        address indexed burnAddress
+    );
+
+    /**
+     * @param stake - amount of ether staked for this relay
+     * @param unstakeDelay - number of seconds to elapse before the owner can retrieve the stake after calling 'unlock'
+     * @param withdrawTime - timestamp in seconds when 'withdraw' will be callable, or zero if the unlock has not been called
+     * @param owner - address that receives revenue and manages relayManager's stake
+     */
     struct StakeInfo {
         uint256 stake;
         uint256 unstakeDelay;
-        uint256 withdrawBlock;
-        address payable owner;
+        uint256 withdrawTime;
+        IERC20 token;
+        address owner;
     }
 
     struct RelayHubInfo {
-        uint256 removalBlock;
+        uint256 removalTime;
     }
 
-    /// Set the owner of a Relay Manager. Called only by the RelayManager itself.
-    /// Note that owners cannot transfer ownership - if the entry already exists, reverts.
-    /// @param owner - owner of the relay (as configured off-chain)
-    function setRelayManagerOwner(address payable owner) external;
+    /**
+     * @notice Set the owner of a Relay Manager. Called only by the RelayManager itself.
+     * Note that owners cannot transfer ownership - if the entry already exists, reverts.
+     * @param owner - owner of the relay (as configured off-chain)
+     */
+    function setRelayManagerOwner(address owner) external;
 
-    /// Only the owner can call this function. If the entry does not exist, reverts.
-    /// @param relayManager - address that represents a stake entry and controls relay registrations on relay hubs
-    /// @param unstakeDelay - number of blocks to elapse before the owner can retrieve the stake after calling 'unlock'
-    function stakeForRelayManager(address relayManager, uint256 unstakeDelay) external payable;
+    /**
+     * @notice Put a stake for a relayManager and set its unstake delay.
+     * Only the owner can call this function. If the entry does not exist, reverts.
+     * The owner must give allowance of the ERC-20 token to the StakeManager before calling this method.
+     * It is the RelayHub who has a configurable list of minimum stakes per token. StakeManager accepts all tokens.
+     * @param token The address of an ERC-20 token that is used by the relayManager as a stake
+     * @param relayManager The address that represents a stake entry and controls relay registrations on relay hubs
+     * @param unstakeDelay The number of seconds to elapse before an owner can retrieve the stake after calling `unlock`
+     * @param amount The amount of tokens to be taken from the relayOwner and locked in the StakeManager as a stake
+     */
+    function stakeForRelayManager(IERC20 token, address relayManager, uint256 unstakeDelay, uint256 amount) external;
 
+    /**
+     * @notice Schedule the unlocking of the stake. The `unstakeDelay` must pass before owner can call `withdrawStake`.
+     * @param relayManager The address of a Relay Manager whose stake is to be unlocked.
+     */
     function unlockStake(address relayManager) external;
-
+    /**
+     * @notice Withdraw the unlocked stake.
+     * @param relayManager The address of a Relay Manager whose stake is to be withdrawn.
+     */
     function withdrawStake(address relayManager) external;
 
+    /**
+     * @notice Add the `RelayHub` to a list of authorized by this Relay Manager.
+     * This allows the RelayHub to penalize this Relay Manager. The `RelayHub` cannot trust a Relay it cannot penalize.
+     * @param relayManager The address of a Relay Manager whose stake is to be authorized for the new `RelayHub`.
+     * @param relayHub The address of a `RelayHub` to be authorized.
+     */
     function authorizeHubByOwner(address relayManager, address relayHub) external;
 
+    /**
+     * @notice Same as `authorizeHubByOwner` but can be called by the RelayManager itself.
+     */
     function authorizeHubByManager(address relayHub) external;
 
+    /**
+     * @notice Remove the `RelayHub` from a list of authorized by this Relay Manager.
+     * @param relayManager The address of a Relay Manager.
+     * @param relayHub The address of a `RelayHub` to be unauthorized.
+     */
     function unauthorizeHubByOwner(address relayManager, address relayHub) external;
 
+    /**
+     * @notice Same as `unauthorizeHubByOwner` but can be called by the RelayManager itself.
+     */
     function unauthorizeHubByManager(address relayHub) external;
 
-    function isRelayManagerStaked(address relayManager, address relayHub, uint256 minAmount, uint256 minUnstakeDelay)
-    external
-    view
-    returns (bool);
+    /**
+     * Slash the stake of the relay relayManager. In order to prevent stake kidnapping, burns part of stake on the way.
+     * @param relayManager The address of a Relay Manager to be penalized.
+     * @param beneficiary The address that receives part of the penalty amount.
+     * @param amount A total amount of penalty to be withdrawn from stake.
+     */
+    function penalizeRelayManager(address relayManager, address beneficiary, uint256 amount) external;
 
-    /// Slash the stake of the relay relayManager. In order to prevent stake kidnapping, burns half of stake on the way.
-    /// @param relayManager - entry to penalize
-    /// @param beneficiary - address that receives half of the penalty amount
-    /// @param amount - amount to withdraw from stake
-    function penalizeRelayManager(address relayManager, address payable beneficiary, uint256 amount) external;
+    /**
+     * @notice Get the stake details information for the given Relay Manager.
+     * @param relayManager The address of a Relay Manager.
+     * @return stakeInfo The `StakeInfo` structure.
+     * @return isSenderAuthorizedHub `true` if the `msg.sender` for this call was a `RelayHub` that is authorized now.
+     * `false` if the `msg.sender` for this call is not authorized.
+     */
+    function getStakeInfo(address relayManager) external view returns (StakeInfo memory stakeInfo, bool isSenderAuthorizedHub);
 
-    function getStakeInfo(address relayManager) external view returns (StakeInfo memory stakeInfo);
+    /**
+     * @return The maximum unstake delay this `StakeManger` allows. This is to prevent locking money forever by mistake.
+     */
+    function getMaxUnstakeDelay() external view returns (uint256);
 
-    function maxUnstakeDelay() external view returns (uint256);
+    /**
+     * @notice Change the address that will receive the 'burned' part of the penalized stake.
+     * This is done to prevent malicious Relay Server from penalizing itself and breaking even.
+     */
+    function setBurnAddress(address _burnAddress) external;
 
+    /**
+     * @return The address that will receive the 'burned' part of the penalized stake.
+     */
+    function getBurnAddress() external view returns (address);
+
+    /**
+     * @return the block number in which the contract has been deployed.
+     */
+    function getCreationBlock() external view returns (uint256);
+
+    /**
+     * @return a SemVer-compliant version of the `StakeManager` contract.
+     */
     function versionSM() external view returns (string memory);
 }
 
@@ -648,7 +837,23 @@ interface IStakeManager {
 pragma solidity >=0.7.6;
 
 
-interface IRelayHub {
+
+/**
+ * @title The RelayHub interface
+ * @notice The implementation of this interface provides all the information the GSN client needs to
+ * create a valid `RelayRequest` and also serves as an entry point for such requests.
+ *
+ * @notice The RelayHub also handles all the related financial records and hold the balances of participants.
+ * The Paymasters keep their Ether deposited in the `RelayHub` in order to pay for the `RelayRequest`s that thay choose
+ * to pay for, and Relay Servers keep their earned Ether in the `RelayHub` until they choose to `withdraw()`
+ *
+ * @notice The RelayHub on each supported network only needs a single instance and there is usually no need for dApp
+ * developers or Relay Server operators to redeploy, reimplement, modify or override the `RelayHub`.
+ */
+interface IRelayHub is IERC165 {
+    /**
+     * @notice A struct that contains all the parameters of the `RelayHub` that can be modified after the deployment.
+     */
     struct RelayHubConfig {
         // maximum number of worker accounts allowed per manager
         uint256 maxWorkerCount;
@@ -659,57 +864,55 @@ interface IRelayHub {
         // Gas cost of all relayCall() instructions after actual 'calculateCharge()'
         // Assume that relay has non-zero balance (costs 15'000 more otherwise).
         uint256 gasOverhead;
-        // Maximum funds that can be deposited at once. Prevents user error by disallowing large deposits.
-        uint256 maximumRecipientDeposit;
-        // Minimum unstake delay blocks of a relay manager's stake on the StakeManager
+        // Minimum unstake delay seconds of a relay manager's stake on the StakeManager
         uint256 minimumUnstakeDelay;
-        // Minimum stake a relay can have. An attack on the network will never cost less than half this value.
-        uint256 minimumStake;
-        // relayCall()'s msg.data upper bound gas cost per byte
-        uint256 dataGasCostPerByte;
-        // relayCalls() minimal gas overhead when calculating cost of putting tx on chain.
-        uint256 externalCallDataCostOverhead;
+        // Developers address
+        address devAddress;
+        // 0 < fee < 100, as percentage of total charge from paymaster to relayer
+        uint8 devFee;
+
     }
 
+    /// @notice Emitted when a configuration of the `RelayHub` is changed
     event RelayHubConfigured(RelayHubConfig config);
 
-    /// Emitted when a relay server registers or updates its details
-    /// Looking at these events lets a client discover relay servers
-    event RelayServerRegistered(
-        address indexed relayManager,
-        uint256 baseRelayFee,
-        uint256 pctRelayFee,
-        string relayUrl
-    );
-
-    /// Emitted when relays are added by a relayManager
+    /// @notice Emitted when relays are added by a relayManager
     event RelayWorkersAdded(
         address indexed relayManager,
         address[] newRelayWorkers,
         uint256 workersCount
     );
 
-    /// Emitted when an account withdraws funds from RelayHub.
+    /// @notice Emitted when an account withdraws funds from the `RelayHub`.
     event Withdrawn(
         address indexed account,
         address indexed dest,
         uint256 amount
     );
 
-    /// Emitted when depositFor is called, including the amount and account that was funded.
+    /// @notice Emitted when `depositFor` is called, including the amount and account that was funded.
     event Deposited(
         address indexed paymaster,
         address indexed from,
         uint256 amount
     );
 
-    /// Emitted when an attempt to relay a call fails and Paymaster does not accept the transaction.
-    /// The actual relayed call was not executed, and the recipient not charged.
-    /// @param reason contains a revert reason returned from preRelayedCall or forwarder.
+    /// @notice Emitted for each token configured for staking in setMinimumStakes
+    event StakingToken(
+        address token,
+        uint minimumStake
+    );
+
+    /**
+     * @notice Emitted when an attempt to relay a call fails and the `Paymaster` does not accept the transaction.
+     * The actual relayed call was not executed, and the recipient not charged.
+     * @param reason contains a revert reason returned from preRelayedCall or forwarder.
+     */
     event TransactionRejectedByPaymaster(
         address indexed relayManager,
         address indexed paymaster,
-        address indexed from,
+        bytes32 indexed relayRequestID,
+        address from,
         address to,
         address relayWorker,
         bytes4 selector,
@@ -717,14 +920,17 @@ interface IRelayHub {
         bytes reason
     );
 
-    /// Emitted when a transaction is relayed. Note that the actual encoded function might be reverted: this will be
-    /// indicated in the status field.
-    /// Useful when monitoring a relay's operation and relayed calls to a contract.
-    /// Charge is the ether value deducted from the recipient's balance, paid to the relay's manager.
+    /**
+     * @notice Emitted when a transaction is relayed. Note that the actual internal function call might be reverted.
+     * The reason for a revert will be indicated in the `status` field of a corresponding `RelayCallStatus` value.
+     * @notice `charge` is the Ether value deducted from the `Paymaster` balance.
+     * The amount added to the `relayManager` balance will be lower if there is an activated `devFee` in the `config`.
+     */
     event TransactionRelayed(
         address indexed relayManager,
         address indexed relayWorker,
-        address indexed from,
+        bytes32 indexed relayRequestID,
+        address from,
         address to,
         address paymaster,
         bytes4 selector,
@@ -732,20 +938,24 @@ interface IRelayHub {
         uint256 charge
     );
 
+    /// @notice This event is emitted in case the internal function returns a value or reverts with a revert string.
     event TransactionResult(
         RelayCallStatus status,
         bytes returnValue
     );
 
-    event HubDeprecated(uint256 fromBlock);
+    /// @notice This event is emitted in case this `RelayHub` is deprecated and will stop serving transactions soon.
+    event HubDeprecated(uint256 deprecationTime);
 
-    /// Reason error codes for the TransactionRelayed event
-    /// @param OK - the transaction was successfully relayed and execution successful - never included in the event
-    /// @param RelayedCallFailed - the transaction was relayed, but the relayed call failed
-    /// @param RejectedByPreRelayed - the transaction was not relayed due to preRelatedCall reverting
-    /// @param RejectedByForwarder - the transaction was not relayed due to forwarder check (signature,nonce)
-    /// @param PostRelayedFailed - the transaction was relayed and reverted due to postRelatedCall reverting
-    /// @param PaymasterBalanceChanged - the transaction was relayed and reverted due to the paymaster balance change
+    /**
+     * Error codes that describe all possible failure reasons reported in the `TransactionRelayed` event `status` field.
+     *  @param OK The transaction was successfully relayed and execution successful - never included in the event.
+     *  @param RelayedCallFailed The transaction was relayed, but the relayed call failed.
+     *  @param RejectedByPreRelayed The transaction was not relayed due to preRelatedCall reverting.
+     *  @param RejectedByForwarder The transaction was not relayed due to forwarder check (signature,nonce).
+     *  @param PostRelayedFailed The transaction was relayed and reverted due to postRelatedCall reverting.
+     *  @param PaymasterBalanceChanged The transaction was relayed and reverted due to the paymaster balance change.
+     */
     enum RelayCallStatus {
         OK,
         RelayedCallFailed,
@@ -756,136 +966,209 @@ interface IRelayHub {
         PaymasterBalanceChanged
     }
 
-    /// Add new worker addresses controlled by sender who must be a staked Relay Manager address.
-    /// Emits a RelayWorkersAdded event.
-    /// This function can be called multiple times, emitting new events
+    /**
+     * @notice Add new worker addresses controlled by the sender who must be a staked Relay Manager address.
+     * Emits a `RelayWorkersAdded` event.
+     * This function can be called multiple times, emitting new events.
+     */
     function addRelayWorkers(address[] calldata newRelayWorkers) external;
 
-    function registerRelayServer(uint256 baseRelayFee, uint256 pctRelayFee, string calldata url) external;
+    function verifyCanRegister(address relayManager) external;
 
     // Balance management
 
-    /// Deposits ether for a contract, so that it can receive (and pay for) relayed transactions. Unused balance can only
-    /// be withdrawn by the contract itself, by calling withdraw.
-    /// Emits a Deposited event.
+    /**
+     * @notice Deposits ether for a `Paymaster`, so that it can and pay for relayed transactions.
+     * :warning: **Warning** :warning: Unused balance can only be withdrawn by the holder itself, by calling `withdraw`.
+     * Emits a `Deposited` event.
+     */
     function depositFor(address target) external payable;
 
-    /// Withdraws from an account's balance, sending it back to it. Relay managers call this to retrieve their revenue, and
-    /// contracts can also use it to reduce their funding.
-    /// Emits a Withdrawn event.
+    /**
+     * @notice Withdraws from an account's balance, sending it back to the caller.
+     * Relay Managers call this to retrieve their revenue, and `Paymasters` can also use it to reduce their funding.
+     * Emits a `Withdrawn` event.
+     */
     function withdraw(uint256 amount, address payable dest) external;
 
     // Relaying
 
 
-    /// Relays a transaction. For this to succeed, multiple conditions must be met:
-    ///  - Paymaster's "preRelayCall" method must succeed and not revert
-    ///  - the sender must be a registered Relay Worker that the user signed
-    ///  - the transaction's gas price must be equal or larger than the one that was signed by the sender
-    ///  - the transaction must have enough gas to run all internal transactions if they use all gas available to them
-    ///  - the Paymaster must have enough balance to pay the Relay Worker for the scenario when all gas is spent
-    ///
-    /// If all conditions are met, the call will be relayed and the recipient charged.
-    ///
-    /// Arguments:
-    /// @param maxAcceptanceBudget - max valid value for paymaster.getGasLimits().acceptanceBudget
-    /// @param relayRequest - all details of the requested relayed call
-    /// @param signature - client's EIP-712 signature over the relayRequest struct
-    /// @param approvalData: dapp-specific data forwarded to preRelayedCall.
-    ///        This value is *not* verified by the Hub. For example, it can be used to pass a signature to the Paymaster
-    /// @param externalGasLimit - the value passed as gasLimit to the transaction.
-    ///
-    /// Emits a TransactionRelayed event.
+    /**
+     * @notice Relays a transaction. For this to succeed, multiple conditions must be met:
+     *  - `Paymaster`'s `preRelayCall` method must succeed and not revert.
+     *  - the `msg.sender` must be a registered Relay Worker that the user signed to use.
+     *  - the transaction's gas fees must be equal or larger than the ones that were signed by the sender.
+     *  - the transaction must have enough gas to run all internal transactions if they use all gas available to them.
+     *  - the `Paymaster` must have enough balance to pay the Relay Worker if all gas is spent.
+     *
+     * @notice If all conditions are met, the call will be relayed and the `Paymaster` charged.
+     *
+     * @param maxAcceptanceBudget The maximum valid value for `paymaster.getGasLimits().acceptanceBudget` to return.
+     * @param relayRequest All details of the requested relayed call.
+     * @param signature The client's EIP-712 signature over the `relayRequest` struct.
+     * @param approvalData The dapp-specific data forwarded to the `Paymaster`'s `preRelayedCall` method.
+     * This value is **not** verified by the `RelayHub` in any way.
+     * As an example, it can be used to pass some kind of a third-party signature to the `Paymaster` for verification.
+     *
+     * Emits a `TransactionRelayed` event regardless of whether the transaction succeeded or failed.
+     */
     function relayCall(
-        uint maxAcceptanceBudget,
+        uint256 maxAcceptanceBudget,
         GsnTypes.RelayRequest calldata relayRequest,
         bytes calldata signature,
-        bytes calldata approvalData,
-        uint externalGasLimit
+        bytes calldata approvalData
     )
     external
     returns (bool paymasterAccepted, bytes memory returnValue);
 
+    /**
+     * @notice In case the Relay Worker has been found to be in violation of some rules by the `Penalizer` contract,
+     * the `Penalizer` will call this method to execute a penalization.
+     * The `RelayHub` will look up the Relay Manager of the given Relay Worker and will forward the call to
+     * the `StakeManager` contract. The `RelayHub` does not perform the actual penalization either.
+     * @param relayWorker The address of the Relay Worker that committed a penalizable offense.
+     * @param beneficiary The address that called the `Penalizer` and will receive a reward for it.
+     */
     function penalize(address relayWorker, address payable beneficiary) external;
 
+    /**
+     * @notice Sets or changes the configuration of this `RelayHub`.
+     * @param _config The new configuration.
+     */
     function setConfiguration(RelayHubConfig memory _config) external;
 
-    // Deprecate hub (reverting relayCall()) from block number 'fromBlock'
-    // Can only be called by owner
-    function deprecateHub(uint256 fromBlock) external;
+    /**
+     * @notice Sets or changes the minimum amount of a given `token` that needs to be staked so that the Relay Manager
+     * is considered to be 'staked' by this `RelayHub`. Zero value means this token is not allowed for staking.
+     * @param token An array of addresses of ERC-20 compatible tokens.
+     * @param minimumStake An array of minimal amounts necessary for a corresponding token, in wei.
+     */
+    function setMinimumStakes(IERC20[] memory token, uint256[] memory minimumStake) external;
 
-    /// The fee is expressed as a base fee in wei plus percentage on actual charge.
-    /// E.g. a value of 40 stands for a 40% fee, so the recipient will be
-    /// charged for 1.4 times the spent amount.
+    /**
+     * @notice Deprecate hub by reverting all incoming `relayCall()` calls starting from a given timestamp
+     * @param _deprecationTime The timestamp in seconds after which the `RelayHub` stops serving transactions.
+     */
+    function deprecateHub(uint256 _deprecationTime) external;
+
+    /**
+     * @notice The fee is expressed as a base fee in wei plus percentage of the actual charge.
+     * For example, a value '40' stands for a 40% fee, so the recipient will be charged for 1.4 times the spent amount.
+     * @param gasUsed An amount of gas used by the transaction.
+     * @param relayData The details of a transaction signed by the sender.
+     * @return The calculated charge, in wei.
+     */
     function calculateCharge(uint256 gasUsed, GsnTypes.RelayData calldata relayData) external view returns (uint256);
 
+    /**
+     * @notice The fee is expressed as a  percentage of the actual charge.
+     * For example, a value '40' stands for a 40% fee, so the Relay Manager will only get 60% of the `charge`.
+     * @param charge The amount of Ether in wei the Paymaster will be charged for this transaction.
+     * @return The calculated devFee, in wei.
+     */
+    function calculateDevCharge(uint256 charge) external view returns (uint256);
     /* getters */
 
-    /// Returns the whole hub configuration
+    /// @return config The configuration of the `RelayHub`.
     function getConfiguration() external view returns (RelayHubConfig memory config);
 
-    function calldataGasCost(uint256 length) external view returns (uint256);
+    /**
+     * @param token An address of an ERC-20 compatible tokens.
+     * @return The minimum amount of a given `token` that needs to be staked so that the Relay Manager
+     * is considered to be 'staked' by this `RelayHub`. Zero value means this token is not allowed for staking.
+     */
+    function getMinimumStakePerToken(IERC20 token) external view returns (uint256);
 
-    function workerToManager(address worker) external view returns(address);
+    /**
+     * @param worker An address of the Relay Worker.
+     * @return The address of its Relay Manager.
+     */
+    function getWorkerManager(address worker) external view returns (address);
 
-    function workerCount(address manager) external view returns(uint256);
+    /**
+     * @param manager An address of the Relay Manager.
+     * @return The count of Relay Workers associated with this Relay Manager.
+     */
+    function getWorkerCount(address manager) external view returns (uint256);
 
-    /// Returns an account's deposits. It can be either a deposit of a paymaster, or a revenue of a relay manager.
+    /// @return An account's balance. It can be either a deposit of a `Paymaster`, or a revenue of a Relay Manager.
     function balanceOf(address target) external view returns (uint256);
 
-    function stakeManager() external view returns (IStakeManager);
+    /// @return The `StakeManager` address for this `RelayHub`.
+    function getStakeManager() external view returns (IStakeManager);
 
-    function penalizer() external view returns (address);
+    /// @return The `Penalizer` address for this `RelayHub`.
+    function getPenalizer() external view returns (address);
 
-    /// Uses StakeManager info to decide if the Relay Manager can be considered staked
-    /// @return true if stake size and delay satisfy all requirements
-    function isRelayManagerStaked(address relayManager) external view returns(bool);
+    /// @return The `RelayRegistrar` address for this `RelayHub`.
+    function getRelayRegistrar() external view returns (address);
 
-    // Checks hubs' deprecation status
+    /// @return The `BatchGateway` address for this `RelayHub`.
+    function getBatchGateway() external view returns (address);
+
+    /**
+     * @notice Uses `StakeManager` to decide if the Relay Manager can be considered staked or not.
+     * Returns if the stake's token, amount and delay satisfy all requirements, reverts otherwise.
+     */
+    function verifyRelayManagerStaked(address relayManager) external view;
+
+    /// @return `true` if the `RelayHub` is deprecated, `false` it it is not deprecated and can serve transactions.
     function isDeprecated() external view returns (bool);
 
-    // Returns the block number from which the hub no longer allows relaying calls.
-    function deprecationBlock() external view returns (uint256);
+    /// @return The timestamp from which the hub no longer allows relaying calls.
+    function getDeprecationTime() external view returns (uint256);
 
-    /// @return a SemVer-compliant version of the hub contract
+    /// @return The block number in which the contract has been deployed.
+    function getCreationBlock() external view returns (uint256);
+
+    /// @return a SemVer-compliant version of the `RelayHub` contract.
     function versionHub() external view returns (string memory);
+
+    /// @return A total measurable amount of gas left to current execution. Same as 'gasleft()' for pure EVMs.
+    function aggregateGasleft() external view returns (uint256);
 }
 
 
 // File: @opengsn/contracts/src/interfaces/IRelayRecipient.sol
-pragma solidity >=0.7.6;
+pragma solidity >=0.6.0;
 
 /**
- * a contract must implement this interface in order to support relayed transaction.
- * It is better to inherit the BaseRelayRecipient as its implementation.
+ * @title The Relay Recipient Base Abstract Class - Declarations
+ *
+ * @notice A contract must implement this interface in order to support relayed transaction.
+ *
+ * @notice It is recommended that your contract inherits from the BaseRelayRecipient contract.
  */
 abstract contract IRelayRecipient {
 
     /**
-     * return if the forwarder is trusted to forward relayed transactions to us.
-     * the forwarder is required to verify the sender's signature, and verify
-     * the call is not a replay.
+     * :warning: **Warning** :warning: The Forwarder can have a full control over your Recipient. Only trust verified Forwarder.
+     * @param forwarder The address of the Forwarder contract that is being used.
+     * @return isTrustedForwarder `true` if the Forwarder is trusted to forward relayed transactions by this Recipient.
      */
     function isTrustedForwarder(address forwarder) public virtual view returns(bool);
 
     /**
-     * return the sender of this call.
-     * if the call came through our trusted forwarder, then the real sender is appended as the last 20 bytes
-     * of the msg.data.
-     * otherwise, return `msg.sender`
-     * should be used in the contract anywhere instead of msg.sender
+     * @notice Use this method the contract anywhere instead of msg.sender to support relayed transactions.
+     * @return sender The real sender of this call.
+     * For a call that came through the Forwarder the real sender is extracted from the last 20 bytes of the `msg.data`.
+     * Otherwise simply returns `msg.sender`.
      */
-    function _msgSender() internal virtual view returns (address payable);
+    function _msgSender() internal virtual view returns (address);
 
     /**
-     * return the msg.data of this call.
-     * if the call came through our trusted forwarder, then the real sender was appended as the last 20 bytes
-     * of the msg.data - so this method will strip those 20 bytes off.
-     * otherwise (if the call was made directly and not through the forwarder), return `msg.data`
-     * should be used in the contract instead of msg.data, where this difference matters.
+     * @notice Use this method in the contract instead of `msg.data` when difference matters (hashing, signature, etc.)
+     * @return data The real `msg.data` of this call.
+     * For a call that came through the Forwarder, the real sender address was appended as the last 20 bytes
+     * of the `msg.data` - so this method will strip those 20 bytes off.
+     * Otherwise (if the call was made directly and not through the forwarder) simply returns `msg.data`.
      */
-    function _msgData() internal virtual view returns (bytes memory);
+    function _msgData() internal virtual view returns (bytes calldata);
 
+    /**
+     * @return version The SemVer string of this Recipient's version.
+     */
     function versionRecipient() external virtual view returns (string memory);
 }
 
@@ -893,7 +1176,7 @@ abstract contract IRelayRecipient {
 // minimal bytes manipulation required by GSN
 // a minimal subset from 0x/LibBytes
 /* solhint-disable no-inline-assembly */
-pragma solidity >=0.7.6;
+pragma solidity ^0.8.0;
 
 library MinLibBytes {
 
@@ -991,28 +1274,49 @@ library MinLibBytes {
 
 // File: @opengsn/contracts/src/utils/GsnUtils.sol
 /* solhint-disable no-inline-assembly */
-pragma solidity >=0.7.6;
+pragma solidity ^0.8.0;
 
 
+/**
+ * @title The GSN Solidity Utils Library
+ * @notice Some library functions used throughout the GSN Solidity codebase.
+ */
 library GsnUtils {
 
     /**
-     * extract method sig from encoded function call
+     * @notice Calculate an identifier for the meta-transaction in a format similar to a transaction hash.
+     * Note that uniqueness relies on signature and may not be enforced if meta-transactions are verified
+     * with a different algorithm, e.g. when batching.
+     * @param relayRequest The `RelayRequest` for which an ID is being calculated.
+     * @param signature The signature for the `RelayRequest`. It is not validated here and may even remain empty.
+     */
+    function getRelayRequestID(GsnTypes.RelayRequest calldata relayRequest, bytes calldata signature)
+    internal
+    pure
+    returns (bytes32) {
+        return keccak256(abi.encode(relayRequest.request.from, relayRequest.request.nonce, signature));
+    }
+
+    /**
+     * @notice Extract the method identifier signature from the encoded function call.
      */
     function getMethodSig(bytes memory msgData) internal pure returns (bytes4) {
         return MinLibBytes.readBytes4(msgData, 0);
     }
 
     /**
-     * extract parameter from encoded-function block.
+     * @notice Extract a parameter from encoded-function block.
      * see: https://solidity.readthedocs.io/en/develop/abi-spec.html#formal-specification-of-the-encoding
-     * the return value should be casted to the right type (uintXXX/bytesXXX/address/bool/enum)
+     * The return value should be casted to the right type (`uintXXX`/`bytesXXX`/`address`/`bool`/`enum`).
+     * @param msgData Byte array containing a uint256 value.
+     * @param index Index in byte array of uint256 value.
+     * @return result uint256 value from byte array.
      */
-    function getParam(bytes memory msgData, uint index) internal pure returns (uint) {
+    function getParam(bytes memory msgData, uint256 index) internal pure returns (uint256 result) {
         return MinLibBytes.readUint256(msgData, 4 + index * 32);
     }
 
-    //re-throw revert with the same revert data.
+    /// @notice Re-throw revert with the same revert data.
     function revertWithData(bytes memory data) internal pure {
         assembly {
             revert(add(data,32), mload(data))
@@ -1022,21 +1326,22 @@ library GsnUtils {
 }
 
 // File: @opengsn/contracts/src/utils/GsnEip712Library.sol
-pragma solidity >=0.7.6;
+pragma solidity ^0.8.0;
 
 
 
 /**
- * Bridge Library to map GSN RelayRequest into a call of a Forwarder
+ * @title The ERC-712 Library for GSN
+ * @notice Bridge Library to convert a GSN RelayRequest into a valid `ForwardRequest` for a `Forwarder`.
  */
 library GsnEip712Library {
     // maximum length of return value/revert reason for 'execute' method. Will truncate result if exceeded.
     uint256 private constant MAX_RETURN_SIZE = 1024;
 
     //copied from Forwarder (can't reference string constants even from another library)
-    string public constant GENERIC_PARAMS = "address from,address to,uint256 value,uint256 gas,uint256 nonce,bytes data,uint256 validUntil";
+    string public constant GENERIC_PARAMS = "address from,address to,uint256 value,uint256 gas,uint256 nonce,bytes data,uint256 validUntilTime";
 
-    bytes public constant RELAYDATA_TYPE = "RelayData(uint256 gasPrice,uint256 pctRelayFee,uint256 baseRelayFee,address relayWorker,address paymaster,address forwarder,bytes paymasterData,uint256 clientId)";
+    bytes public constant RELAYDATA_TYPE = "RelayData(uint256 maxFeePerGas,uint256 maxPriorityFeePerGas,uint256 pctRelayFee,uint256 baseRelayFee,address relayWorker,address paymaster,address forwarder,bytes paymasterData,uint256 clientId)";
 
     string public constant RELAY_REQUEST_NAME = "RelayRequest";
     string public constant RELAY_REQUEST_SUFFIX = string(abi.encodePacked("RelayData relayData)", RELAYDATA_TYPE));
@@ -1119,7 +1424,7 @@ library GsnEip712Library {
         MinLibBytes.truncateInPlace(data, MAX_RETURN_SIZE);
     }
 
-    function domainSeparator(address forwarder) internal pure returns (bytes32) {
+    function domainSeparator(address forwarder) internal view returns (bytes32) {
         return hashDomain(EIP712Domain({
             name : "GSN Relayed Transaction",
             version : "2",
@@ -1128,7 +1433,7 @@ library GsnEip712Library {
             }));
     }
 
-    function getChainID() internal pure returns (uint256 id) {
+    function getChainID() internal view returns (uint256 id) {
         /* solhint-disable no-inline-assembly */
         assembly {
             id := chainid()
@@ -1147,7 +1452,8 @@ library GsnEip712Library {
     function hashRelayData(GsnTypes.RelayData calldata req) internal pure returns (bytes32) {
         return keccak256(abi.encode(
                 RELAYDATA_TYPEHASH,
-                req.gasPrice,
+                req.maxFeePerGas,
+                req.maxPriorityFeePerGas,
                 req.pctRelayFee,
                 req.baseRelayFee,
                 req.relayWorker,
@@ -1165,17 +1471,19 @@ pragma solidity >=0.7.6;
 
 
 /**
- * Abstract base class to be inherited by a concrete Paymaster
+ * @notice An abstract base class to be inherited by a concrete Paymaster.
  * A subclass must implement:
  *  - preRelayedCall
  *  - postRelayedCall
  */
-abstract contract BasePaymaster is IPaymaster, Ownable {
+abstract contract BasePaymaster is IPaymaster, Ownable, ERC165 {
+    using ERC165Checker for address;
 
     IRelayHub internal relayHub;
-    IForwarder public override trustedForwarder;
+    address private _trustedForwarder;
 
-    function getHubAddr() public override view returns (address) {
+    /// @inheritdoc IPaymaster
+    function getRelayHub() public override view returns (address) {
         return address(relayHub);
     }
 
@@ -1188,6 +1496,14 @@ abstract contract BasePaymaster is IPaymaster, Ownable {
     uint256 constant public PAYMASTER_ACCEPTANCE_BUDGET = PRE_RELAYED_CALL_GAS_LIMIT + FORWARDER_HUB_OVERHEAD;
     uint256 constant public CALLDATA_SIZE_LIMIT = 10500;
 
+    /// @inheritdoc IERC165
+    function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC165) returns (bool) {
+        return interfaceId == type(IPaymaster).interfaceId ||
+            interfaceId == type(Ownable).interfaceId ||
+            super.supportsInterface(interfaceId);
+    }
+
+    /// @inheritdoc IPaymaster
     function getGasAndDataLimits()
     public
     override
@@ -1210,51 +1526,61 @@ abstract contract BasePaymaster is IPaymaster, Ownable {
     public
     view
     {
-        require(address(trustedForwarder) == relayRequest.relayData.forwarder, "Forwarder is not trusted");
+        require(address(_trustedForwarder) == relayRequest.relayData.forwarder, "Forwarder is not trusted");
         GsnEip712Library.verifyForwarderTrusted(relayRequest);
     }
 
-    /*
-     * modifier to be used by recipients as access control protection for preRelayedCall & postRelayedCall
+    /**
+     * @notice Modifier to be used by recipients as access control protection for `preRelayedCall` & `postRelayedCall`
      */
     modifier relayHubOnly() {
-        require(msg.sender == getHubAddr(), "can only be called by RelayHub");
+        require(msg.sender == getRelayHub(), "can only be called by RelayHub");
         _;
     }
 
+    /**
+     * @notice The owner of the Paymaster can change the instance of the RelayHub this Paymaster works with.
+     * :warning: **Warning** :warning: The deposit on the previous RelayHub must be withdrawn first.
+     */
     function setRelayHub(IRelayHub hub) public onlyOwner {
+        require(address(hub).supportsInterface(type(IRelayHub).interfaceId), "target is not a valid IRelayHub");
         relayHub = hub;
     }
 
-    function setTrustedForwarder(IForwarder forwarder) public onlyOwner {
-        trustedForwarder = forwarder;
+    /**
+     * @notice The owner of the Paymaster can change the instance of the Forwarder this Paymaster works with.
+     * @notice the Recipients must trust this Forwarder as well in order for the configuration to remain functional.
+     */
+    function setTrustedForwarder(address forwarder) public virtual onlyOwner {
+        require(forwarder.supportsInterface(type(IForwarder).interfaceId), "target is not a valid IForwarder");
+        _trustedForwarder = forwarder;
     }
 
-    /// check current deposit on relay hub.
-    function getRelayHubDeposit()
-    public
-    override
-    view
-    returns (uint) {
-        return relayHub.balanceOf(address(this));
+    function getTrustedForwarder() public virtual view override returns (address){
+        return _trustedForwarder;
     }
 
-    // any money moved into the paymaster is transferred as a deposit.
-    // This way, we don't need to understand the RelayHub API in order to replenish
-    // the paymaster.
+    /**
+     * @notice Any native Ether transferred into the paymaster is transferred as a deposit to the RelayHub.
+     * This way, we don't need to understand the RelayHub API in order to replenish the paymaster.
+     */
     receive() external virtual payable {
         require(address(relayHub) != address(0), "relay hub address not set");
         relayHub.depositFor{value:msg.value}(address(this));
     }
 
-    /// withdraw deposit from relayHub
-    function withdrawRelayHubDepositTo(uint amount, address payable target) public onlyOwner {
+    /**
+     * @notice Withdraw deposit from the RelayHub.
+     * @param amount The amount to be subtracted from the sender.
+     * @param target The target to which the amount will be transferred.
+     */
+    function withdrawRelayHubDepositTo(uint256 amount, address payable target) public onlyOwner {
         relayHub.withdraw(amount, target);
     }
 }
 
 // File: contracts/SingleRecipientPaymaster.sol
-pragma solidity ^0.7.6;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 
@@ -1267,12 +1593,19 @@ contract SingleRecipientPaymaster is BasePaymaster {
 
     address public target;
 
+    event TargetChanged(address oldTarget, address newTarget);
+
     constructor(address _target) {
         target=_target;
     }
 
     function versionPaymaster() external view override virtual returns (string memory){
-        return "3.0.0+opengsn.recipient.ipaymaster";
+        return "3.0.0-alpha.2+opengsn.recipient.ipaymaster";
+    }
+
+    function setTarget(address _target) external onlyOwner {
+        emit TargetChanged(target, _target);
+        target=_target;
     }
 
     function preRelayedCall(

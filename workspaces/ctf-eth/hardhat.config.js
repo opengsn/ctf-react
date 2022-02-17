@@ -29,7 +29,7 @@ infura = process.env.INFURA_ID
 // defaultNetwork, networks, solc, and paths.
 // Go to https://buidler.dev/config/ to learn more
 module.exports = {
-  solidity: "0.7.6",
+  solidity: "0.8.7",
   defaultNetwork: 'development',
   networks: {
     development: {
@@ -102,21 +102,7 @@ module.exports = {
 
     //official addresses from https://docs.opengsn.org/networks
     forwarder: {
-      1: '0xAa3E82b4c4093b4bA13Cb5714382C99ADBf750cA',
-      3: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
-      4: '0x83A54884bE4657706785D7309cf46B58FE5f6e8a',
-      80001: '0x4d4581c01A457925410cd3877d17b2fd4553b2C5',
-      6: '0x255fc98fE2C2564CF361E6dCD233862f884826E5',
-      61: '0x0DEEF5a1e5bF8794A5145e052E24A852a081AF65',
-      100: '0x7eEae829DF28F9Ce522274D5771A6Be91d00E5ED',
-      42: '0x7eEae829DF28F9Ce522274D5771A6Be91d00E5ED',
-      97: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
-      56: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
-      137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d',
-      69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae',
-      10: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715',
-      421611: '0x7436B070b662bFC1619BdE0B6c8b2fbe086c62de',
-      200: '0xDFdA581eE8bf25Ade192DE74BcaE0A60b9860B33'
+      42: '0xc2355791037437546251EE6b0401eFe268783301',
     }
   }
 }
