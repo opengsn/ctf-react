@@ -19,11 +19,12 @@
     "run-with-testrpc": "^0.3.1"
   },
   "dependencies": {
-    "@opengsn/cli": "^2.2.5",
-    "@opengsn/contracts": "^2.2.5",
-    "@opengsn/dev": "^2.2.5",
-    "@opengsn/provider": "^2.2.5",
+    "@opengsn/cli": "^3.0.0-alpha.4.1",
+    "@opengsn/contracts": "^3.0.0-alpha.4.1",
+    "@opengsn/dev": "^3.0.0-alpha.4.1",
+    "@opengsn/provider": "^3.0.0-alpha.4.1",
     "@openzeppelin/contracts": "^4.4.2",
-    "ethers": "^5.4.1"
+    "ethers": "^5.4.1",
+    "hardhat-deploy": "^0.11.4"
   }
 }

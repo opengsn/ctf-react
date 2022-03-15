@@ -22,6 +22,30 @@ try {
 }
 
 export const networks: { [chain: number]: NetworkType } = {
+  5: {
+    name: 'Goerli',
+    etherscan: 'https://goerli.etherscan.io/address/',
+    paymaster: '0x32958b9199974Ec0715D1DBBd152B7e6C8373fC6',
+    ctf: '0xE03E44D8bCeAfa79cD79208322135B014b7063b5'
+  },
+  69: {
+    name: 'Optimism kovan',
+    etherscan: 'https://kovan-optimistic.etherscan.io/address/',
+    paymaster: "0x255fc98fE2C2564CF361E6dCD233862f884826E5",
+    ctf: '0x57104d907A75FbF222639a7D47ED4396dCE02a96'
+  },
+  80001: {
+    name: 'Mumbai',
+    etherscan: 'https://explorer-mumbai.maticvigil.com/address/',
+    paymaster: "0xb4Bbb5e968e278C6541addBC24b903712746f102",
+    ctf: '0x43a4c7fbf4ee9ba0b9156b7c39ded8921db300a4'
+  },
+  43113: {
+    name: 'Fuji (Avalanche Testnet)',
+    etherscan: 'https://testnet.snowtrace.io/address/',
+    paymaster: '0xcA94aBEdcC18A10521aB7273B3F3D5ED28Cf7B8A',
+    ctf: '0x5Aa3c9e8a62C35E656C1CC601aa91107800278FC'
+  },
   /* old deployments - not 3.0 alpha 2...
   1: {
     name: 'Ethereum Mainnet',
@@ -44,13 +68,6 @@ export const networks: { [chain: number]: NetworkType } = {
 //    relayLookupWindowBlocks: 1e5,
 //    relayRegistrationLookupBlocks: 1e5,
     ctf: '0xD2E87f2532bC175DA4700072cA4a5cfE66b833fA'
-  },
-
-  80001: {
-    name: 'Mumbai',
-    etherscan: 'https://explorer-mumbai.maticvigil.com/address/',
-    paymaster: '0xcA94aBEdcC18A10521aB7273B3F3D5ED28Cf7B8A',
-    ctf: '0xB8308F78A8f56a0A57882Cd8b523F4580e58b7c7'
   },
 
   6: {
@@ -154,21 +171,27 @@ export const networks: { [chain: number]: NetworkType } = {
     relayLookupWindowBlocks: 99000,
     relayRegistrationLookupBlocks: 99000
   },
-*/
   42: {
     name: 'kovan',
     etherscan: 'https://kovan.etherscan.io/address/',
     paymaster: '0x432c8e88294e1c64bF590D092130C82545639894', //3-alpha3
-    ctf: '0x8c956d2104D7B8483572b02A945230E0dEF90cc9', //3-alpha2
+    ctf: '0x47EBb6Ed7DC0dea307BB5635785cE626Fa2290f7', //3-alpha3
   },
   
   421611: {
     name: 'Arbitrum-Rinkeby',
     etherscan: 'https://testnet.arbiscan.io/address/',
-    paymaster: '0x745daDe3c11b80806180953d32f75B2B8b96BDa9',
-    ctf: '0x741940C70E23402ea897678E1bAF8C044BDB8c0D', 
+    paymaster: '0x077ed681eB435B355eed95903021740e9C35a7Ed',
+    ctf: '0x077ed681eB435B355eed95903021740e9C35a7Ed', 
+  },
+  200: {
+    name: 'Arbitrum-xDai',
+    etherscan: 'https://blockscout.com/xdai/aox/address/',
+    paymaster: '0xc94634441D0F04ab5624CeBd6eF2A96a66202BAD',
+    ctf: '0xcA94aBEdcC18A10521aB7273B3F3D5ED28Cf7B8A',
   },
 
+*/
 
   1337: localnetwork
 }

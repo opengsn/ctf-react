@@ -29,7 +29,7 @@ infura = process.env.INFURA_ID
 // defaultNetwork, networks, solc, and paths.
 // Go to https://buidler.dev/config/ to learn more
 module.exports = {
-  solidity: "0.8.7",
+  solidity: "0.8.12",
   defaultNetwork: 'development',
   networks: {
     development: {
@@ -41,6 +41,10 @@ module.exports = {
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${infura}`,
+      accounts
+    },
+    goerli: {
+      url: `https://goerli.infura.io/v3/${infura}`,
       accounts
     },
     rinkeby: {
@@ -56,7 +60,8 @@ module.exports = {
       accounts
     },
     mumbai: {
-      url: `https://matic-mumbai.chainstacklabs.com`,
+      //url: `https://matic-mumbai.chainstacklabs.com`,
+      url: 'https://polygon-mumbai.infura.io/v3/2461e2a5b1914b508c16cdb31d0225bf',
       accounts
     },
     etc: {
@@ -91,6 +96,10 @@ module.exports = {
       url: `https://mainnet.optimism.io`,
       accounts
     },
+    fuji: {
+      url: `https://api.avax-test.network/ext/bc/C/rpc`, 
+      accounts
+    },
     rarb: { accounts, url: `https://arbitrum-rinkeby.infura.io/v3/${infura}` },
     aox: { accounts, url: 'https://arbitrum.xdaichain.com/' },
 
@@ -100,9 +109,11 @@ module.exports = {
     deployer: { default: 0 },
     metamask: '0xd21934eD8eAf27a67f0A70042Af50A1D6d195E81',
 
-    //official addresses from https://docs.opengsn.org/networks
     forwarder: {
-      42: '0xc2355791037437546251EE6b0401eFe268783301',
+      5: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
+      69: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
+      43113: "0x557F91c8ea60Aaf2C33b9BE3A80AC691103515F4",
+      80001: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
     }
   }
 }
