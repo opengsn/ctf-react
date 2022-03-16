@@ -90,7 +90,11 @@ module.exports = {
     optimism: {
       url: `https://mainnet.optimism.io`,
       accounts
-    }
+    },
+    avax: {
+      url: 'https://api.avax.network/ext/bc/C/rpc',
+      accounts
+    },
 
   },
 
@@ -112,7 +116,8 @@ module.exports = {
       56: '0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB',
       137: '0xdA78a11FD57aF7be2eDD804840eA7f4c2A38801d',
       69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae',
-      10: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715'
+      10: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715',
+      43114: '0x01a5a06C5Ba6E5f8FC9CB060492fae1b3d03c69d',
     }
   }
 }

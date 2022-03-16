@@ -127,6 +127,16 @@ export const networks: { [chain: number]: NetworkType } = {
     relayRegistrationLookupBlocks: 990
   },
 
+  43114: {
+    name: 'Avalache',
+    etherscan: 'https://snowtrace.io/address/',
+    paymaster: '0x10E207898E76137bb27b31609a275b0635080632',
+    ctf: '0x8fD27A87a126b22a5D7EC02794CAd873e1D58Ba4',
+    pastEventsQueryMaxPageSize: 2000,
+    relayLookupWindowBlocks: 4000,
+    relayRegistrationLookupBlocks: 4000
+  },
+
   1337: localnetwork
 }
 

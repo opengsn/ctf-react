@@ -91,7 +91,7 @@ export class Ctf {
 
     const currentBlock = (await this.ethersProvider.getBlockNumber()) - 1
     //look at most one month back (in 12-second block
-    const lookupWindow = global.network?.relayLookupWindowBlocks || 30 * 24 * 3600 / 12
+    const lookupWindow = global.network?.pastEventsQueryMaxPageSize || 30 * 24 * 3600 / 12
     const startBlock = Math.max(1, currentBlock - lookupWindow)
 
     const logs = await this.theContract.queryFilter(this.theContract.filters.FlagCaptured(), startBlock)
