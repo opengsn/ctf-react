@@ -110,7 +110,7 @@ export const networks: { [chain: number]: NetworkType } = {
 
   300: {
     name: 'Optimism GC',
-    etherscan: 'https://blockscout.com/xdai/optimism/',
+    etherscan: 'https://blockscout.com/xdai/optimism/address/',
     paymaster: '0x28E036dB9727a9d5ee9373DBAAe14B422D83a017', //2.2
     ctf: '0x39A2431c3256028a07198D2D27FD120a1f81ecae' //2.2
   },
