@@ -108,6 +108,13 @@ export const networks: { [chain: number]: NetworkType } = {
     relayLookupWindowBlocks: 5e9
   },
 
+  300: {
+    name: 'Optimism GC',
+    etherscan: 'https://blockscout.com/xdai/optimism/',
+    paymaster: '0x28E036dB9727a9d5ee9373DBAAe14B422D83a017', //2.2
+    ctf: '0x39A2431c3256028a07198D2D27FD120a1f81ecae' //2.2
+  },
+
   10: {
     name: 'Optimism',
     etherscan: 'https://optimistic.etherscan.io/address/',

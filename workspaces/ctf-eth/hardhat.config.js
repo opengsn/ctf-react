@@ -87,6 +87,10 @@ module.exports = {
       url: `https://kovan.optimism.io`,
       accounts
     },
+    optimism_xdai: {
+      url: `https://optimism.gnosischain.com`,
+      accounts
+    },
     optimism: {
       url: `https://mainnet.optimism.io`,
       accounts
@@ -118,6 +122,7 @@ module.exports = {
       69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae',
       10: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715',
       43114: '0x01a5a06C5Ba6E5f8FC9CB060492fae1b3d03c69d',
+      300: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715',
     }
   }
 }
