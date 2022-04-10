@@ -22,5 +22,8 @@
   ],
   "dependencies": {
     "typescript": "^4.3.5"
+  },
+  "engines": {
+    "node": ">=12.18 <15"
   }
 }
