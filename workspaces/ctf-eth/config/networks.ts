@@ -143,6 +143,15 @@ export const networks: { [chain: number]: NetworkType } = {
     relayLookupWindowBlocks: 4000,
     relayRegistrationLookupBlocks: 4000
   },
+  43113: {
+    name: 'Avalache Testnet(fuji)',
+    etherscan: 'https://testnet.snowtrace.io/address/',
+    paymaster: '0x9552C037217B46398B1c928e0e5b086C5f5F4aB3',
+    ctf: '0xBb3BD33eA522dc7eDb151508F3699fa91F5FA5C9',
+    pastEventsQueryMaxPageSize: 2000,
+    relayLookupWindowBlocks: 4000,
+    relayRegistrationLookupBlocks: 4000
+  },
 
   1337: localnetwork
 }

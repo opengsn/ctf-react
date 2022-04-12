@@ -29,7 +29,7 @@ infura = process.env.INFURA_ID
 // defaultNetwork, networks, solc, and paths.
 // Go to https://buidler.dev/config/ to learn more
 module.exports = {
-  solidity: "0.7.6",
+  solidity: "v0.8.1+commit.df193b15",
   defaultNetwork: 'development',
   networks: {
     development: {
@@ -99,7 +99,10 @@ module.exports = {
       url: 'https://api.avax.network/ext/bc/C/rpc',
       accounts
     },
-
+    fuji: {
+      url: 'https://api.avax-test.network/ext/bc/C/rpc',
+      accounts
+    },
   },
 
   namedAccounts: {
@@ -122,6 +125,7 @@ module.exports = {
       69: '0x39A2431c3256028a07198D2D27FD120a1f81ecae',
       10: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715',
       43114: '0x01a5a06C5Ba6E5f8FC9CB060492fae1b3d03c69d',
+      43113: '0xDFdA581eE8bf25Ade192DE74BcaE0A60b9860B33',
       300: '0x67097a676FCb14dc0Ff337D0D1F564649aD94715',
     }
   }
