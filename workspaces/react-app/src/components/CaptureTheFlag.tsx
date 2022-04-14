@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Progress, Address, ActionButton, Log, sleep} from './utils'
 import {GsnStatus} from "./GsnStatus";
-import {Ctf, initCtf} from "@ctf/eth";
+import {Ctf, initCtf, getNetworks} from "@ctf/eth";
 
 declare let window: { ethereum: any }
 
@@ -94,6 +94,7 @@ export class CaptureTheFlag extends Component {
     const res = await this.ctf!.capture()
     this.setState({status: "txhash=" + res.hash.slice(0, 20) + ' waiting for mining'})
     const res2 = await res.wait()
+    console.log( 'mined!')
     this.setState({total: null, step: null, status: 'Mined in block: ' + res2.blockNumber})
   }
 
@@ -135,6 +136,13 @@ export class CaptureTheFlag extends Component {
 
         <Log events={this.state.events}/>
       </div>
+
+      <hr/>
+      Currently Deployed on Networks: 
+      {
+        Object.entries(getNetworks()).map(([chain, name]) => " "+name).join( " , ")
+      }
+      <hr/>
 
       {this.ctf && <GsnStatus ctf={this.ctf} /> }
     </>

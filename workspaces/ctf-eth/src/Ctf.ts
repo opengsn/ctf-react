@@ -128,6 +128,22 @@ export class Ctf {
   }
 }
 
+export async function switchNetwork(id:string) {
+  console.log( 'change network to ', id)
+  const provider = window.ethereum
+  await provider.request({
+    method: 'wallet_switchEthereumChain',
+    params: [{ chainId: id}],
+  });
+}
+
+export function getNetworks(): { [chain: number]: string } {
+  return Object.keys(networks)
+      .map(key=>parseInt(key))
+      .filter(key=>key != 1337 && key != 31337)
+      .reduce((set, key) => ({...set, [key]: networks[key].name}), {})
+}
+
 export async function initCtf(): Promise<Ctf> {
 
   let web3Provider = window.ethereum
@@ -169,7 +185,9 @@ export async function initCtf(): Promise<Ctf> {
   if (chainId !== parseInt(netid))
     console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`)
   if (!net || !net.paymaster) {
-    if (chainId.toString().match(/1337/) || window.location.href.match(/localhost|127.0.0.1/))
+    if (chainId.toString().match(/1337/)
+        // || window.location.href.match(/localhost|127.0.0.1/)
+    )
       throw new Error('To run locally, you must run "yarn evm" and then "yarn deploy" before "yarn react-start" ')
     else
       throw new Error(`Unsupported network (chainId=${chainId}) . please switch to one of: ` + Object.values(networks).map((n: any) => n.name).filter(n => n).join(' / '))
