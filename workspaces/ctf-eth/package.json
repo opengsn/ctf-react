@@ -8,7 +8,7 @@
     "deploy": "hardhat deploy",
     "clean": "rm -rf deployments/development build artifacts cache dist",
     "evm": "hardhat node --no-deploy",
-    "evm-with-gsn": "run-with-testrpc --networkId 1337 --chainId 1337 'yarn run gsn-start' ",
+    "evm-with-gsn": "run-with-testrpc --testrpc-cmd ./scripts/hardhat-node 'yarn run gsn-start' ",
     "gsn-start": "gsn start"
   },
   "devDependencies": {
