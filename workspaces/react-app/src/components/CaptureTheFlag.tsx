@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Progress, Address, ActionButton, Log, sleep} from './utils'
 import {GsnStatus} from "./GsnStatus";
-import {Ctf, initCtf, getNetworks} from "@ctf/eth";
+import {Ctf, initCtf} from "@ctf/eth";
+import {NetSwitcher} from "./NetSwitcher";
 
 declare let window: { ethereum: any }
 
@@ -27,7 +28,9 @@ export class CaptureTheFlag extends Component {
     const ctf = this.ctf = await initCtf()
 
     this.gsnProvider = ctf.gsnProvider
-
+    if ( await (ctf.ethersProvider as Web3Provider).listAccounts().then(arr=>arr.length) === 0 ) {
+      throw new Error('Connect metamask first')
+    }
     const [current, events, account] = await Promise.all([
       ctf.getCurrentFlagHolder(),
       ctf.getPastEvents(),
@@ -137,13 +140,7 @@ export class CaptureTheFlag extends Component {
         <Log events={this.state.events}/>
       </div>
 
-      <hr/>
-      Currently Deployed on Networks: 
-      {
-        Object.entries(getNetworks()).map(([chain, name]) => " "+name).join( " , ")
-      }
-      <hr/>
-
+      <NetSwitcher currentChainId={this.ctf?.chainId} />
       {this.ctf && <GsnStatus ctf={this.ctf} /> }
     </>
   }
