@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Progress, Address, ActionButton, Log, sleep} from './utils'
 import {GsnStatus} from "./GsnStatus";
 import {Ctf, initCtf} from "@ctf/eth";
+import { Web3Provider } from '@ethersproject/providers';
 import {NetSwitcher} from "./NetSwitcher";
 
 declare let window: { ethereum: any }

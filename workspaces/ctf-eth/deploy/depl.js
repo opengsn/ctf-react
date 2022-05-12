@@ -26,17 +26,17 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
     const ctf = await new ethers.Contract(ret.address, ret.abi, signer)
     console.log( 'ctf address=', ctf.address)
 
-if ( process.env.DEPLOY_PM || chainId == 1337 || chainId == 31337 ) {
+if ( process.env.DEPLOY_PM ) { //|| chainId == 1337 || chainId == 31337 ) {
   console.log('Deploying paymaster:')
   ret = await deploy('SingleRecipientPaymaster', { gasPrice, from: deployer, args: [ctf.address] })
   const pm = await new ethers.Contract(ret.address, ret.abi, signer)
   console.log('pm address=', pm.address)
-  const currentForwrader = await pm.trustedForwarder()
+  const currentForwrader = await pm.getTrustedForwarder()
   if (currentForwrader == constants.ZERO_ADDRESS) {
     console.log('setting pm.forwrader')
     await pm.setTrustedForwarder(forwarder, { gasPrice })
   }
-  if (await pm.getHubAddr() == constants.ZERO_ADDRESS) {
+  if (await pm.getRelayHub() == constants.ZERO_ADDRESS) {
     console.log('setting relayhub to: ', hub)
     await pm.setRelayHub(hub, { gasPrice })
   }

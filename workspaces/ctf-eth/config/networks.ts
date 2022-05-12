@@ -25,7 +25,7 @@ export const networks: { [chain: number]: NetworkType } = {
   5: {
     name: 'Goerli',
     etherscan: 'https://goerli.etherscan.io/address/',
-    paymaster: '0x32958b9199974Ec0715D1DBBd152B7e6C8373fC6',
+    paymaster: '0x1B79E83B1F073819DC03350A0479A4c8fD2C2045',
     ctf: '0xE03E44D8bCeAfa79cD79208322135B014b7063b5'
   },
   69: {
@@ -43,8 +43,8 @@ export const networks: { [chain: number]: NetworkType } = {
   43113: {
     name: 'Fuji (Avalanche Testnet)',
     etherscan: 'https://testnet.snowtrace.io/address/',
-    paymaster: '0xcA94aBEdcC18A10521aB7273B3F3D5ED28Cf7B8A',
-    ctf: '0x5Aa3c9e8a62C35E656C1CC601aa91107800278FC'
+    paymaster: '0x4160aEf23c0bE22c5eB1Be17CD66e4839ef1DE12',
+    ctf: '0xCed86ce7F017D5a9E5Bb32919D07F2E70CD5016F'
   },
   /* old deployments - not 3.0 alpha 2...
   1: {

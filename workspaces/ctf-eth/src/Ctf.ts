@@ -3,6 +3,7 @@ import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
 import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
 
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
+import {hexlify, hexValue, hexZeroPad} from '@ethersproject/bytes';
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
@@ -34,7 +35,7 @@ export class Ctf {
 
   blockDates: { [key: number]: Date } = {}
 
-  constructor(readonly address: string, signer: Signer, readonly gsnProvider: RelayProvider) {
+  constructor(readonly address: string, signer: Signer, readonly gsnProvider: RelayProvider, readonly chainId: number) {
     this.ethersProvider = signer.provider!
 
     this.gsnProvider = gsnProvider
@@ -108,8 +109,11 @@ export class Ctf {
     this.ethersProvider.getGasPrice().then(price => console.log('== gas price=', price.toString()))
     const gasFees = await this.gsnProvider.calculateGasFees()
     gasFees.maxPriorityFeePerGas = gasFees.maxFeePerGas
-      console.log('gas fees=', gasFees)
-    return await this.theContract.captureTheFlag({...gasFees})
+    console.log('gas fees=', gasFees)
+    const gasLimit = 1e6
+    const ret =  await this.theContract.captureTheFlag({gasLimit, ...gasFees})
+    console.log('post-capture ret=',ret)
+    return ret
   }
 
   async getGsnStatus(): Promise<GsnStatusInfo> {
@@ -129,18 +133,20 @@ export class Ctf {
 }
 
 export async function switchNetwork(id:string) {
-  console.log( 'change network to ', id)
+  // hexlify and even "hexlify(parseInt(id))" doesn't work for "5"
+  const hexChain = '0x'+parseInt(id).toString(16)
+  console.log( 'change network to ', hexChain)
   const provider = window.ethereum
   await provider.request({
     method: 'wallet_switchEthereumChain',
-    params: [{ chainId: id}],
+    params: [{ chainId: hexChain}],
   });
 }
 
 export function getNetworks(): { [chain: number]: string } {
   return Object.keys(networks)
       .map(key=>parseInt(key))
-      .filter(key=>key != 1337 && key != 31337)
+      .filter(key=>window.location.href.match(/local/) || (key != 1337 && key != 31337) )
       .reduce((set, key) => ({...set, [key]: networks[key].name}), {})
 }
 
@@ -205,5 +211,5 @@ export async function initCtf(): Promise<Ctf> {
 
   const signer = provider2.getSigner()
 
-  return new Ctf(net.ctf, signer, gsnProvider)
+  return new Ctf(net.ctf, signer, gsnProvider, chainId)
 }
