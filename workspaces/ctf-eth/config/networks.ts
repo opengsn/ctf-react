@@ -31,19 +31,19 @@ export const networks: { [chain: number]: NetworkType } = {
   69: {
     name: 'Optimism kovan',
     etherscan: 'https://kovan-optimistic.etherscan.io/address/',
-    paymaster: "0x255fc98fE2C2564CF361E6dCD233862f884826E5",
+    paymaster: "0x237085d39405e0f1A57D4f69F2Be98519b410D66",
     ctf: '0x57104d907A75FbF222639a7D47ED4396dCE02a96'
   },
   80001: {
     name: 'Mumbai',
     etherscan: 'https://explorer-mumbai.maticvigil.com/address/',
-    paymaster: "0xb4Bbb5e968e278C6541addBC24b903712746f102",
+    paymaster: "0x7Da86B0A86578d1dF10EbebBf4EEBA874b7aE3C5",
     ctf: '0x43a4c7fbf4ee9ba0b9156b7c39ded8921db300a4'
   },
   43113: {
     name: 'Fuji (Avalanche Testnet)',
     etherscan: 'https://testnet.snowtrace.io/address/',
-    paymaster: '0x4160aEf23c0bE22c5eB1Be17CD66e4839ef1DE12',
+    paymaster: '0x5B79B2291BaF5213a34d0f16B4865408452D5385',
     ctf: '0xCed86ce7F017D5a9E5Bb32919D07F2E70CD5016F'
   },
   /* old deployments - not 3.0 alpha 2...
