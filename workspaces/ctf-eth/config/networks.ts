@@ -193,6 +193,6 @@ export const networks: { [chain: number]: NetworkType } = {
 
 */
 
-  1337: localnetwork
+  31337: localnetwork
 }
 

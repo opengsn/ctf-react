@@ -114,7 +114,6 @@ module.exports = {
       69: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
       43113: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
       80001: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
-      31337: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
     }
   }
 }
