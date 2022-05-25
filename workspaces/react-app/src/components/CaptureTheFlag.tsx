@@ -32,9 +32,8 @@ export class CaptureTheFlag extends Component {
     if ( await (ctf.ethersProvider as Web3Provider).listAccounts().then(arr=>arr.length) === 0 ) {
       throw new Error('Connect metamask first')
     }
-    const [current, events, account] = await Promise.all([
+    const [current, account] = await Promise.all([
       ctf.getCurrentFlagHolder(),
-      ctf.getPastEvents(),
       ctf.getSigner()
     ])
 
@@ -42,7 +41,11 @@ export class CaptureTheFlag extends Component {
       contractAddress: ctf.address,
       account,
       current,
-      events: this.prependEvents(undefined, events),
+    })
+    ctf.getPastEvents().then(events=>{
+      this.setState({
+        events: this.prependEvents(undefined, events),
+      })
     })
 
     ctf.listenToEvents(event => {
