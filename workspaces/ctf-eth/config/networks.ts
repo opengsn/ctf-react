@@ -1,4 +1,8 @@
 
+// a JSON array of deployed GSN networks. read paymaster addresses.
+// (yarn deploy also reads the forwarder address)
+import deployedNetworks from './gsn-networks.json'
+
 interface NetworkType {
   name: string
   etherscan?: string
@@ -21,29 +25,41 @@ try {
   console.warn('No local network:', (e as Error).message)
 }
 
+function getDeployedPaymaster(chainId:number): string {
+  const net = deployedNetworks.find((net: any) => net.chainId == chainId)
+  if (net == null) {
+    throw new Error(`GSN not deployed on ${chainId}`)
+  }
+  const addr = net.contracts.TestPaymasterEverythingAccepted?.address
+  if (addr == null) {
+    throw new Error(`No test paymaster deployed on chainId ${chainId}`)
+  }
+  return addr
+}
+
 export const networks: { [chain: number]: NetworkType } = {
   5: {
     name: 'Goerli',
     etherscan: 'https://goerli.etherscan.io/address/',
-    paymaster: '0x1B79E83B1F073819DC03350A0479A4c8fD2C2045',
+    paymaster: getDeployedPaymaster(5),
     ctf: '0xE03E44D8bCeAfa79cD79208322135B014b7063b5'
   },
   69: {
-    name: 'Optimism kovan',
+    name: 'Optimism Kovan',
     etherscan: 'https://kovan-optimistic.etherscan.io/address/',
-    paymaster: "0x237085d39405e0f1A57D4f69F2Be98519b410D66",
+    paymaster: getDeployedPaymaster(69),
     ctf: '0x57104d907A75FbF222639a7D47ED4396dCE02a96'
   },
   80001: {
-    name: 'Mumbai',
+    name: 'Mumbai (Polygon Testnet)',
     etherscan: 'https://explorer-mumbai.maticvigil.com/address/',
-    paymaster: "0x7Da86B0A86578d1dF10EbebBf4EEBA874b7aE3C5",
+    paymaster: getDeployedPaymaster(80001),
     ctf: '0x43a4c7fbf4ee9ba0b9156b7c39ded8921db300a4'
   },
   43113: {
     name: 'Fuji (Avalanche Testnet)',
     etherscan: 'https://testnet.snowtrace.io/address/',
-    paymaster: '0x5B79B2291BaF5213a34d0f16B4865408452D5385',
+    paymaster: getDeployedPaymaster(43113),
     ctf: '0xCed86ce7F017D5a9E5Bb32919D07F2E70CD5016F'
   },
   /* old deployments - not 3.0 alpha 2...

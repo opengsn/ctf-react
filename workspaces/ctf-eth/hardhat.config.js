@@ -107,13 +107,5 @@ module.exports = {
 
   namedAccounts: {
     deployer: { default: 0 },
-    metamask: '0xd21934eD8eAf27a67f0A70042Af50A1D6d195E81',
-
-    forwarder: {
-      5: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
-      69: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
-      43113: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
-      80001: "0xF4074e1df418Bc25D26fFb24aEDb893F9cd085fc",
-    }
   }
 }
