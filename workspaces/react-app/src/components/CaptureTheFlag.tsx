@@ -144,8 +144,8 @@ export class CaptureTheFlag extends Component {
         <Log events={this.state.events}/>
       </div>
 
-      <NetSwitcher currentChainId={this.ctf?.chainId} />
       {this.ctf && <GsnStatus ctf={this.ctf} /> }
+      <NetSwitcher currentChainId={this.ctf?.chainId} />
     </>
   }
 }

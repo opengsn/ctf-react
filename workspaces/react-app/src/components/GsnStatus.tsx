@@ -85,7 +85,7 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
         <tr>
           <td>
             <b>GSN Contracts Status:</b><br/>
-            Current network: {global.network.name}<br/>
+            Current network: <b>{global.network.name}</b><br/>
             RelayHub <Address addr={relayHubAddress}/> {totalRelayers && <>relayers: {totalRelayers}</>}<br/>
             Paymaster <Address addr={paymasterAddress}/> balance: {paymasterBalance} <br/>
             Forwarder <Address addr={forwarderAddress}/><br/>
