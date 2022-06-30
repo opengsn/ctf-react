@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "yarn react-start",
+    "start": "yarn --cwd workspaces/react-app tsc && yarn react-start",
     "build": "yarn compile && yarn react-build",
     "start-prod": "yarn build && serve ./workspaces/react-app/build",
     "react-start": "cd workspaces/react-app && yarn start",

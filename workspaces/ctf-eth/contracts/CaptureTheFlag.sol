@@ -23,7 +23,6 @@ contract CaptureTheFlag is ERC2771Recipient, Ownable {
         _setTrustedForwarder(forwarder);
     }
 
-    string public override versionRecipient = "2.2.0";
   function _msgSender() internal view override(Context, ERC2771Recipient)
       returns (address sender) {
       sender = ERC2771Recipient._msgSender();

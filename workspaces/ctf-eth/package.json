@@ -5,7 +5,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "compile": "hardhat compile && tsc",
-    "deploy": "hardhat deploy",
+    "deploy": "hardhat deploy --export-all ./config/ctf-networks.json",
     "clean": "rm -rf deployments/development build artifacts cache dist",
     "evm": "hardhat node --no-deploy",
     "evm-with-gsn": "run-with-testrpc --testrpc-cmd ./scripts/hardhat-node 'yarn run gsn-start' ",
@@ -19,10 +19,10 @@
     "run-with-testrpc": "^0.3.1"
   },
   "dependencies": {
-    "@opengsn/cli": "^3.0.0-alpha.6",
-    "@opengsn/contracts": "^3.0.0-alpha.6",
-    "@opengsn/dev": "^3.0.0-alpha.6",
-    "@opengsn/provider": "^3.0.0-alpha.6",
+    "@opengsn/cli": "^3.0.0-beta.1",
+    "@opengsn/contracts": "^3.0.0-beta.1",
+    "@opengsn/dev": "^3.0.0-beta.1",
+    "@opengsn/provider": "^3.0.0-beta.1",
     "@openzeppelin/contracts": "^4.4.2",
     "ethers": "^5.4.1",
     "hardhat-deploy": "^0.11.4"

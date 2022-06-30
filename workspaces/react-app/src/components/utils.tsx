@@ -29,10 +29,10 @@ interface AddressProps {
 
 /**
  * network address. shortened to prefix..suffix .
- * if "network" is provided and contains "etherscan" url prefix, then make the address a link
+ * if "network" is provided and contains "explorer" url prefix, then make the address a link
  */
 export function Address({addr, network = global.network}: AddressProps) {
-  return <a href={network?.etherscan && network.etherscan + addr} target="etherscan">
+  return <a href={network?.explorer && network.explorer + addr} target="explorer">
     <span style={{"fontFamily": "monospace"}}>
       {("" + addr).replace(/^(.{6}).*(.{4})$/, `$1${Ellipsis}$2`)}
     </span></a>
