@@ -70,10 +70,13 @@ function getNetworksInfo(networks: string[]): { [chainId: string]: NetworkType }
   }, {})
 }
 
+
 //build a list from the CTF deployments.
 // make sure we have GSN deployed on that network, too.
+let ctfNetworkIds = Object.keys(ctfNetworks);
+console.log('ctf networks=', ctfNetworkIds)
 export const networks: { [chain: number]: NetworkType } =
-  getNetworksInfo(['31337', ...Object.keys(ctfNetworks)])
+  getNetworksInfo(['31337', ...ctfNetworkIds])
 
 console.log('===exported networks=', networks)
 

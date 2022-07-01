@@ -13,7 +13,7 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
 
     let forwarder
     if (!chainId.toString().match(/1337/)) {
-        const deployedNetwork = deployedNetworks.find(net => net.chainId == chainId)
+        const deployedNetwork = (deployedNetworks[chainId] || [])[0]
 
         if (!deployedNetwork) {
             throw new Error(`GSN not deployed on network ${chainId}`)
