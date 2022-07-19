@@ -111,7 +111,7 @@ export class CaptureTheFlag extends Component {
     // @ts-ignore
     return <>
       <h1>Capture The Flag - Without Paying for Gas</h1>
-      Click the button to capture the flag with your account, using GSN
+      Click the button to capture the flag with your account, using GSN 3.0.0 (beta)
       <br/>
       {!this.state.account && <span> <ActionButton title="Connect to Metamask"
                                                    action={window.ethereum.enable}

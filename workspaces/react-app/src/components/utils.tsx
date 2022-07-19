@@ -32,7 +32,7 @@ interface AddressProps {
  * if "network" is provided and contains "explorer" url prefix, then make the address a link
  */
 export function Address({addr, network = global.network}: AddressProps) {
-  return <a href={network?.explorer && network.explorer + addr} target="explorer">
+  return <a href={network?.explorer && network.explorer +'/address/' + addr} target="explorer">
     <span style={{"fontFamily": "monospace"}}>
       {("" + addr).replace(/^(.{6}).*(.{4})$/, `$1${Ellipsis}$2`)}
     </span></a>
