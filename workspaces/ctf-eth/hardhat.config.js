@@ -100,8 +100,10 @@ module.exports = {
       url: `https://api.avax-test.network/ext/bc/C/rpc`, 
       accounts
     },
-    rarb: { accounts, url: `https://arbitrum-rinkeby.infura.io/v3/${infura}` },
+    rarb: { accounts, url: `https://rinkeby.arbitrum.io/rpc` },
+    //rarb: { accounts, url: `https://arbitrum-rinkeby.infura.io/v3/${infura}` },
     aox: { accounts, url: 'https://arbitrum.xdaichain.com/' },
+    nitro: { accounts, url: 'https://nitro-devnet.arbitrum.io/rpc' },
 
   },
 

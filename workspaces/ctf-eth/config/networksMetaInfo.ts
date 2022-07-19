@@ -22,6 +22,10 @@ export const networksMetaInfo: { [chainId: string]: any } = {
     explorer: 'https://testnet.snowtrace.io/address/',
   },
 
+  421611: {
+    name: 'Arbitrum-Rinkeby',
+    explorer: 'https://testnet.arbiscan.io/address/',
+  },
   31337: {
     name: "Local Hardhat"
   },

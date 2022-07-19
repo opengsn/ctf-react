@@ -18,7 +18,9 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
         if (!deployedNetwork) {
             throw new Error(`GSN not deployed on network ${chainId}`)
         }
-        forwarder = deployedNetwork.contracts?.Forwarder?.address
+        forwarder = deployedNetwork.contracts &&
+                    deployedNetwork.contracts.Forwarder &&
+                    deployedNetwork.contracts.Forwarder.address
         if (!forwarder) {
             throw new Error(`No Forwarder address on network ${chainId}`)
         }
