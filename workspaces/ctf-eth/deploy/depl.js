@@ -1,4 +1,3 @@
-const { constants } = require( '@opengsn/common')
 const deployedNetworks = require('../config/gsn-networks.json')
 
 module.exports=async function({getNamedAccounts, ethers, deployments}) {
@@ -29,11 +28,11 @@ module.exports=async function({getNamedAccounts, ethers, deployments}) {
    if ( !deployer ) throw new Error('must set MNEMONIC_FILE for deployer')
    console.log( 'deployer=', deployer, 'balance=', ethers.utils.formatEther(await ethers.provider.getBalance(deployer)))
     if ( !forwarder ) {
-        forwarder = require( '../build/gsn/Forwarder').address
+        forwarder = require( '../../../build/gsn/Forwarder').address
 
         //sanity check: the build/gsn was created on the currently running node.
         if ( await ethers.provider.getCode(forwarder).then(code=>code.length) == 2 ) {
-            throw new Error( 'GSN is not running. use "gsn-with-evm" to launch ganache.')
+            throw new Error( 'GSN is not running. You may use "npx gsn start" to launch Hardhat and GSN.')
         }
     }
 
