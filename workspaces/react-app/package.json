@@ -13,6 +13,7 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
+    "lint": "eslint -f unix .",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "compile": "tsc",

@@ -440,10 +440,10 @@
       }
     }
   ],
-  "31337": [
+  "1337": [
     {
       "name": "development",
-      "chainId": "31337",
+      "chainId": "1337",
       "contracts": {
         "CaptureTheFlag": {
           "address": "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
