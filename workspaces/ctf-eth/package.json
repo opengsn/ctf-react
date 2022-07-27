@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "main": "dist/src/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "compile": "hardhat compile && tsc",
     "deploy": "hardhat deploy --export-all ./config/ctf-networks.json",
