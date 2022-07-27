@@ -20,8 +20,8 @@ interface NetworkType {
 function getLocalNetwork() {
   console.log('==reading localnet dir=', __dirname)
   try {
-    const paymaster = require('../../build/gsn/Paymaster.json').address
-    const ctf = require('../../deployments/development/CaptureTheFlag.json').address
+    const paymaster = require('../../../../build/gsn/Paymaster.json').address
+    const ctf = require('../../../ctf-eth/deployments/development/CaptureTheFlag.json').address
     return {paymaster, ctf}
   } catch (e) {
     console.warn('No local network:', (e as Error).message)
@@ -76,7 +76,7 @@ function getNetworksInfo(networks: string[]): { [chainId: string]: NetworkType }
 let ctfNetworkIds = Object.keys(ctfNetworks);
 console.log('ctf networks=', ctfNetworkIds)
 export const networks: { [chain: number]: NetworkType } =
-  getNetworksInfo(['31337', ...ctfNetworkIds])
+  getNetworksInfo(['31337', '1337', ...ctfNetworkIds])
 
 console.log('===exported networks=', networks)
 

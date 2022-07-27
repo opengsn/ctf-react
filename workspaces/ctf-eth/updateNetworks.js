@@ -28,7 +28,7 @@ const axios = require('axios');
     }, {})
 
     config[31337] = {name: "Local Hardhat"}
-    config[1337] = {name: "Local Ganache"}
+    config[1337] = {name: "Local Hardhat"}
 
     console.log('// auto-generated from', chainListUrl)
     console.log('export const networksMetaInfo: { [chainId: string]: any } = ', config)
