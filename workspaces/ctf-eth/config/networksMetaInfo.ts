@@ -15,8 +15,7 @@ export const networksMetaInfo: { [chainId: string]: any } =  {
     currency: 'KOR',
     explorer: 'https://kovan-optimistic.etherscan.io'
   },
-  '1337': { name: 'Local Ganache' },
-  '31337': { name: 'Local Hardhat' },
+  '1337': { name: 'Local Hardhat' },
   '43113': {
     name: 'Avalanche Fuji Testnet',
     currency: 'AVAX',

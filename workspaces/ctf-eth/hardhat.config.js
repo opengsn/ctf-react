@@ -1,4 +1,6 @@
+require('@nomiclabs/hardhat-waffle')
 require('hardhat-deploy')
+
 const fs = require('fs')
 
 let accounts
@@ -29,6 +31,7 @@ infura = process.env.INFURA_ID
 // Go to https://buidler.dev/config/ to learn more
 module.exports = {
   solidity: "0.8.12",
+  defaultNetwork: "development",
   networks: {
     development: {
       url: 'http://localhost:8545'
