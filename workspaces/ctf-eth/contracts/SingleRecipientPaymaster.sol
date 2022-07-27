@@ -1,8 +1,7 @@
 
 // File: @openzeppelin/contracts/utils/Context.sol
 // SPDX-License-Identifier: MIT
-
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity >=0.6.0;
 
 /*
  * @dev Provides information about the current execution context, including the
@@ -15,7 +14,7 @@ pragma solidity >=0.6.0 <0.8.0;
  * This contract is only required for intermediate, library-like contracts.
  */
 abstract contract Context {
-    function _msgSender() internal view virtual returns (address payable) {
+    function _msgSender() internal view virtual returns (address) {
         return msg.sender;
     }
 
@@ -27,7 +26,6 @@ abstract contract Context {
 
 // File: @openzeppelin/contracts/access/Ownable.sol
 
-pragma solidity >=0.6.0 <0.8.0;
 
 /**
  * @dev Contract module which provides a basic access control mechanism, where
@@ -49,7 +47,7 @@ abstract contract Ownable is Context {
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor () internal {
+    constructor () {
         address msgSender = _msgSender();
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
@@ -94,7 +92,6 @@ abstract contract Ownable is Context {
 }
 
 // File: @opengsn/contracts/src/forwarder/IForwarder.sol
-pragma solidity >=0.7.6;
 pragma abicoder v2;
 
 interface IForwarder {
@@ -174,7 +171,6 @@ interface IForwarder {
 }
 
 // File: @opengsn/contracts/src/utils/GsnTypes.sol
-pragma solidity >=0.7.6;
 
 
 interface GsnTypes {
@@ -198,7 +194,6 @@ interface GsnTypes {
 }
 
 // File: @opengsn/contracts/src/interfaces/IPaymaster.sol
-pragma solidity >=0.7.6;
 
 
 interface IPaymaster {
@@ -325,7 +320,6 @@ interface IPaymaster {
 
 // File: @openzeppelin/contracts/math/SafeMath.sol
 
-pragma solidity >=0.6.0 <0.8.0;
 
 /**
  * @dev Wrappers over Solidity's arithmetic operations with added overflow
@@ -539,7 +533,6 @@ library SafeMath {
 }
 
 // File: @opengsn/contracts/src/interfaces/IStakeManager.sol
-pragma solidity >=0.7.6;
 
 
 interface IStakeManager {
@@ -645,7 +638,6 @@ interface IStakeManager {
 }
 
 // File: @opengsn/contracts/src/interfaces/IRelayHub.sol
-pragma solidity >=0.7.6;
 
 
 interface IRelayHub {
@@ -853,7 +845,6 @@ interface IRelayHub {
 
 
 // File: @opengsn/contracts/src/interfaces/IRelayRecipient.sol
-pragma solidity >=0.7.6;
 
 /**
  * a contract must implement this interface in order to support relayed transaction.
@@ -893,7 +884,6 @@ abstract contract IRelayRecipient {
 // minimal bytes manipulation required by GSN
 // a minimal subset from 0x/LibBytes
 /* solhint-disable no-inline-assembly */
-pragma solidity >=0.7.6;
 
 library MinLibBytes {
 
@@ -991,7 +981,6 @@ library MinLibBytes {
 
 // File: @opengsn/contracts/src/utils/GsnUtils.sol
 /* solhint-disable no-inline-assembly */
-pragma solidity >=0.7.6;
 
 
 library GsnUtils {
@@ -1022,7 +1011,6 @@ library GsnUtils {
 }
 
 // File: @opengsn/contracts/src/utils/GsnEip712Library.sol
-pragma solidity >=0.7.6;
 
 
 
@@ -1119,7 +1107,7 @@ library GsnEip712Library {
         MinLibBytes.truncateInPlace(data, MAX_RETURN_SIZE);
     }
 
-    function domainSeparator(address forwarder) internal pure returns (bytes32) {
+    function domainSeparator(address forwarder) internal view returns (bytes32) {
         return hashDomain(EIP712Domain({
             name : "GSN Relayed Transaction",
             version : "2",
@@ -1128,7 +1116,7 @@ library GsnEip712Library {
             }));
     }
 
-    function getChainID() internal pure returns (uint256 id) {
+    function getChainID() internal view returns (uint256 id) {
         /* solhint-disable no-inline-assembly */
         assembly {
             id := chainid()
@@ -1160,7 +1148,6 @@ library GsnEip712Library {
 }
 
 // File: @opengsn/contracts/src/BasePaymaster.sol
-pragma solidity >=0.7.6;
 
 
 
@@ -1254,7 +1241,6 @@ abstract contract BasePaymaster is IPaymaster, Ownable {
 }
 
 // File: contracts/SingleRecipientPaymaster.sol
-pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 
 

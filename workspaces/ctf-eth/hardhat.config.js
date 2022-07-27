@@ -29,7 +29,7 @@ infura = process.env.INFURA_ID
 // defaultNetwork, networks, solc, and paths.
 // Go to https://buidler.dev/config/ to learn more
 module.exports = {
-  solidity: "v0.8.1+commit.df193b15",
+  solidity: "0.8.7",
   defaultNetwork: 'development',
   networks: {
     development: {
