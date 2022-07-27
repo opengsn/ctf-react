@@ -13,8 +13,8 @@
     "react-build": "cd workspaces/react-app && yarn build",
     "compile": "cd workspaces/ctf-eth && yarn compile",
     "deploy": "cd workspaces/ctf-eth && yarn deploy",
-    "evm": "cd workspaces/ctf-eth && yarn evm",
-    "evm-with-gsn": "cd workspaces/ctf-eth && yarn evm-with-gsn",
+    "evm": "npx hardhat node",
+    "gsn": "npx gsn start",
     "clean": "cd workspaces/ctf-eth && yarn clean && cd ../react-app && yarn clean"
   },
   "workspaces": [
@@ -23,5 +23,8 @@
   "dependencies": {
     "patch-package": "^6.4.7",
     "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "hardhat": "^2.4.3"
   }
 }

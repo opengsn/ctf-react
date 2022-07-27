@@ -1,4 +1,3 @@
-require('@nomiclabs/hardhat-waffle')
 require('hardhat-deploy')
 const fs = require('fs')
 
@@ -30,7 +29,6 @@ infura = process.env.INFURA_ID
 // Go to https://buidler.dev/config/ to learn more
 module.exports = {
   solidity: "0.8.12",
-  defaultNetwork: 'development',
   networks: {
     development: {
       url: 'http://localhost:8545'
@@ -97,7 +95,7 @@ module.exports = {
       accounts
     },
     fuji: {
-      url: `https://api.avax-test.network/ext/bc/C/rpc`, 
+      url: `https://api.avax-test.network/ext/bc/C/rpc`,
       accounts
     },
     rarb: { accounts, url: `https://rinkeby.arbitrum.io/rpc` },

@@ -6,10 +6,7 @@
   "scripts": {
     "compile": "hardhat compile && tsc",
     "deploy": "hardhat deploy --export-all ./config/ctf-networks.json",
-    "clean": "rm -rf deployments/development build artifacts cache dist",
-    "evm": "hardhat node --no-deploy",
-    "evm-with-gsn": "run-with-testrpc --testrpc-cmd ./scripts/hardhat-node 'yarn run gsn-start' ",
-    "gsn-start": "gsn start"
+    "clean": "rm -rf deployments/development build artifacts cache dist"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
