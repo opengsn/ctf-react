@@ -1,9 +1,8 @@
-import {networks} from '../config/networks'
-import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
-import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
+import { networks } from '../config/networks'
+import { GSNConfig, GsnEvent, RelayProvider } from '@opengsn/provider'
+import { Contract, ethers, EventFilter, providers, Signer } from 'ethers'
 
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
-import {hexlify, hexValue, hexZeroPad} from '@ethersproject/bytes';
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
@@ -16,7 +15,7 @@ export interface EventInfo {
 
 export interface GsnStatusInfo {
   getActiveRelayers: () => Promise<number>
-  getPaymasterBalance: ()=>Promise<string>
+  getPaymasterBalance: () => Promise<string>
   relayHubAddress: string
   paymasterAddress: string
   forwarderAddress: string
@@ -29,13 +28,13 @@ export interface GsnStatusInfo {
  * that the application should wait() until it gets mined.
  */
 export class Ctf {
-
   ethersProvider: providers.Provider
   theContract: Contract
 
   blockDates: { [key: number]: Date } = {}
 
-  constructor(readonly address: string, signer: Signer, readonly gsnProvider: RelayProvider, readonly chainId: number) {
+  constructor (readonly address: string, signer: Signer, readonly gsnProvider: RelayProvider, readonly chainId: number) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.ethersProvider = signer.provider!
 
     this.gsnProvider = gsnProvider
@@ -43,30 +42,30 @@ export class Ctf {
     this.blockDates = {}
   }
 
-
-  async getCurrentFlagHolder() {
-    return await this.theContract.currentHolder()
+  async getCurrentFlagHolder (): Promise<string> {
+    return this.theContract.currentHolder()
   }
 
-  listenToEvents(onEvent: (e:EventInfo)=>void, onProgress?: (e: GsnEvent) => void) {
-    // @ts-ignore
-    let listener = async (from, to, event) => {
+  listenToEvents (onEvent: (e: EventInfo) => void, onProgress?: (e: GsnEvent) => void): void {
+    // @ts-expect-error
+    const listener = async (from, to, event): Promise<void> => {
       const info = await this.getEventInfo(event)
-      onEvent(info);
-    };
+      onEvent(info)
+    }
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.theContract.on('FlagCaptured', listener)
-    if (onProgress!=undefined) {
+    if (onProgress != null) {
       this.gsnProvider.registerEventListener(onProgress)
     }
   }
 
-  stopListenToEvents(onEvent?: EventFilter, onProgress = null) {
+  stopListenToEvents (onEvent?: EventFilter, onProgress = null): void {
     this.theContract.off(onEvent as any, null as any)
     this.gsnProvider.unregisterEventListener(onProgress as any)
   }
 
-  async getBlockDate(blockNumber: number) {
-    if (!this.blockDates[blockNumber]) {
+  async getBlockDate (blockNumber: number): Promise<Date> {
+    if (this.blockDates[blockNumber] == null) {
       this.blockDates[blockNumber] = new Date(await this.ethersProvider.getBlock(blockNumber).then(b => {
         return b.timestamp * 1000
       }))
@@ -74,8 +73,8 @@ export class Ctf {
     return this.blockDates[blockNumber]
   }
 
-  async getEventInfo(e: ethers.Event): Promise<EventInfo> {
-    if (!e.args) {
+  async getEventInfo (e: ethers.Event): Promise<EventInfo> {
+    if (e.args == null) {
       return {
         previousHolder: 'notevent',
         currentHolder: JSON.stringify(e)
@@ -88,74 +87,71 @@ export class Ctf {
     }
   }
 
-  async getPastEvents(count = 5) {
-
+  async getPastEvents (count = 5): Promise<EventInfo[]> {
     const currentBlock = (await this.ethersProvider.getBlockNumber()) - 1
-    //look at most one month back (in 12-second block
-    const lookupWindow = global.network?.relayLookupWindowBlocks || 30 * 24 * 3600 / 12
+    // look at most one month back (in 12-second block
+    const lookupWindow = global.network?.relayLookupWindowBlocks ?? 30 * 24 * 3600 / 12
     const startBlock = Math.max(1, currentBlock - lookupWindow)
 
     const logs = await this.theContract.queryFilter(this.theContract.filters.FlagCaptured(), startBlock)
-        .catch(e=>[])
-    const lastLogs = await Promise.all(logs.slice(-count).map(e => this.getEventInfo(e)))
-    return lastLogs
+      .catch(e => [])
+    return await Promise.all(logs.slice(-count).map(async e => await this.getEventInfo(e)))
   }
 
-  getSigner() {
-    return this.theContract.signer.getAddress()
+  async getSigner (): Promise<string> {
+    return await this.theContract.signer.getAddress()
   }
 
-  async capture() {
+  async capture (): Promise<any> {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.ethersProvider.getGasPrice().then(price => console.log('== gas price=', price.toString()))
     const gasFees = await this.gsnProvider.calculateGasFees()
     gasFees.maxPriorityFeePerGas = gasFees.maxFeePerGas
     console.log('gas fees=', gasFees)
     const gasLimit = 1e6
-    const ret =  await this.theContract.captureTheFlag({gasLimit, ...gasFees})
-    console.log('post-capture ret=',ret)
+    const ret = await this.theContract.captureTheFlag({ gasLimit, ...gasFees })
+    console.log('post-capture ret=', ret)
     return ret
   }
 
-  async getGsnStatus(): Promise<GsnStatusInfo> {
-    let relayClient = this.gsnProvider.relayClient;
+  async getGsnStatus (): Promise<GsnStatusInfo> {
+    const relayClient = this.gsnProvider.relayClient
     const ci = relayClient.dependencies.contractInteractor as any
     return {
       relayHubAddress: ci.relayHubInstance.address,
       forwarderAddress: ci.forwarderInstance.address,
       paymasterAddress: ci.paymasterInstance.address,
 
-      getPaymasterBalance: ()=> ci.relayHubInstance.balanceOf(ci.paymasterInstance.address),
-      getActiveRelayers: async () => relayClient.dependencies.knownRelaysManager.refresh().then(() =>
-         relayClient.dependencies.knownRelaysManager.allRelayers.length
+      getPaymasterBalance: () => ci.relayHubInstance.balanceOf(ci.paymasterInstance.address),
+      getActiveRelayers: async () => await relayClient.dependencies.knownRelaysManager.refresh().then(() =>
+        relayClient.dependencies.knownRelaysManager.allRelayers.length
       )
     }
   }
 }
 
-export async function switchNetwork(id:string) {
+export async function switchNetwork (id: string): Promise<void> {
   // hexlify and even "hexlify(parseInt(id))" doesn't work for "5"
-  const hexChain = '0x'+parseInt(id).toString(16)
-  console.log( 'change network to ', hexChain)
+  const hexChain = '0x' + parseInt(id).toString(16)
+  console.log('change network to ', hexChain)
   const provider = window.ethereum
   await provider.request({
     method: 'wallet_switchEthereumChain',
-    params: [{ chainId: hexChain}],
-  });
+    params: [{ chainId: hexChain }]
+  })
 }
 
-export function getNetworks(): { [chain: number]: string } {
+export function getNetworks (): { [chain: number]: string } {
   return Object.keys(networks)
-      .map(key=>parseInt(key))
-      .filter(key=>window.location.href.match(/local/) || (key != 1337 && key != 31337) )
-      .reduce((set, key) => ({...set, [key]: networks[key].name}), {})
+    .map(key => parseInt(key))
+    .filter(key => window.location.href.match(/local/) != null || (key !== 1337 && key !== 31337))
+    .reduce((set, key) => ({ ...set, [key]: networks[key].name }), {})
 }
 
-export async function initCtf(): Promise<Ctf> {
+export async function initCtf (): Promise<Ctf> {
+  const web3Provider = window.ethereum
 
-  let web3Provider = window.ethereum
-
-  if (!web3Provider)
-    throw new Error('No "window.ethereum" found. do you have Metamask installed?')
+  if (web3Provider == null) { throw new Error('No "window.ethereum" found. do you have Metamask installed?') }
 
   web3Provider.on('chainChanged', (chainId: number) => {
     console.log('chainChanged', chainId)
@@ -166,7 +162,7 @@ export async function initCtf(): Promise<Ctf> {
     window.location.reload()
   })
 
-  //TEMP: logging provider..
+  // TEMP: logging provider..
   // const orig=web3Provider
   // web3Provider = {
   //   send(r,cb) {
@@ -181,22 +177,20 @@ export async function initCtf(): Promise<Ctf> {
   //     })
   //   }
   // }
-  const provider = new ethers.providers.Web3Provider(web3Provider);
+  const provider = new ethers.providers.Web3Provider(web3Provider)
   const network = await provider.getNetwork()
 
-  const chainId = network.chainId;
+  const chainId = network.chainId
   const net = global.network = networks[chainId]
-  const netid = await provider.send('net_version', [])
+  const netid: string = await provider.send('net_version', [])
   console.log('chainid=', chainId, 'networkid=', netid)
-  if (chainId !== parseInt(netid))
-    console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`)
-  if (!net || !net.paymaster) {
-    if (chainId.toString().match(/1337/)
-        // || window.location.href.match(/localhost|127.0.0.1/)
-    )
+  if (chainId !== parseInt(netid)) { console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`) }
+  if (net == null || net.paymaster == null) {
+    if (chainId.toString().match(/1337/) != null) {
       throw new Error('To run locally, you must run "yarn evm" and then "yarn deploy" before "yarn react-start" ')
-    else
+    } else {
       throw new Error(`Unsupported network (chainId=${chainId}) . please switch to one of: ` + Object.values(networks).map((n: any) => n.name).filter(n => n).join(' / '))
+    }
   }
 
   const gsnConfig: Partial<GSNConfig> = {
@@ -205,9 +199,9 @@ export async function initCtf(): Promise<Ctf> {
     paymasterAddress: net.paymaster
   }
   console.log('== gsnconfig=', gsnConfig)
-  const gsnProvider = RelayProvider.newProvider({provider: web3Provider, config: gsnConfig})
+  const gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
   await gsnProvider.init()
-  const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider);
+  const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider)
 
   const signer = provider2.getSigner()
 

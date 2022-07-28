@@ -21,5 +21,8 @@ module.exports = {
   parserOptions: {
     // The 'tsconfig.packages.json' is needed to add not-compiled files to the project
     project: ['./tsconfig.json', './tsconfig.packages.json']
-  }
+  },
+  ignorePatterns: [
+    'dist/'
+  ]
 }

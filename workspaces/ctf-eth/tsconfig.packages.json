@@ -1,0 +1,7 @@
+{
+  "include": [
+    "updateNetworks.js",
+    "deploy/depl.js",
+    "hardhat.config.js"
+  ]
+}
