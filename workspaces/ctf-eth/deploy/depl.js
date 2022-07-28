@@ -29,7 +29,7 @@ module.exports = async function ({ getNamedAccounts, ethers, deployments }) {
   if (!deployer) throw new Error('must set MNEMONIC_FILE for deployer')
   console.log('deployer=', deployer, 'balance=', ethers.utils.formatEther(await ethers.provider.getBalance(deployer)))
   if (!forwarder) {
-    forwarder = require('../../../build/gsn/Forwarder').address
+    forwarder = require('../../../build/gsn/Forwarder.json').address
 
     // sanity check: the build/gsn was created on the currently running node.
     if (await ethers.provider.getCode(forwarder).then(code => code.length) === 2) {
