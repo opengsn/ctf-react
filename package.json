@@ -35,5 +35,8 @@
     "eslint-plugin-n": "^15.2.4",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-standard": "^5.0.0"
+  },
+  "engines" : { 
+    "node" : ">=16.0.0"
   }
 }
