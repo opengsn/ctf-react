@@ -6,6 +6,7 @@ function NetLink({index, name, chain}: { index: number, name: string, chain: str
     // return <ActionButton title={name} action={() => switchNetwork(chain)} onError={async () => 0}/>
     return <>
         {index === 0 ? '' : ' , '}
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid*/}
         <a style={{color:"white"}} href="#" onClick={() => switchNetwork(chain)}>{name}</a>
     </>
 }

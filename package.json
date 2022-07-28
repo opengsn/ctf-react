@@ -1,21 +1,18 @@
 {
   "name": "@ctf/mono",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "Dror Tirosh <dror@opengsn.org>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "yarn compile && yarn --cwd workspaces/react-app tsc && yarn react-start",
-    "build": "yarn compile && yarn react-build",
+    "start": "lerna run compile && CI=true lerna run --stream start",
+    "build": "lerna run compile && lerna run build",
     "start-prod": "yarn build && serve ./workspaces/react-app/build",
-    "react-start": "cd workspaces/react-app && yarn start",
-    "react-build": "cd workspaces/react-app && yarn build",
-    "compile": "cd workspaces/ctf-eth && yarn compile",
-    "deploy": "cd workspaces/ctf-eth && yarn deploy",
-    "evm": "npx hardhat node",
+    "deploy": "lerna run deploy",
+    "evm": "CI=true lerna run --stream --no-prefix node",
     "gsn": "npx gsn start",
-    "clean": "cd workspaces/ctf-eth && yarn clean && cd ../react-app && yarn clean"
+    "clean": "lerna run clean",
+    "lint": "lerna run lint --stream --parallel"
   },
   "workspaces": [
     "workspaces/*"
@@ -25,6 +22,21 @@
     "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "hardhat": "^2.4.3"
+    "hardhat": "^2.4.3",
+    "lerna": "^5.3.0",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-config-standard-with-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-n": "^15.2.4",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-standard": "^5.0.0"
+  },
+  "engines" : {
+    "node" : ">=16.0.0"
   }
 }
