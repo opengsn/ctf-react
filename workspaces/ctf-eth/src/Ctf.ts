@@ -1,5 +1,5 @@
 import { networks } from '../config/networks'
-import { GSNConfig, GsnEvent, RelayProvider } from '@opengsn/provider'
+import { GSNConfig, GsnEvent, RelayProvider, validateRelayUrl } from '@opengsn/provider'
 import { Contract, ethers, EventFilter, providers, Signer } from 'ethers'
 
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
@@ -124,7 +124,8 @@ export class Ctf {
 
       getPaymasterBalance: () => ci.relayHubInstance.balanceOf(ci.paymasterInstance.address),
       getActiveRelayers: async () => await relayClient.dependencies.knownRelaysManager.refresh().then(() =>
-        relayClient.dependencies.knownRelaysManager.allRelayers.length
+        // count non-private relays
+        relayClient.dependencies.knownRelaysManager.allRelayers.filter(r=>validateRelayUrl(r.relayUrl)).length
       )
     }
   }

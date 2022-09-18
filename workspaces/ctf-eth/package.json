@@ -8,9 +8,10 @@
   ],
   "scripts": {
     "lint": "eslint -f unix --ext .ts,.js .",
-    "node" : "npx hardhat node --network hardhat --no-deploy",
+    "node": "npx hardhat node --network hardhat --no-deploy",
     "compile": "hardhat compile && tsc",
     "deploy": "hardhat deploy --export-all ./config/ctf-networks.json",
+    "verify": "hardhat etherscan-verify --license MIT",
     "clean": "rm -rf deployments/development build artifacts cache dist"
   },
   "devDependencies": {
