@@ -125,7 +125,7 @@ export class Ctf {
       getPaymasterBalance: () => ci.relayHubInstance.balanceOf(ci.paymasterInstance.address),
       getActiveRelayers: async () => await relayClient.dependencies.knownRelaysManager.refresh().then(() =>
         // count non-private relays
-        relayClient.dependencies.knownRelaysManager.allRelayers.filter(r=>validateRelayUrl(r.relayUrl)).length
+        relayClient.dependencies.knownRelaysManager.allRelayers.filter(r => validateRelayUrl(r.relayUrl)).length
       )
     }
   }
