@@ -8,9 +8,10 @@
   ],
   "scripts": {
     "lint": "eslint -f unix --ext .ts,.js .",
-    "node" : "npx hardhat node --network hardhat --no-deploy",
+    "node": "npx hardhat node --network hardhat --no-deploy",
     "compile": "hardhat compile && tsc",
     "deploy": "hardhat deploy --export-all ./config/ctf-networks.json",
+    "verify": "hardhat etherscan-verify --license MIT",
     "clean": "rm -rf deployments/development build artifacts cache dist"
   },
   "devDependencies": {
@@ -19,12 +20,14 @@
     "hardhat": "^2.4.3"
   },
   "dependencies": {
-    "@opengsn/cli": "^3.0.0-beta.1",
-    "@opengsn/contracts": "^3.0.0-beta.1",
-    "@opengsn/dev": "^3.0.0-beta.1",
-    "@opengsn/provider": "^3.0.0-beta.1",
+    "@opengsn/cli": "^3.0.0-beta.2",
+    "@opengsn/contracts": "^3.0.0-beta.2",
+    "@opengsn/dev": "^3.0.0-beta.2",
+    "@opengsn/provider": "^3.0.0-beta.2",
     "@openzeppelin/contracts": "^4.4.2",
+    "add": "^2.0.6",
     "ethers": "^5.4.1",
-    "hardhat-deploy": "^0.11.4"
+    "hardhat-deploy": "^0.11.4",
+    "yarn": "^1.22.19"
   }
 }

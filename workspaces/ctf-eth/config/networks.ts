@@ -32,6 +32,7 @@ function getLocalNetwork (): { paymaster: string, ctf: string } | undefined {
 
 function getNetworksInfo (networks: string[]): { [chainId: string]: NetworkType } {
   return networks.reduce((set, chainId) => {
+    console.log('network.reduce', chainId)
     let ctf: string
     let paymaster: string
     if (chainId.match(/1337/) != null) {
@@ -43,7 +44,7 @@ function getNetworksInfo (networks: string[]): { [chainId: string]: NetworkType 
       paymaster = localnet.paymaster
       ctf = localnet.ctf
     } else {
-      paymaster = (gsnDeployedNetworks as any)[chainId][0].contracts.TestPaymasterEverythingAccepted.address
+      paymaster = (gsnDeployedNetworks as any)[chainId]?.[0].contracts.TestPaymasterEverythingAccepted.address
       if (paymaster == null) {
         throw new Error(`GSN (Paymaster) not deployed on ${chainId}`)
       }
