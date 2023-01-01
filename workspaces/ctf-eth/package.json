@@ -20,10 +20,10 @@
     "hardhat": "^2.4.3"
   },
   "dependencies": {
-    "@opengsn/cli": "^3.0.0-beta.2",
-    "@opengsn/contracts": "^3.0.0-beta.2",
-    "@opengsn/dev": "^3.0.0-beta.2",
-    "@opengsn/provider": "^3.0.0-beta.2",
+    "@opengsn/cli": "^3.0.0-beta.3",
+    "@opengsn/contracts": "^3.0.0-beta.3",
+    "@opengsn/dev": "^3.0.0-beta.3",
+    "@opengsn/provider": "^3.0.0-beta.3",
     "@openzeppelin/contracts": "^4.4.2",
     "add": "^2.0.6",
     "ethers": "^5.4.1",

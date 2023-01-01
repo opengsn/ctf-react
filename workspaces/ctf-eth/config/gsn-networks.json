@@ -11,22 +11,22 @@
           "address": "0xB2b5841DBeF766d4b521221732F9B618fCf34A87"
         },
         "Penalizer": {
-          "address": "0x37C2b5B26d229014A41f926D14d254076bFAc253"
+          "address": "0x5228D7F556c5073dB4C3B8caaA1df79fe86989c9"
         },
         "RelayHub": {
-          "address": "0xD8Cf3315FFD1A3ec74Dc2B02908AF60e5E330472"
+          "address": "0x7DDa9Bf2C0602a96c06FA5996F715C7Acfb8E7b0"
         },
         "RelayRegistrar": {
-          "address": "0x6f00F1A7BdB7E2E407385263B239090bCdb6b442"
+          "address": "0x3232f21A6E08312654270c78A773f00dd61d60f5"
         },
         "StakeManager": {
-          "address": "0x67097a676FCb14dc0Ff337D0D1F564649aD94715"
+          "address": "0x73c37d4dB214bfeF2a8aaC4391BD5A918817C9De"
         },
         "TestPaymasterEverythingAccepted": {
-          "address": "0x28E036dB9727a9d5ee9373DBAAe14B422D83a017"
+          "address": "0x7e4123407707516bD7a3aFa4E3ebCeacfcbBb107"
         },
         "TestWrappedNativeToken": {
-          "address": "0xE17c38AD638B469aF451e891B9acf23c44F24B44"
+          "address": "0xf3b9C4B46E412D25eF2f352bFA5c58b58bE85F1F"
         },
         "WrappedEthToken": {
           "address": "0xE8172A9bf53001d2796825AeC32B68e21FDBb869"
