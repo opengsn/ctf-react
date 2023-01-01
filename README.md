@@ -34,5 +34,5 @@ yarn deploy
 ```
 yarn start
 ```
-
+ 
 A live deployment of this app is available at https://ctf-react.opengsn.org
