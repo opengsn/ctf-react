@@ -10,10 +10,10 @@ export const networksMetaInfo: { [chainId: string]: any } = {
     currency: 'GOR',
     explorer: 'https://goerli.etherscan.io'
   },
-  69: {
-    name: 'Optimism Kovan',
-    currency: 'KOR',
-    explorer: 'https://kovan-optimistic.etherscan.io'
+  420: {
+    name: 'Optimism Goerli',
+    currency: 'GöOptETH',
+    explorer: 'https://goerli-optimism.etherscan.io'
   },
   1337: { name: 'Local Hardhat' },
   31337: { name: 'Local Hardhat' },
@@ -27,9 +27,9 @@ export const networksMetaInfo: { [chainId: string]: any } = {
     currency: 'MATIC',
     explorer: 'https://mumbai.polygonscan.com'
   },
-  421611: {
-    name: 'Arbitrum Rinkeby',
-    currency: 'ARETH',
-    explorer: 'https://testnet.arbiscan.io'
+  421613: {
+    name: 'Arbitrum Goerli',
+    currency: 'GöArbETH',
+    explorer: 'https://goerli.arbiscan.io'
   }
 }
