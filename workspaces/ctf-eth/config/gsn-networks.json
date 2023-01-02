@@ -164,5 +164,37 @@
         }
       }
     }
+  ],
+  "97": [
+    {
+      "title": "BSC Testnet",
+      "symbol": "TBSC",
+      "explorer": "https://testnet.bscscan.com/",
+      "name": "bsc-testnet",
+      "chainId": "97",
+      "contracts": {
+        "Forwarder": {
+          "address": "0xB2b5841DBeF766d4b521221732F9B618fCf34A87"
+        },
+        "Penalizer": {
+          "address": "0x064Ddcc99C7D0FDC8E2aB4f9330d5F603F9A8435"
+        },
+        "RelayHub": {
+          "address": "0x0F48612d2517e47D72fEc92a2fc6fd64cA6816E0"
+        },
+        "RelayRegistrar": {
+          "address": "0x9dC769B8cBD07131227b0815BEd3526b1f8ACD52"
+        },
+        "StakeManager": {
+          "address": "0x4424fFF6cfaA1c1A51975BE65F371e10276ff5BB"
+        },
+        "TestPaymasterEverythingAccepted": {
+          "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
+        },
+        "TestWrappedNativeToken": {
+          "address": "0x1980A588fA420E874fC5fB1e0E68FBE39c34672f"
+        }
+      }
+    }
   ]
 }
