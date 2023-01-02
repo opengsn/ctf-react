@@ -100,5 +100,37 @@
         }
       }
     }
+  ],
+  "421613": [
+    {
+      "title": "Görli-Arbitrum",
+      "symbol": "GöArbETH",
+      "explorer": "https://goerli.arbiscan.io",
+      "name": "goerli-arbitrum",
+      "chainId": "421613",
+      "contracts": {
+        "Forwarder": {
+          "address": "0xB2b5841DBeF766d4b521221732F9B618fCf34A87"
+        },
+        "Penalizer": {
+          "address": "0x2343ec92B9109e2F6586232D96D180d13f478495"
+        },
+        "RelayHub": {
+          "address": "0x064Ddcc99C7D0FDC8E2aB4f9330d5F603F9A8435"
+        },
+        "RelayRegistrar": {
+          "address": "0x9D1a62C5CB0857A1D6068671b83D1953cEE03b33"
+        },
+        "StakeManager": {
+          "address": "0x4dEdEbD289049c2C883e3CCD965d33DB3633Dd89"
+        },
+        "TestPaymasterEverythingAccepted": {
+          "address": "0x9dC769B8cBD07131227b0815BEd3526b1f8ACD52"
+        },
+        "TestWrappedNativeToken": {
+          "address": "0x1980A588fA420E874fC5fB1e0E68FBE39c34672f"
+        }
+      }
+    }
   ]
 }

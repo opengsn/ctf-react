@@ -108,9 +108,8 @@ module.exports = {
       url: 'https://goerli.optimism.io/',
       accounts
     },
-    rarb: { accounts, url: 'https://rinkeby.arbitrum.io/rpc' },
     aox: { accounts, url: 'https://arbitrum.xdaichain.com/' },
-    nitro: { accounts, url: 'https://nitro-devnet.arbitrum.io/rpc' }
+    garb: { accounts, url: 'https://goerli-rollup.arbitrum.io/rpc' }
 
   },
   namedAccounts: {
