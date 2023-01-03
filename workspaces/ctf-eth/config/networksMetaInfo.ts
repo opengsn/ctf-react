@@ -33,8 +33,8 @@ export const networksMetaInfo: { [chainId: string]: any } = {
     explorer: 'https://goerli.arbiscan.io'
   },
   97: {
-    "name": "BSC Testnet",
-    "currency": "TBSC",
-    "explorer": "https://testnet.bscscan.com/"
+    name: 'BSC Testnet',
+    currency: 'TBSC',
+    explorer: 'https://testnet.bscscan.com/'
   }
 }
