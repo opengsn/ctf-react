@@ -225,5 +225,34 @@
         }
       }
     }
+  ],
+  "137": [
+    {
+      "title": "Polygon",
+      "symbol": "MATIC",
+      "explorer": "https://polygonscan.com/",
+      "name": "polygon",
+      "chainId": "137",
+      "contracts": {
+        "Forwarder": {
+          "address": "0xB2b5841DBeF766d4b521221732F9B618fCf34A87"
+        },
+        "Penalizer": {
+          "address": "0x000F9eBcDF99D5d4C92b95aDB265Bf984fcc8EBe"
+        },
+        "RelayHub": {
+          "address": "0xfCEE9036EDc85cD5c12A9De6b267c4672Eb4bA1B"
+        },
+        "RelayRegistrar": {
+          "address": "0xCC329De35f6a696c893E78588101F253E8eD7a7E"
+        },
+        "StakeManager": {
+          "address": "0xFD81BeBA349d6a1ffaFb47db59E785c69479ab47"
+        },
+        "TestPaymasterEverythingAccepted": {
+          "address": "0x9e662d0ce3Eb47761BaC126aDFb27F714d819898"
+        }
+      }
+    }
   ]
 }

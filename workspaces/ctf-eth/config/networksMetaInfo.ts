@@ -41,5 +41,10 @@ export const networksMetaInfo: { [chainId: string]: any } = {
     name: 'Gnosis Chain (formerly xDAI)',
     currency: 'xDAI',
     explorer: 'https://gnosisscan.io/'
+  },
+  137: {
+    name: 'Polygon',
+    currency: 'MATIC',
+    explorer: 'https://polygonscan.com/'
   }
 }

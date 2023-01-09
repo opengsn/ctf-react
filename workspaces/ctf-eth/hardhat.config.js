@@ -111,7 +111,8 @@ module.exports = {
     bsctestnet: { accounts, url: 'https://bsc-testnet.public.blastapi.io' },
     aox: { accounts, url: 'https://arbitrum.xdaichain.com/' },
     garb: { accounts, url: 'https://goerli-rollup.arbitrum.io/rpc' },
-    gnosis: { accounts, url: 'https://rpc.gnosis.gateway.fm' }
+    gnosis: { accounts, url: 'https://rpc.gnosis.gateway.fm' },
+    polygon: { accounts, url: 'https://rpc-mainnet.maticvigil.com', gasPrice: 137577028731 }
 
   },
   namedAccounts: {
