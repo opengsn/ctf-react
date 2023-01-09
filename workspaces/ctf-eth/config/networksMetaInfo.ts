@@ -36,5 +36,10 @@ export const networksMetaInfo: { [chainId: string]: any } = {
     name: 'BSC Testnet',
     currency: 'TBSC',
     explorer: 'https://testnet.bscscan.com/'
+  },
+  100: {
+    name: 'Gnosis Chain (formerly xDAI)',
+    currency: 'xDAI',
+    explorer: 'https://gnosisscan.io/'
   }
 }

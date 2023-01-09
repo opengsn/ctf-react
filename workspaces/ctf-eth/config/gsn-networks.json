@@ -196,5 +196,34 @@
         }
       }
     }
+  ],
+  "100": [
+    {
+      "title": "Gnosis Chain (formerly xDAI)",
+      "symbol": "xDAI",
+      "explorer": "https://gnosisscan.io/",
+      "name": "gnosis",
+      "chainId": "100",
+      "contracts": {
+        "Forwarder": {
+          "address": "0xB2b5841DBeF766d4b521221732F9B618fCf34A87"
+        },
+        "Penalizer": {
+          "address": "0xc53379d9b1a0614CCB529D74923c021d819FEAEB"
+        },
+        "RelayHub": {
+          "address": "0xFD81BeBA349d6a1ffaFb47db59E785c69479ab47"
+        },
+        "RelayRegistrar": {
+          "address": "0x000F9eBcDF99D5d4C92b95aDB265Bf984fcc8EBe"
+        },
+        "StakeManager": {
+          "address": "0x68Cd1b4876b4e47956664664C2d9592b55444ab5"
+        },
+        "TestPaymasterEverythingAccepted": {
+          "address": "0xfCEE9036EDc85cD5c12A9De6b267c4672Eb4bA1B"
+        }
+      }
+    }
   ]
 }
