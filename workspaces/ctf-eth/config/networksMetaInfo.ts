@@ -46,5 +46,10 @@ export const networksMetaInfo: { [chainId: string]: any } = {
     name: 'Polygon',
     currency: 'MATIC',
     explorer: 'https://polygonscan.com/'
+  },
+  10: {
+    name: 'Optimism',
+    currency: 'OETH',
+    explorer: 'https://optimistic.etherscan.io/',
   }
 }

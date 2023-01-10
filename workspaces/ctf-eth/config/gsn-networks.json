@@ -254,5 +254,34 @@
         }
       }
     }
+  ],
+  "10": [
+    {
+      "title": "Optimism",
+      "symbol": "OETH",
+      "explorer": "https://optimistic.etherscan.io/",
+      "name": "optimism",
+      "chainId": "10",
+      "contracts": {
+        "Forwarder": {
+          "address": "0xB2b5841DBeF766d4b521221732F9B618fCf34A87"
+        },
+        "Penalizer": {
+          "address": "0xFD81BeBA349d6a1ffaFb47db59E785c69479ab47"
+        },
+        "RelayHub": {
+          "address": "0xbF06d99FDE1dc4e4C24F4191Fad82F8f5524Ce62"
+        },
+        "RelayRegistrar": {
+          "address": "0xfCEE9036EDc85cD5c12A9De6b267c4672Eb4bA1B"
+        },
+        "StakeManager": {
+          "address": "0xCC329De35f6a696c893E78588101F253E8eD7a7E"
+        },
+        "TestPaymasterEverythingAccepted": {
+          "address": "0x6E4f6878d1188d281F79a8d06e1f52A5cF80b792"
+        }
+      }
+    }
   ]
 }
