@@ -108,7 +108,7 @@ export class Ctf {
     const gasFees = await this.gsnProvider.calculateGasFees()
     gasFees.maxPriorityFeePerGas = gasFees.maxFeePerGas
     console.log('gas fees=', gasFees)
-    const gasLimit = 1e6
+    const gasLimit = 5e5
     const ret = await this.theContract.captureTheFlag({ gasLimit, ...gasFees })
     console.log('post-capture ret=', ret)
     return ret
@@ -197,7 +197,8 @@ export async function initCtf (): Promise<Ctf> {
   const gsnConfig: Partial<GSNConfig> = {
 
     loggerConfiguration: { logLevel: 'debug' },
-    paymasterAddress: net.paymaster
+    paymasterAddress: net.paymaster,
+    maxViewableGasLimit: 1e6.toString()
   }
   console.log('== gsnconfig=', gsnConfig)
   const gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
