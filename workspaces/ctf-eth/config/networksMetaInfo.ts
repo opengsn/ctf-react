@@ -50,7 +50,7 @@ export const networksMetaInfo: { [chainId: string]: any } = {
   10: {
     name: 'Optimism',
     currency: 'OETH',
-    explorer: 'https://optimistic.etherscan.io/',
+    explorer: 'https://optimistic.etherscan.io/'
   },
   42161: {
     name: 'Arbitrum',
