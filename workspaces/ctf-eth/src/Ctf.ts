@@ -1,5 +1,5 @@
 import { networks } from '../config/networks'
-import { GSNConfig, GsnEvent, RelayProvider, validateRelayUrl } from '@opengsn/provider'
+import { GSNConfig, GsnEvent, RelayProvider, environments, validateRelayUrl } from '@opengsn/provider'
 import { Contract, ethers, EventFilter, providers, Signer } from 'ethers'
 
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
@@ -200,6 +200,12 @@ export async function initCtf (): Promise<Ctf> {
     paymasterAddress: net.paymaster,
     maxViewableGasLimit: 1e6.toString()
   }
+
+  if (chainId === 42161) { // changes for arbitrum
+    gsnConfig.maxViewableGasLimit = 1e7.toString()
+    gsnConfig.environment = environments.arbitrum
+  }
+
   console.log('== gsnconfig=', gsnConfig)
   const gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
   await gsnProvider.init()
