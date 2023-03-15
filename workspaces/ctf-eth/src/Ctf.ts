@@ -197,7 +197,7 @@ export async function initCtf (): Promise<Ctf> {
   const gsnConfig: Partial<GSNConfig> = {
 
     loggerConfiguration: { logLevel: 'debug' },
-    paymasterAddress: net.paymaster,
+    paymasterAddress: net.paymaster
   }
 
   if (chainId === 42161) { // changes for arbitrum
