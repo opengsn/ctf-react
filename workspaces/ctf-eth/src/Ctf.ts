@@ -198,7 +198,6 @@ export async function initCtf (): Promise<Ctf> {
 
     loggerConfiguration: { logLevel: 'debug' },
     paymasterAddress: net.paymaster,
-    maxViewableGasLimit: 1e6.toString()
   }
 
   if (chainId === 42161) { // changes for arbitrum
