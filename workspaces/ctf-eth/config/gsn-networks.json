@@ -24,7 +24,10 @@
         },
         "WrappedEthToken": {
           "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-        }
+        },
+	"TestPaymasterEverythingAccepted": {
+	  "address": "0xb536EDbF4B43FF789f9D3215d55690f4015227BA"
+	}
       }
     }
   ],

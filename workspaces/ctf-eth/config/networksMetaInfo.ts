@@ -1,5 +1,10 @@
 // auto-generated from https://chainid.network/chains.json
 export const networksMetaInfo: { [chainId: string]: any } = {
+  1: {
+    name: 'Mainnet',
+    currency: 'ETH',
+    explorer: 'https://etherscan.io'
+  },
   3: {
     name: 'Ropsten',
     currency: 'ROP',
