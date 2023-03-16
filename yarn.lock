@@ -3278,18 +3278,18 @@
   dependencies:
     "@octokit/openapi-types" "^16.0.0"
 
-"@opengsn/cli@^3.0.0-beta.5":
-  version "3.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@opengsn/cli/-/cli-3.0.0-beta.5.tgz#23b13385d5f05318db3f8c751e4edeead3cacb36"
-  integrity sha512-xLtiyCzAfv6WAuN8bWrj82TNfMhzF07sVmSxf6pIyFwVzwrc56OqeMl12x2mHmkpPBN7KSeJzgcBxMDk+7KjuA==
+"@opengsn/cli@^3.0.0-beta.6":
+  version "3.0.0-beta.6"
+  resolved "http://localhost:4873/@opengsn%2fcli/-/cli-3.0.0-beta.6.tgz#a2d6aee9a577dbcbd53dce29afd6ec38068547d0"
+  integrity sha512-gRnZaGprubiTiTbHMCKPXEsRfhz7Qny88nL5f3MS2xcAoC+kt3u3AHllk6/z4m8LWqwd7STVQJemsh0qiXYGxA==
   dependencies:
     "@ethereumjs/tx" "^3.2.0"
     "@ethersproject/providers" "^5.7.2"
-    "@opengsn/common" "^3.0.0-beta.5"
-    "@opengsn/contracts" "^3.0.0-beta.5"
-    "@opengsn/logger" "^3.0.0-beta.5"
-    "@opengsn/provider" "^3.0.0-beta.5"
-    "@opengsn/relay" "^3.0.0-beta.5"
+    "@opengsn/common" "^3.0.0-beta.6"
+    "@opengsn/contracts" "^3.0.0-beta.6"
+    "@opengsn/logger" "^3.0.0-beta.6"
+    "@opengsn/provider" "^3.0.0-beta.6"
+    "@opengsn/relay" "^3.0.0-beta.6"
     "@truffle/hdwallet-provider" "^2.0.10"
     "@types/asciichart" "^1.5.4"
     "@types/clear" "^0.1.1"
@@ -3316,10 +3316,10 @@
     web3-core "^1.7.4"
     web3-provider-engine "^16.0.4"
 
-"@opengsn/common@^3.0.0-beta.5":
-  version "3.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@opengsn/common/-/common-3.0.0-beta.5.tgz#1d3df54cd508cc92bd17389e2307cf716cd39551"
-  integrity sha512-1WiReFL+FK/0bl6UrimWqF9+Jp1Z3WNYTJJaJs08uWJ9dHJf9OKZ2AHBYZ1Ac17ifAbyK+trMCB6czfLtUkszQ==
+"@opengsn/common@^3.0.0-beta.6":
+  version "3.0.0-beta.6"
+  resolved "http://localhost:4873/@opengsn%2fcommon/-/common-3.0.0-beta.6.tgz#15834cd4f50409a733b234ee6bd26f7fa9747405"
+  integrity sha512-mdQq/p29UhTNq+zs8yPCkU3DUbPT6BIIlTReUneEZZvW0Ru7SAgHj4zqH4pm2PSSepUtmysNw/7u/qJD5Q/icA==
   dependencies:
     "@ethereumjs/common" "^2.6.5"
     "@ethereumjs/tx" "^3.2.0"
@@ -3328,7 +3328,7 @@
     "@ethersproject/networks" "^5.7.1"
     "@ethersproject/providers" "^5.7.2"
     "@metamask/eth-sig-util" "^4.0.1"
-    "@opengsn/contracts" "^3.0.0-beta.5"
+    "@opengsn/contracts" "^3.0.0-beta.6"
     "@types/bn.js" "^5.1.0"
     "@types/semver" "^7.3.4"
     axios "^0.21.1"
@@ -3342,26 +3342,26 @@
     rlp "^2.2.6"
     semver "^7.3.2"
 
-"@opengsn/contracts@^3.0.0-beta.5":
-  version "3.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@opengsn/contracts/-/contracts-3.0.0-beta.5.tgz#22c058684c9e1b5d8023dca4ad06b6f0467b1914"
-  integrity sha512-Rqtxg6Ib64LPFEaEHZW15LG8BG8bplEsUcvxNIQANz8aMVJDz0JPx0ly1YQbvIcq+StA/SnDhaZDV40jvWpL/Q==
+"@opengsn/contracts@^3.0.0-beta.6":
+  version "3.0.0-beta.6"
+  resolved "http://localhost:4873/@opengsn%2fcontracts/-/contracts-3.0.0-beta.6.tgz#81ceb7e4560a2559b64f9cc007c0c6dfaa12b32a"
+  integrity sha512-O97kpW8aus6ReYvaKjztzIaAZ8OpvKlBRyQhECBZU1S/ka9zdkYcrMIaudh/b3gLskzCFEJfq9XgOKDNjK5F6w==
   dependencies:
     "@openzeppelin/contracts" "^4.2.0"
 
-"@opengsn/logger@^3.0.0-beta.5":
-  version "3.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@opengsn/logger/-/logger-3.0.0-beta.5.tgz#1ac28148ef726619304b54866432fd569fe5a8c5"
-  integrity sha512-m3P1qSYaeOfTxwoyrYYtrV+JqVr/NAMbpVxwB1vs22nxOlGOPps6TJGGZHhBVdi4PAbZoYY1d4k8OztO4xBn/A==
+"@opengsn/logger@^3.0.0-beta.6":
+  version "3.0.0-beta.6"
+  resolved "http://localhost:4873/@opengsn%2flogger/-/logger-3.0.0-beta.6.tgz#62ebf525f8aa325cdbb4437a6f3135ee160463a0"
+  integrity sha512-8HLqHn5Cqf42DzECXu6suoMPkmiwGc/m4ayfKektbcyBGWXaBjvPrMc1rOT/zVgeaT5JHg+dm2miytq9luE89A==
   dependencies:
-    "@opengsn/common" "^3.0.0-beta.5"
+    "@opengsn/common" "^3.0.0-beta.6"
     loglevel "^1.8.0"
     winston "^3.3.3"
 
-"@opengsn/provider@^3.0.0-beta.5":
-  version "3.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@opengsn/provider/-/provider-3.0.0-beta.5.tgz#86794b01f98403497dccfdb91bb36e3458c8c499"
-  integrity sha512-XfxVkw18QfHwKlXgfiMDi8hnGDUOOTormCYaYTQg0zYZkUeBYqcLIxjlwqQO4lguh3Ak9HI2iEWh/NtOWwcJ3Q==
+"@opengsn/provider@^3.0.0-beta.6":
+  version "3.0.0-beta.6"
+  resolved "http://localhost:4873/@opengsn%2fprovider/-/provider-3.0.0-beta.6.tgz#f077fa464a6c7e9e6c4b50d9508ac181f4347a73"
+  integrity sha512-h2jBRc6TkUweKRXTgxaqtgCk6zpbHD5M6nFmCYaNYuXnbNVwc78hAUIPHBRihYKpL66d19KwYfXZPd8zJUrVFw==
   dependencies:
     "@ethereumjs/tx" "^3.2.0"
     "@ethersproject/abi" "^5.7.0"
@@ -3369,22 +3369,22 @@
     "@ethersproject/bignumber" "^5.7.0"
     "@ethersproject/providers" "^5.7.2"
     "@metamask/eth-sig-util" "^4.0.1"
-    "@opengsn/common" "^3.0.0-beta.5"
+    "@opengsn/common" "^3.0.0-beta.6"
     abi-decoder "^2.4.0"
     ethereumjs-util "^7.1.0"
     ethereumjs-wallet "^1.0.2"
     ethers "^5.7.2"
 
-"@opengsn/relay@^3.0.0-beta.5":
-  version "3.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@opengsn/relay/-/relay-3.0.0-beta.5.tgz#5c3d47023cb3625eeb009a511666dbf6264be0b1"
-  integrity sha512-j8Y/uXCNoQ9j3wQhzke0LOH8fvrBCPkMNegWoqezEHnFi0BvCxwpi7XqojIFup1r7Om7MbvoygY9Qh4PSQGLow==
+"@opengsn/relay@^3.0.0-beta.6":
+  version "3.0.0-beta.6"
+  resolved "http://localhost:4873/@opengsn%2frelay/-/relay-3.0.0-beta.6.tgz#11032de2f70a0ab64062d1a306f089f87f964bee"
+  integrity sha512-2u/stzAV5iUrp8uNa9VQcu6GYuqTNjhFuqsrNnyElHpt73tHzgS76SFTcRDwBDQXy8DyuBXMJ4TbWRT7wV1VTg==
   dependencies:
     "@ethereumjs/tx" "^3.2.0"
     "@ethersproject/providers" "^5.7.2"
-    "@opengsn/common" "^3.0.0-beta.5"
-    "@opengsn/contracts" "^3.0.0-beta.5"
-    "@opengsn/logger" "^3.0.0-beta.5"
+    "@opengsn/common" "^3.0.0-beta.6"
+    "@opengsn/contracts" "^3.0.0-beta.6"
+    "@opengsn/logger" "^3.0.0-beta.6"
     "@seald-io/nedb" "^3.0.0"
     "@types/cors" "^2.8.12"
     "@types/express" "^4.17.13"
