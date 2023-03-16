@@ -1,4 +1,33 @@
 {
+  "1": [
+    {
+      "title": "Mainnet",
+      "symbol": "ETH",
+      "explorer": "https://etherscan.io",
+      "name": "mainnet",
+      "chainId": "1",
+      "contracts": {
+        "Forwarder": {
+          "address": "0xB2b5841DBeF766d4b521221732F9B618fCf34A87"
+        },
+        "Penalizer": {
+          "address": "0x28E036dB9727a9d5ee9373DBAAe14B422D83a017"
+        },
+        "RelayHub": {
+          "address": "0x8f812FAE28a3Aa634d97659091D6540FABD234F5"
+        },
+        "RelayRegistrar": {
+          "address": "0x6e4c4Cf115C35aF85A8D8ddaFc1b84a6C3245Bd0"
+        },
+        "StakeManager": {
+          "address": "0x7A79F5f70a91d2deeA263D9D1E6D33C8209fDF3B"
+        },
+        "WrappedEthToken": {
+          "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+        }
+      }
+    }
+  ],
   "5": [
     {
       "title": "Görli",
