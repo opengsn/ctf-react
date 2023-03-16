@@ -108,7 +108,7 @@ export class Ctf {
     const gasFees = await this.gsnProvider.calculateGasFees()
     gasFees.maxPriorityFeePerGas = gasFees.maxFeePerGas
     console.log('gas fees=', gasFees)
-    const gasLimit = 5e5
+    const gasLimit = 1e5
     const ret = await this.theContract.captureTheFlag({ gasLimit, ...gasFees })
     console.log('post-capture ret=', ret)
     return ret
