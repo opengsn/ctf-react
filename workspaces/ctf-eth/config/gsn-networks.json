@@ -25,9 +25,13 @@
         "WrappedEthToken": {
           "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         },
-	"TestPaymasterEverythingAccepted": {
-	  "address": "0xb536EDbF4B43FF789f9D3215d55690f4015227BA"
-	}
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0xb536EDbF4B43FF789f9D3215d55690f4015227BA"
+          }
+        ]
       }
     }
   ],
@@ -54,9 +58,18 @@
         "StakeManager": {
           "address": "0x73c37d4dB214bfeF2a8aaC4391BD5A918817C9De"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0x7e4123407707516bD7a3aFa4E3ebCeacfcbBb107"
-        },
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0x7e4123407707516bD7a3aFa4E3ebCeacfcbBb107"
+          },
+          {
+            "name": "Unknown Paymaster",
+            "providerType": 0,
+            "address": "0x32d135a6b323451Fe7a12dB353f29FbFE76ad33F"
+          }
+        ],
         "TestWrappedNativeToken": {
           "address": "0xf3b9C4B46E412D25eF2f352bFA5c58b58bE85F1F"
         },
@@ -89,9 +102,13 @@
         "StakeManager": {
           "address": "0x5228D7F556c5073dB4C3B8caaA1df79fe86989c9"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0x086c11bd5A61ac480b326916656a33c474d1E4d8"
-        },
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0x086c11bd5A61ac480b326916656a33c474d1E4d8"
+          }
+        ],
         "TestWrappedNativeToken": {
           "address": "0x823e81FF03470d3d705Dc5a1e5d0ae78Bbc8B139"
         },
@@ -124,9 +141,13 @@
         "StakeManager": {
           "address": "0x4424fFF6cfaA1c1A51975BE65F371e10276ff5BB"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
-        },
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
+          }
+        ],
         "TestWrappedNativeToken": {
           "address": "0x1980A588fA420E874fC5fB1e0E68FBE39c34672f"
         }
@@ -156,9 +177,13 @@
         "StakeManager": {
           "address": "0x4dEdEbD289049c2C883e3CCD965d33DB3633Dd89"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0x9dC769B8cBD07131227b0815BEd3526b1f8ACD52"
-        },
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0x9dC769B8cBD07131227b0815BEd3526b1f8ACD52"
+          }
+        ],
         "TestWrappedNativeToken": {
           "address": "0x1980A588fA420E874fC5fB1e0E68FBE39c34672f"
         }
@@ -188,9 +213,13 @@
         "StakeManager": {
           "address": "0x4424fFF6cfaA1c1A51975BE65F371e10276ff5BB"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
-        },
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
+          }
+        ],
         "TestWrappedNativeToken": {
           "address": "0x1980A588fA420E874fC5fB1e0E68FBE39c34672f"
         }
@@ -220,9 +249,13 @@
         "StakeManager": {
           "address": "0x4424fFF6cfaA1c1A51975BE65F371e10276ff5BB"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
-        },
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
+          }
+        ],
         "TestWrappedNativeToken": {
           "address": "0x1980A588fA420E874fC5fB1e0E68FBE39c34672f"
         }
@@ -252,9 +285,13 @@
         "StakeManager": {
           "address": "0x68Cd1b4876b4e47956664664C2d9592b55444ab5"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0xfCEE9036EDc85cD5c12A9De6b267c4672Eb4bA1B"
-        }
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0xfCEE9036EDc85cD5c12A9De6b267c4672Eb4bA1B"
+          }
+        ]
       }
     }
   ],
@@ -281,9 +318,13 @@
         "StakeManager": {
           "address": "0xFD81BeBA349d6a1ffaFb47db59E785c69479ab47"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0x9e662d0ce3Eb47761BaC126aDFb27F714d819898"
-        }
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0x9e662d0ce3Eb47761BaC126aDFb27F714d819898"
+          }
+        ]
       }
     }
   ],
@@ -310,9 +351,13 @@
         "StakeManager": {
           "address": "0xCC329De35f6a696c893E78588101F253E8eD7a7E"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0x6E4f6878d1188d281F79a8d06e1f52A5cF80b792"
-        }
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0x6E4f6878d1188d281F79a8d06e1f52A5cF80b792"
+          }
+        ]
       }
     }
   ],
@@ -339,9 +384,13 @@
         "StakeManager": {
           "address": "0xFD81BeBA349d6a1ffaFb47db59E785c69479ab47"
         },
-        "TestPaymasterEverythingAccepted": {
-          "address": "0x9e662d0ce3Eb47761BaC126aDFb27F714d819898"
-        }
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "providerType": 0,
+            "address": "0x9e662d0ce3Eb47761BaC126aDFb27F714d819898"
+          }
+        ]
       }
     }
   ]

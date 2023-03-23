@@ -1,5 +1,7 @@
-import { networks } from '../config/networks'
+import { networks, PaymasterDetails, ProviderType } from '../config/networks'
 import { GSNConfig, GsnEvent, RelayProvider, environments, validateRelayUrl } from '@opengsn/provider'
+import { TokenPaymasterProvider } from '@opengsn/paymasters/dist/src/TokenPaymasterProvider'
+
 import { Contract, ethers, EventFilter, providers, Signer } from 'ethers'
 
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
@@ -19,6 +21,7 @@ export interface GsnStatusInfo {
   relayHubAddress: string
   paymasterAddress: string
   forwarderAddress: string
+  paymasterVersion: string
 }
 
 /**
@@ -33,7 +36,13 @@ export class Ctf {
 
   blockDates: { [key: number]: Date } = {}
 
-  constructor (readonly address: string, signer: Signer, readonly gsnProvider: RelayProvider, readonly chainId: number) {
+  constructor (
+    readonly address: string,
+    signer: Signer,
+    readonly gsnProvider: RelayProvider,
+    readonly chainId: number,
+    readonly paymasterDetails: PaymasterDetails
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.ethersProvider = signer.provider!
 
@@ -121,6 +130,7 @@ export class Ctf {
       relayHubAddress: ci.relayHubInstance.address,
       forwarderAddress: ci.forwarderInstance.address,
       paymasterAddress: ci.paymasterInstance.address,
+      paymasterVersion: ci.paymasterVersion,
 
       getPaymasterBalance: () => ci.relayHubInstance.balanceOf(ci.paymasterInstance.address),
       getActiveRelayers: async () => await relayClient.dependencies.knownRelaysManager.refresh().then(() =>
@@ -128,6 +138,17 @@ export class Ctf {
         relayClient.dependencies.knownRelaysManager.allRelayers.filter(r => validateRelayUrl(r.relayUrl)).length
       )
     }
+  }
+
+  async getPaymasterVersion (address: string): Promise<string> {
+    const relayClient = this.gsnProvider.relayClient
+    const ci = relayClient.dependencies.contractInteractor
+
+    const pm = await ci._createPaymaster(address)
+    const v = await pm.versionPaymaster()
+
+    console.log('getPaymasterVersion', v)
+    return v
   }
 }
 
@@ -149,7 +170,7 @@ export function getNetworks (): { [chain: number]: string } {
     .reduce((set, key) => ({ ...set, [key]: networks[key].name }), {})
 }
 
-export async function initCtf (): Promise<Ctf> {
+export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf> {
   const web3Provider = window.ethereum
 
   if (web3Provider == null) { throw new Error('No "window.ethereum" found. do you have Metamask installed?') }
@@ -186,7 +207,7 @@ export async function initCtf (): Promise<Ctf> {
   const netid: string = await provider.send('net_version', [])
   console.log('chainid=', chainId, 'networkid=', netid)
   if (chainId !== parseInt(netid)) { console.warn(`Incompatible network-id ${netid} and ${chainId}: for Metamask to work, they should be the same`) }
-  if (net == null || net.paymaster == null) {
+  if (net == null || net.paymasters.length === 0) {
     if (chainId.toString().match(/1337/) != null) {
       throw new Error('To run locally, you must run "yarn evm" and then "yarn deploy" before "yarn react-start" ')
     } else {
@@ -195,9 +216,8 @@ export async function initCtf (): Promise<Ctf> {
   }
 
   const gsnConfig: Partial<GSNConfig> = {
-
     loggerConfiguration: { logLevel: 'debug' },
-    paymasterAddress: net.paymaster
+    paymasterAddress: paymasterDetails.address
   }
 
   if (chainId === 42161) { // changes for arbitrum
@@ -206,11 +226,31 @@ export async function initCtf (): Promise<Ctf> {
   }
 
   console.log('== gsnconfig=', gsnConfig)
-  const gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
+  let gsnProvider: RelayProvider
+  switch (paymasterDetails.providerType) {
+    case ProviderType.Standard:
+      gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
+      break
+    case ProviderType.TokenPermitProvider:
+    default:
+      gsnProvider = TokenPaymasterProvider.newProvider({ provider: web3Provider, config: gsnConfig })
+  }
   await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider)
 
   const signer = provider2.getSigner()
 
-  return new Ctf(net.ctf, signer, gsnProvider, chainId)
+  return new Ctf(net.ctf, signer, gsnProvider, chainId, paymasterDetails)
+}
+
+export async function getSupportedPaymasters (): Promise<Array<PaymasterDetails>> {
+  const web3Provider = window.ethereum
+
+  const provider = new ethers.providers.Web3Provider(web3Provider)
+  const network = await provider.getNetwork()
+
+  const chainId = network.chainId
+  console.log('getSupportedPaymasters', networks, chainId)
+  const net = networks[chainId]
+  return net.paymasters
 }
