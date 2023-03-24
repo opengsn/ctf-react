@@ -21,31 +21,36 @@ interface CtfState {
   step?: number
   total?: number
   supportedPaymasters?: PaymasterDetails[]
+  paymasterDetails?: PaymasterDetails
 }
 
 // TODO: define types
-export function usePaymaster ({ paymasterDetails, ctf }: { paymasterDetails: PaymasterDetails, ctf?: Ctf }): any {
-  const [paymasterInfo, setPaymasterInfo] = useState<any>()
+export function usePaymasterVersion ({
+  paymasterDetails,
+  ctf
+}: { paymasterDetails: PaymasterDetails, ctf?: Ctf }): any {
+  const [paymasterVersion, setPaymasterVersion] = useState<string>()
 
   useEffect(() => {
     ctf?.getPaymasterVersion(paymasterDetails.address)
       .then((version: string) => {
-        setPaymasterInfo({
-          paymasterDetails,
+        setPaymasterVersion(
           version
-        })
+        )
       })
   }, [paymasterDetails, ctf])
 
-  return { paymasterInfo }
+  return { paymasterVersion }
 }
 
 const PaymasterSelectOption = ({ paymasterDetails, ctf }: { paymasterDetails: PaymasterDetails, ctf?: Ctf }) => {
-  const { paymasterInfo } = usePaymaster({ paymasterDetails, ctf })
+  const { paymasterVersion } = usePaymasterVersion({ paymasterDetails, ctf })
+  const shortPaymasterAddress = `(${paymasterDetails.address.substring(0, 6)}...${paymasterDetails.address.substring(39)})`
 
   // TODO?: truncate address
-  return <option
-    value={paymasterDetails.address}>{paymasterInfo?.paymasterDetails.name}@{paymasterInfo?.version}</option>
+  return <option value={paymasterDetails.address}>
+    {shortPaymasterAddress}:{paymasterDetails.name}@{paymasterVersion}
+  </option>
 }
 
 export class CaptureTheFlag extends Component {
@@ -65,14 +70,13 @@ export class CaptureTheFlag extends Component {
   }
 
   async readContractInfo (paymasterAddress?: string) {
-    let paymasterDetails: PaymasterDetails
     this.state.supportedPaymasters = await getSupportedPaymasters()
     if (paymasterAddress == null) {
-      paymasterDetails = this.state.supportedPaymasters![0]
+      this.state.paymasterDetails = this.state.supportedPaymasters![0]
     } else {
-      paymasterDetails = this.state.supportedPaymasters.find(it => it.address === paymasterAddress)!
+      this.state.paymasterDetails = this.state.supportedPaymasters.find(it => it.address === paymasterAddress)!
     }
-    const ctf = this.ctf = await initCtf(paymasterDetails)
+    const ctf = this.ctf = await initCtf(this.state.paymasterDetails)
 
     this.gsnProvider = ctf.gsnProvider
     if (await (ctf.ethersProvider as Web3Provider).listAccounts().then(arr => arr.length) === 0) {
@@ -202,7 +206,7 @@ export class CaptureTheFlag extends Component {
         <Log events={this.state.events}/>
       </div>
 
-      {this.ctf && <GsnStatus ctf={this.ctf}/>}
+      {this.ctf && <GsnStatus ctf={this.ctf} key={this.state.paymasterDetails?.address}/>}
       <NetSwitcher currentChainId={this.ctf?.chainId}/>
     </>
   }

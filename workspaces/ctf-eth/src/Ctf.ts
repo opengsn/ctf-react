@@ -230,10 +230,13 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
   switch (paymasterDetails.providerType) {
     case ProviderType.Standard:
       gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
+      console.log('created new RelayProvider with config:', gsnConfig)
       break
     case ProviderType.TokenPermitProvider:
     default:
       gsnProvider = TokenPaymasterProvider.newProvider({ provider: web3Provider, config: gsnConfig })
+      console.log('created new TokenPaymasterProvider with config:', gsnConfig)
+      break
   }
   await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider)
