@@ -24,7 +24,6 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
 
   constructor (props: GsnStatusProps) {
     super(props)
-    console.log('AAA GsnStatus constructor', props)
     this.ctf = props.ctf!
   }
 
@@ -38,7 +37,6 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
   }
 
   async init () {
-    console.log('AAA GsnStatus init()')
     const setState = this.setState.bind(this)
     console.log('== init before')
     await this.initProvider()
@@ -76,7 +74,6 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
   }
 
   render () {
-    console.log('AAA GsnStatus render', this.state)
     const { relayHubAddress, totalRelayers, paymasterAddress, paymasterBalance, forwarderAddress } = this.state
 
     return (
