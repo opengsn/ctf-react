@@ -65,9 +65,10 @@
             "address": "0x7e4123407707516bD7a3aFa4E3ebCeacfcbBb107"
           },
           {
-            "name": "Unknown Paymaster",
-            "providerType": 0,
-            "address": "0x32d135a6b323451Fe7a12dB353f29FbFE76ad33F"
+            "name": "PermitERC20UniswapV3Paymaster",
+            "providerType": 1,
+            "address": "0xc7709b37C63E116Cc973842aE902462580d76104",
+            "usedTokenAddress": "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844"
           }
         ],
         "TestWrappedNativeToken": {

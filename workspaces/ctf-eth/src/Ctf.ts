@@ -1,6 +1,6 @@
 import { networks, PaymasterDetails, ProviderType } from '../config/networks'
-import { GSNConfig, GsnEvent, RelayProvider, environments, validateRelayUrl } from '@opengsn/provider'
-import { TokenPaymasterProvider } from '@opengsn/paymasters/dist/src/TokenPaymasterProvider'
+import { GsnEvent, RelayProvider, environments, validateRelayUrl } from '@opengsn/provider'
+import { TokenPaymasterProvider, TokenPaymasterConfig } from '@opengsn/paymasters/dist/src/TokenPaymasterProvider'
 
 import { Contract, ethers, EventFilter, providers, Signer } from 'ethers'
 
@@ -215,7 +215,7 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
     }
   }
 
-  const gsnConfig: Partial<GSNConfig> = {
+  const gsnConfig: Partial<TokenPaymasterConfig> = {
     loggerConfiguration: { logLevel: 'debug' },
     paymasterAddress: paymasterDetails.address
   }
@@ -225,15 +225,27 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
     gsnConfig.environment = environments.arbitrum
   }
 
-  console.log('== gsnconfig=', gsnConfig)
   let gsnProvider: RelayProvider
   switch (paymasterDetails.providerType) {
     case ProviderType.Standard:
+      console.log('== gsnconfig=', JSON.stringify(gsnConfig))
       gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
       console.log('created new RelayProvider with config:', gsnConfig)
       break
     case ProviderType.TokenPermitProvider:
     default:
+      gsnConfig.tokenAddress = paymasterDetails.usedTokenAddress
+      gsnConfig.tokenPaymasterAddress = paymasterDetails.address
+      gsnConfig.tokenPaymasterDomainSeparators = {}
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      gsnConfig.tokenPaymasterDomainSeparators[paymasterDetails.usedTokenAddress!] = {
+        name: 'Dai Stablecoin',
+        version: '1',
+        chainId: 5,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        verifyingContract: paymasterDetails.usedTokenAddress!
+      }
+      console.log('== gsnconfig=', JSON.stringify(gsnConfig))
       gsnProvider = TokenPaymasterProvider.newProvider({ provider: web3Provider, config: gsnConfig })
       console.log('created new TokenPaymasterProvider with config:', gsnConfig)
       break
@@ -246,7 +258,7 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
   return new Ctf(net.ctf, signer, gsnProvider, chainId, paymasterDetails)
 }
 
-export async function getSupportedPaymasters (): Promise<Array<PaymasterDetails>> {
+export async function getSupportedPaymasters (): Promise<PaymasterDetails[]> {
   const web3Provider = window.ethereum
 
   const provider = new ethers.providers.Web3Provider(web3Provider)

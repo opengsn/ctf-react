@@ -16,6 +16,7 @@ export interface PaymasterDetails {
   name: string
   address: string
   providerType: ProviderType
+  usedTokenAddress?: string
 }
 
 interface NetworkType {
