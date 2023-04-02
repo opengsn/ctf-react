@@ -1,3 +1,5 @@
+import { PaymasterType } from '@opengsn/common'
+
 // a JSON array of deployed GSN networks. read paymaster addresses.
 // (yarn deploy also reads the forwarder address)
 import gsnDeployedNetworks from './gsn-networks.json'
@@ -7,16 +9,11 @@ import ctfNetworks from './ctf-networks.json'
 
 import { networksMetaInfo } from './networksMetaInfo'
 
-export enum ProviderType {
-  Standard,
-  TokenPermitProvider
-}
-
 export interface PaymasterDetails {
-  name: string
-  address: string
-  providerType: ProviderType
-  usedTokenAddress?: string
+  name?: string
+  address?: string
+  paymasterType: PaymasterType
+  debugUseType: boolean
 }
 
 interface NetworkType {
@@ -37,7 +34,8 @@ function getLocalNetwork (): { paymaster: PaymasterDetails, ctf: string } | unde
     const paymaster: PaymasterDetails = {
       address: paymasterAddress,
       name: 'Accept Everything Paymaster',
-      providerType: ProviderType.Standard
+      paymasterType: PaymasterType.AcceptEverythingPaymaster,
+      debugUseType: false
     }
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const ctf = require('../../../ctf-eth/deployments/development/CaptureTheFlag.json').address

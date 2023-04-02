@@ -32,7 +32,7 @@ export function usePaymasterVersion ({
   const [paymasterVersion, setPaymasterVersion] = useState<string>()
 
   useEffect(() => {
-    ctf?.getPaymasterVersion(paymasterDetails.address)
+    ctf?.getPaymasterVersion(paymasterDetails.address!)
       .then((version: string) => {
         setPaymasterVersion(
           version
@@ -45,11 +45,10 @@ export function usePaymasterVersion ({
 
 const PaymasterSelectOption = ({ paymasterDetails, ctf }: { paymasterDetails: PaymasterDetails, ctf?: Ctf }) => {
   const { paymasterVersion } = usePaymasterVersion({ paymasterDetails, ctf })
-  const shortPaymasterAddress = `(${paymasterDetails.address.substring(0, 6)}...${paymasterDetails.address.substring(39)})`
+  const shortPaymasterAddress = `(${paymasterDetails.address!.substring(0, 6)}...${paymasterDetails.address!.substring(39)})`
 
-  // TODO?: truncate address
-  return <option value={paymasterDetails.address}>
-    {shortPaymasterAddress}:{paymasterDetails.name}@{paymasterVersion}
+  return <option value={paymasterDetails.address!}>
+    {shortPaymasterAddress}:{paymasterDetails.name!}@{paymasterVersion}
   </option>
 }
 
@@ -174,7 +173,7 @@ export class CaptureTheFlag extends Component {
       >
         {this.state.supportedPaymasters?.map((details) => {
           console.log('this.state.supportedPaymasters?.map', details)
-          return <PaymasterSelectOption key={details.name} paymasterDetails={details} ctf={this.ctf}/>
+          return <PaymasterSelectOption key={details.name ?? details.paymasterType} paymasterDetails={details} ctf={this.ctf}/>
         })}
       </Form.Select>
 

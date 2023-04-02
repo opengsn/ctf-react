@@ -28,7 +28,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
+            "paymasterType": 0,
             "address": "0xb536EDbF4B43FF789f9D3215d55690f4015227BA"
           }
         ]
@@ -60,15 +60,10 @@
         },
         "paymasters": [
           {
-            "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
-            "address": "0x7e4123407707516bD7a3aFa4E3ebCeacfcbBb107"
+            "paymasterType": 0
           },
           {
-            "name": "PermitERC20UniswapV3Paymaster",
-            "providerType": 1,
-            "address": "0xc7709b37C63E116Cc973842aE902462580d76104",
-            "usedTokenAddress": "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844"
+            "paymasterType": 2
           }
         ],
         "TestWrappedNativeToken": {
@@ -105,9 +100,7 @@
         },
         "paymasters": [
           {
-            "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
-            "address": "0x086c11bd5A61ac480b326916656a33c474d1E4d8"
+            "paymasterType": 0
           }
         ],
         "TestWrappedNativeToken": {
@@ -144,9 +137,7 @@
         },
         "paymasters": [
           {
-            "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
-            "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
+            "paymasterType": 0
           }
         ],
         "TestWrappedNativeToken": {
@@ -180,9 +171,7 @@
         },
         "paymasters": [
           {
-            "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
-            "address": "0x9dC769B8cBD07131227b0815BEd3526b1f8ACD52"
+            "paymasterType": 0
           }
         ],
         "TestWrappedNativeToken": {
@@ -216,9 +205,7 @@
         },
         "paymasters": [
           {
-            "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
-            "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
+            "paymasterType": 0
           }
         ],
         "TestWrappedNativeToken": {
@@ -252,9 +239,7 @@
         },
         "paymasters": [
           {
-            "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
-            "address": "0x735719A8C5aF199ea5b93207083787a5B548C0e2"
+            "paymasterType": 0
           }
         ],
         "TestWrappedNativeToken": {
@@ -289,7 +274,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
+            "paymasterType": 0,
             "address": "0xfCEE9036EDc85cD5c12A9De6b267c4672Eb4bA1B"
           }
         ]
@@ -322,7 +307,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
+            "paymasterType": 0,
             "address": "0x9e662d0ce3Eb47761BaC126aDFb27F714d819898"
           }
         ]
@@ -355,7 +340,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
+            "paymasterType": 0,
             "address": "0x6E4f6878d1188d281F79a8d06e1f52A5cF80b792"
           }
         ]
@@ -388,7 +373,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "providerType": 0,
+            "paymasterType": 0,
             "address": "0x9e662d0ce3Eb47761BaC126aDFb27F714d819898"
           }
         ]

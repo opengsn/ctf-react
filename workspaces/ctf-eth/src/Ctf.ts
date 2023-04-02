@@ -1,6 +1,7 @@
-import { networks, PaymasterDetails, ProviderType } from '../config/networks'
-import { GsnEvent, RelayProvider, environments, validateRelayUrl } from '@opengsn/provider'
-import { TokenPaymasterProvider, TokenPaymasterConfig } from '@opengsn/paymasters/dist/src/TokenPaymasterProvider'
+import { networks, PaymasterDetails } from '../config/networks'
+import { getPaymasterAddressByTypeAndChain, PaymasterType } from '@opengsn/common'
+import { GsnEvent, RelayProvider, environments, validateRelayUrl, GSNConfig } from '@opengsn/provider'
+import { TokenPaymasterProvider } from '@opengsn/paymasters/dist/src/TokenPaymasterProvider'
 
 import { Contract, ethers, EventFilter, providers, Signer } from 'ethers'
 
@@ -215,9 +216,9 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
     }
   }
 
-  const gsnConfig: Partial<TokenPaymasterConfig> = {
+  const gsnConfig: Partial<GSNConfig> = {
     loggerConfiguration: { logLevel: 'debug' },
-    paymasterAddress: paymasterDetails.address
+    paymasterAddress: paymasterDetails.debugUseType ? paymasterDetails.paymasterType : paymasterDetails.address
   }
 
   if (chainId === 42161) { // changes for arbitrum
@@ -225,30 +226,19 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
     gsnConfig.environment = environments.arbitrum
   }
 
+  console.log('== gsnconfig=', JSON.stringify(gsnConfig))
   let gsnProvider: RelayProvider
-  switch (paymasterDetails.providerType) {
-    case ProviderType.Standard:
-      console.log('== gsnconfig=', JSON.stringify(gsnConfig))
+  switch (paymasterDetails.paymasterType) {
+    case PaymasterType.AcceptEverythingPaymaster:
       gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
       console.log('created new RelayProvider with config:', gsnConfig)
       break
-    case ProviderType.TokenPermitProvider:
-    default:
-      gsnConfig.tokenAddress = paymasterDetails.usedTokenAddress
-      gsnConfig.tokenPaymasterAddress = paymasterDetails.address
-      gsnConfig.tokenPaymasterDomainSeparators = {}
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      gsnConfig.tokenPaymasterDomainSeparators[paymasterDetails.usedTokenAddress!] = {
-        name: 'Dai Stablecoin',
-        version: '1',
-        chainId: 5,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        verifyingContract: paymasterDetails.usedTokenAddress!
-      }
-      console.log('== gsnconfig=', JSON.stringify(gsnConfig))
+    case PaymasterType.PermitERC20UniswapV3Paymaster:
       gsnProvider = TokenPaymasterProvider.newProvider({ provider: web3Provider, config: gsnConfig })
       console.log('created new TokenPaymasterProvider with config:', gsnConfig)
       break
+    default:
+      throw new Error(`Paymaster of type ${PaymasterType[paymasterDetails.paymasterType]}(${paymasterDetails.paymasterType}) is not currently supported!`)
   }
   await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider)
@@ -267,5 +257,18 @@ export async function getSupportedPaymasters (): Promise<PaymasterDetails[]> {
   const chainId = network.chainId
   console.log('getSupportedPaymasters', networks, chainId)
   const net = networks[chainId]
-  return net.paymasters
+  return net.paymasters.map(paymasterDetails => {
+    const paymasterAddress: string = paymasterDetails.address ?? getPaymasterAddressByTypeAndChain(paymasterDetails.paymasterType, chainId)
+    if (paymasterAddress == null) {
+      throw new Error(`CTF: Paymaster of type ${PaymasterType[paymasterDetails.paymasterType]}(${paymasterDetails.paymasterType}) not found for chain ${chainId}`)
+    }
+    const paymasterName = paymasterDetails.name ?? PaymasterType[paymasterDetails.paymasterType] ?? 'unknown_pm_name'
+    return {
+      name: paymasterName,
+      address: paymasterAddress,
+      paymasterType: paymasterDetails.paymasterType,
+      /** For debugging only - if set will not pass address to the GSN provider constructor */
+      debugUseType: paymasterDetails.address == null
+    }
+  })
 }
