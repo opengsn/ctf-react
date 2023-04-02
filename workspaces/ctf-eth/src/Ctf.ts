@@ -238,7 +238,7 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
       console.log('created new TokenPaymasterProvider with config:', gsnConfig)
       break
     default:
-      throw new Error(`Paymaster of type ${PaymasterType[paymasterDetails.paymasterType]}(${paymasterDetails.paymasterType}) is not currently supported!`)
+      throw new Error(`Paymaster of type ${PaymasterType[paymasterDetails.paymasterType].toString()}(${paymasterDetails.paymasterType.toString()}) is not currently supported!`)
   }
   await gsnProvider.init()
   const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider)
@@ -260,7 +260,7 @@ export async function getSupportedPaymasters (): Promise<PaymasterDetails[]> {
   return net.paymasters.map(paymasterDetails => {
     const paymasterAddress: string = paymasterDetails.address ?? getPaymasterAddressByTypeAndChain(paymasterDetails.paymasterType, chainId)
     if (paymasterAddress == null) {
-      throw new Error(`CTF: Paymaster of type ${PaymasterType[paymasterDetails.paymasterType]}(${paymasterDetails.paymasterType}) not found for chain ${chainId}`)
+      throw new Error(`CTF: Paymaster of type ${PaymasterType[paymasterDetails.paymasterType].toString()}(${paymasterDetails.paymasterType.toString()}) not found for chain ${chainId}`)
     }
     const paymasterName = paymasterDetails.name ?? PaymasterType[paymasterDetails.paymasterType] ?? 'unknown_pm_name'
     return {
