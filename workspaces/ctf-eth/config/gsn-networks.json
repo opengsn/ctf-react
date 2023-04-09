@@ -28,7 +28,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "paymasterType": 0,
+            "paymasterType": "AcceptEverythingPaymaster",
             "address": "0xb536EDbF4B43FF789f9D3215d55690f4015227BA"
           }
         ]
@@ -60,10 +60,10 @@
         },
         "paymasters": [
           {
-            "paymasterType": 0
+            "paymasterType": "AcceptEverythingPaymaster"
           },
           {
-            "paymasterType": 2
+            "paymasterType": "PermitERC20UniswapV3Paymaster"
           }
         ],
         "TestWrappedNativeToken": {
@@ -100,7 +100,7 @@
         },
         "paymasters": [
           {
-            "paymasterType": 0
+            "paymasterType": "AcceptEverythingPaymaster"
           }
         ],
         "TestWrappedNativeToken": {
@@ -137,7 +137,7 @@
         },
         "paymasters": [
           {
-            "paymasterType": 0
+            "paymasterType": "AcceptEverythingPaymaster"
           }
         ],
         "TestWrappedNativeToken": {
@@ -171,7 +171,7 @@
         },
         "paymasters": [
           {
-            "paymasterType": 0
+            "paymasterType": "AcceptEverythingPaymaster"
           }
         ],
         "TestWrappedNativeToken": {
@@ -205,7 +205,7 @@
         },
         "paymasters": [
           {
-            "paymasterType": 0
+            "paymasterType": "AcceptEverythingPaymaster"
           }
         ],
         "TestWrappedNativeToken": {
@@ -239,7 +239,7 @@
         },
         "paymasters": [
           {
-            "paymasterType": 0
+            "paymasterType": "AcceptEverythingPaymaster"
           }
         ],
         "TestWrappedNativeToken": {
@@ -274,7 +274,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "paymasterType": 0,
+            "paymasterType": "AcceptEverythingPaymaster",
             "address": "0xfCEE9036EDc85cD5c12A9De6b267c4672Eb4bA1B"
           }
         ]
@@ -307,7 +307,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "paymasterType": 0,
+            "paymasterType": "AcceptEverythingPaymaster",
             "address": "0x9e662d0ce3Eb47761BaC126aDFb27F714d819898"
           }
         ]
@@ -340,7 +340,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "paymasterType": 0,
+            "paymasterType": "AcceptEverythingPaymaster",
             "address": "0x6E4f6878d1188d281F79a8d06e1f52A5cF80b792"
           }
         ]
@@ -373,7 +373,7 @@
         "paymasters": [
           {
             "name": "TestPaymasterEverythingAccepted",
-            "paymasterType": 0,
+            "paymasterType": "AcceptEverythingPaymaster",
             "address": "0x9e662d0ce3Eb47761BaC126aDFb27F714d819898"
           }
         ]

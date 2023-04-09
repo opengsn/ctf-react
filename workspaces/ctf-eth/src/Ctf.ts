@@ -258,7 +258,7 @@ export async function getSupportedPaymasters (): Promise<PaymasterDetails[]> {
   console.log('getSupportedPaymasters', networks, chainId)
   const net = networks[chainId]
   return net.paymasters.map(paymasterDetails => {
-    const paymasterAddress: string = paymasterDetails.address ?? getPaymasterAddressByTypeAndChain(paymasterDetails.paymasterType, chainId)
+    const paymasterAddress: string = paymasterDetails.address ?? getPaymasterAddressByTypeAndChain(paymasterDetails.paymasterType, chainId, console)
     if (paymasterAddress == null) {
       throw new Error(`CTF: Paymaster of type ${PaymasterType[paymasterDetails.paymasterType].toString()}(${paymasterDetails.paymasterType.toString()}) not found for chain ${chainId}`)
     }
