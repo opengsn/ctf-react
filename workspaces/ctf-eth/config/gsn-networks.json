@@ -64,6 +64,10 @@
           },
           {
             "paymasterType": "PermitERC20UniswapV3Paymaster"
+          },
+          {
+            "paymasterType": "SingletonWhitelistPaymaster",
+            "dappOwner": "0xe089566e6bf45e05c4805c13c4e57a982e945b4b"
           }
         ],
         "TestWrappedNativeToken": {

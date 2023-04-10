@@ -12,6 +12,7 @@ import { networksMetaInfo } from './networksMetaInfo'
 export interface PaymasterDetails {
   name?: string
   address?: string
+  dappOwner?: string
   paymasterType: PaymasterType
   debugUseType: boolean
 }

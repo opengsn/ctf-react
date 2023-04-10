@@ -237,6 +237,11 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
       gsnProvider = TokenPaymasterProvider.newProvider({ provider: web3Provider, config: gsnConfig })
       console.log('created new TokenPaymasterProvider with config:', gsnConfig)
       break
+    case PaymasterType.SingletonWhitelistPaymaster:
+      gsnConfig.dappOwner = paymasterDetails.dappOwner
+      gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
+      console.log('created new RelayProvider with config:', gsnConfig)
+      break
     default:
       throw new Error(`Paymaster of type ${PaymasterType[paymasterDetails.paymasterType].toString()}(${paymasterDetails.paymasterType.toString()}) is not currently supported!`)
   }
@@ -267,6 +272,7 @@ export async function getSupportedPaymasters (): Promise<PaymasterDetails[]> {
       name: paymasterName,
       address: paymasterAddress,
       paymasterType: paymasterDetails.paymasterType,
+      dappOwner: paymasterDetails.dappOwner,
       /** For debugging only - if set will not pass address to the GSN provider constructor */
       debugUseType: paymasterDetails.address == null
     }
