@@ -7,6 +7,7 @@
     "dist"
   ],
   "scripts": {
+    "tsc": "tsc",
     "lint": "eslint -f unix --ext .ts,.js .",
     "node": "npx hardhat node --network hardhat --no-deploy",
     "compile": "hardhat compile && tsc",
@@ -20,9 +21,10 @@
     "hardhat": "^2.4.3"
   },
   "dependencies": {
-    "@opengsn/contracts": "^3.0.0-beta.6",
-    "@opengsn/provider": "^3.0.0-beta.6",
-    "@opengsn/common": "^3.0.0-beta.6",
+    "@opengsn/contracts": "^3.0.0-beta.7",
+    "@opengsn/provider": "^3.0.0-beta.7",
+    "@opengsn/common": "^3.0.0-beta.7",
+    "@opengsn/paymasters": "^3.0.0-beta.7",
     "@openzeppelin/contracts": "^4.4.2",
     "add": "^2.0.6",
     "ethers": "^5.4.1",

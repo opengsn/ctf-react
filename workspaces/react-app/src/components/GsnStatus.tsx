@@ -1,7 +1,7 @@
 // @ts-ignore
-import React, {Component} from 'react';
-import {Address} from "./utils";
-import {Ctf, GsnStatusInfo} from "@ctf/eth/src/Ctf";
+import React, { Component } from 'react'
+import { Address } from './utils'
+import { Ctf, GsnStatusInfo } from '@ctf/eth/src/Ctf'
 
 declare let global: { network: any }
 
@@ -22,13 +22,12 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
 
   state: GsnStatusState = {}
 
-  constructor(props: GsnStatusProps) {
+  constructor (props: GsnStatusProps) {
     super(props)
     this.ctf = props.ctf!
   }
 
-
-  async initProvider() {
+  async initProvider () {
     // @ts-ignore
     if (!this.ctf.gsnProvider.relayClient.initialized) {
       console.log('not initialized. calling provider.init')
@@ -37,12 +36,12 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
     }
   }
 
-  async init() {
+  async init () {
     const setState = this.setState.bind(this)
     console.log('== init before')
     await this.initProvider()
     //update UI after each TX (paymaster balance, active relayers)
-    this.ctf.listenToEvents(e=>this.updateDynamicInfo())
+    this.ctf.listenToEvents(e => this.updateDynamicInfo())
     const gsnStatus = await this.ctf.getGsnStatus()
     console.log('== after getGsnStatus', gsnStatus)
     setState({
@@ -53,7 +52,7 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
     await this.updateDynamicInfo(gsnStatus)
   }
 
-  async updateDynamicInfo(gsnStatus?: GsnStatusInfo) {
+  async updateDynamicInfo (gsnStatus?: GsnStatusInfo) {
     if (gsnStatus === undefined) {
       gsnStatus = await this.ctf.getGsnStatus()
     }
@@ -70,17 +69,17 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
     })
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.init().then()
   }
 
-  render() {
-    const {relayHubAddress, totalRelayers, paymasterAddress, paymasterBalance, forwarderAddress} = this.state
+  render () {
+    const { relayHubAddress, totalRelayers, paymasterAddress, paymasterBalance, forwarderAddress } = this.state
 
     return (
       // @ts-ignore
       <table border={1}
-             style={{textAlign: "left"}}>
+             style={{ textAlign: 'left' }}>
         <tbody>
         <tr>
           <td>
@@ -93,6 +92,6 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
         </tr>
         </tbody>
       </table>
-    );
+    )
   }
 }
