@@ -12,6 +12,8 @@
     "react": "^16.13.1",
     "react-bootstrap": "^2.3.1",
     "react-dom": "^16.13.1",
+    "eslint": "^8.40.0",
+    "eslint-plugin-flowtype": "^8.0.3",
     "levenary": "^1.1.1",
     "react-scripts": "^5.0.1",
     "crypto-browserify": "^3.12.0",

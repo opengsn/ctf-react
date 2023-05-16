@@ -69,10 +69,13 @@ export class CaptureTheFlag extends Component {
   }
 
   async readContractInfo (paymasterAddress?: string) {
+    // eslint-disable-next-line react/no-direct-mutation-state
     this.state.supportedPaymasters = await getSupportedPaymasters()
     if (paymasterAddress == null) {
+      // eslint-disable-next-line react/no-direct-mutation-state
       this.state.paymasterDetails = this.state.supportedPaymasters![0]
     } else {
+      // eslint-disable-next-line react/no-direct-mutation-state
       this.state.paymasterDetails = this.state.supportedPaymasters.find(it => it.address === paymasterAddress)!
     }
     const ctf = this.ctf = await initCtf(this.state.paymasterDetails)
