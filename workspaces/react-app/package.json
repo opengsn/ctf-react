@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "ethers-v6": "npm:ethers@6.0.0",
     "@ctf/eth": "1.0.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -11,17 +12,28 @@
     "react": "^16.13.1",
     "react-bootstrap": "^2.3.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "levenary": "^1.1.1",
+    "react-scripts": "^5.0.1",
+    "crypto-browserify": "^3.12.0",
+    "url": "^0.11.0",
+    "assert": "^2.0.0",
+    "stream-http": "^3.2.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "buffer": "^6.0.3",
+    "stream-browserify": "^3.0.0",
+    "browserify-zlib": "^0.2.0",
+    "babel-eslint": "^10.1.0"
   },
   "scripts": {
     "tsc": "tsc",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "eslint -f unix --ext .ts,.tsx,.js,.jsx .",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "compile": "tsc",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
     "clean": "rm -rf build dist"
   },
   "eslintConfig": {

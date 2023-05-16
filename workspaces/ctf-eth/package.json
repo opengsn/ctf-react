@@ -21,10 +21,10 @@
     "hardhat": "^2.4.3"
   },
   "dependencies": {
-    "@opengsn/contracts": "^3.0.0-beta.7",
-    "@opengsn/provider": "^3.0.0-beta.7",
-    "@opengsn/common": "^3.0.0-beta.7",
-    "@opengsn/paymasters": "^3.0.0-beta.7",
+    "@opengsn/contracts": "^3.0.0-beta.8",
+    "@opengsn/provider": "^3.0.0-beta.8",
+    "@opengsn/common": "^3.0.0-beta.8",
+    "@opengsn/paymasters": "^3.0.0-beta.8",
     "@openzeppelin/contracts": "^4.4.2",
     "add": "^2.0.6",
     "ethers": "^5.4.1",

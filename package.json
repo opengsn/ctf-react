@@ -23,7 +23,11 @@
     "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "@opengsn/cli": "^3.0.0-beta.7",
+    "react-app-rewired": "^2.2.1",
+    "ethers-v6": "npm:ethers@6.0.0",
+    "ethers-v6/providers": "npm:ethers@6.0.0",
+    "ethers-v6/contract": "npm:ethers@6.0.0",
+    "@opengsn/cli": "^3.0.0-beta.8",
     "yarn-audit-fix": "^9.3.8",
     "depcheck": "^1.4.3",
     "hardhat": "^2.4.3",

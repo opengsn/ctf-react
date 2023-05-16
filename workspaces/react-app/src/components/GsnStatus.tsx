@@ -31,7 +31,6 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
     // @ts-ignore
     if (!this.ctf.gsnProvider.relayClient.initialized) {
       console.log('not initialized. calling provider.init')
-      await this.ctf.gsnProvider.init()
       console.log('after provider.init')
     }
   }

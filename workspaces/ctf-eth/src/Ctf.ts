@@ -1,7 +1,7 @@
 import { networks, PaymasterDetails } from '../config/networks'
 import { getPaymasterAddressByTypeAndChain, PaymasterType } from '@opengsn/common'
 import { GsnEvent, RelayProvider, environments, validateRelayUrl, GSNConfig } from '@opengsn/provider'
-import { TokenPaymasterProvider } from '@opengsn/paymasters/dist/src/TokenPaymasterProvider'
+import { TokenPaymasterProvider } from '@opengsn/paymasters'
 
 import { Contract, ethers, EventFilter, providers, Signer } from 'ethers'
 
@@ -230,7 +230,7 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
   let gsnProvider: RelayProvider
   switch (paymasterDetails.paymasterType) {
     case PaymasterType.AcceptEverythingPaymaster:
-      gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
+      gsnProvider = await RelayProvider.newWeb3Provider({ provider: web3Provider, config: gsnConfig })
       console.log('created new RelayProvider with config:', gsnConfig)
       break
     case PaymasterType.PermitERC20UniswapV3Paymaster:
@@ -239,14 +239,13 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
       break
     case PaymasterType.SingletonWhitelistPaymaster:
       gsnConfig.dappOwner = paymasterDetails.dappOwner
-      gsnProvider = RelayProvider.newProvider({ provider: web3Provider, config: gsnConfig })
+      gsnProvider = await RelayProvider.newWeb3Provider({ provider: web3Provider, config: gsnConfig })
       console.log('created new RelayProvider with config:', gsnConfig)
       break
     default:
       throw new Error(`Paymaster of type ${PaymasterType[paymasterDetails.paymasterType].toString()}(${paymasterDetails.paymasterType.toString()}) is not currently supported!`)
   }
-  await gsnProvider.init()
-  const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider)
+  const provider2 = new ethers.providers.Web3Provider(gsnProvider)
 
   const signer = provider2.getSigner()
 
