@@ -113,6 +113,7 @@ module.exports = {
     garb: { accounts, url: 'https://goerli-rollup.arbitrum.io/rpc' },
     arbitrum: { accounts, url: 'https://arb1.arbitrum.io/rpc' },
     gnosis: { accounts, url: 'https://rpc.gnosis.gateway.fm' },
+    avalanche: { accounts, url: 'https://rpc.ankr.com/avalanche' },
     polygon: { accounts, url: 'https://rpc-mainnet.maticvigil.com', gasPrice: 137577028731 }
 
   },
