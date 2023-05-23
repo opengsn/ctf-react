@@ -383,5 +383,71 @@
         ]
       }
     }
+  ],
+  "43114": [
+    {
+      "title": "Avalanche",
+      "symbol": "AVAX",
+      "explorer": "https://snowtrace.io/",
+      "name": "avalanche",
+      "chainId": "43114",
+      "contracts": {
+        "Forwarder": {
+          "address": "0x2e3e3c36a5D01CCf4637cF9624c9d1033e337EA1"
+        },
+        "Penalizer": {
+          "address": "0x83A54884bE4657706785D7309cf46B58FE5f6e8a"
+        },
+        "RelayHub": {
+          "address": "0xD2Cf68e21cc3Afe7F2B36B68A8C5b8FaD1b36CDE"
+        },
+        "RelayRegistrar": {
+          "address": "0xedD8C4103acAd42F7478021143E29e1B05aD85C6"
+        },
+        "StakeManager": {
+          "address": "0x6650d69225CA31049DB7Bd210aE4671c0B1ca132"
+        },
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "paymasterType": "AcceptEverythingPaymaster",
+            "address": "0xb0BF015AF20944f3646950DEC3C78603a117c4c0"
+          }
+        ]
+      }
+    }
+  ],
+  "56": [
+    {
+      "title": "Binance-Smart-Chain-Mainnet",
+      "symbol": "BSC",
+      "explorer": "https://bscscan.com/",
+      "name": "bsc-mainnet",
+      "chainId": "56",
+      "contracts": {
+        "Forwarder": {
+          "address": "0x2e3e3c36a5D01CCf4637cF9624c9d1033e337EA1"
+        },
+        "Penalizer": {
+          "address": "0x2349073d59194cEcEC3b7d2ABdd1a813B420004F"
+        },
+        "RelayHub": {
+          "address": "0xBfCB3c7FF9B3DE0e0F673818309BfB73ec27bB9F"
+        },
+        "RelayRegistrar": {
+          "address": "0xfE1733971af8e8DCbDfce605154096ec0506BFc3"
+        },
+        "StakeManager": {
+          "address": "0x8fD27A87a126b22a5D7EC02794CAd873e1D58Ba4"
+        },
+        "paymasters": [
+          {
+            "name": "TestPaymasterEverythingAccepted",
+            "paymasterType": "AcceptEverythingPaymaster",
+            "address": "0x4F74dB5803d2F6C8246262F1e724d51Cb9537c7A"
+          }
+        ]
+      }
+    }
   ]
 }
