@@ -20,12 +20,22 @@ export const networksMetaInfo: { [chainId: string]: any } = {
     currency: 'GöOptETH',
     explorer: 'https://goerli-optimism.etherscan.io'
   },
+  56: {
+    name: 'BSC',
+    currency: 'BSC',
+    explorer: 'https://bscscan.com/'
+  },
   1337: { name: 'Local Hardhat' },
   31337: { name: 'Local Hardhat' },
   43113: {
     name: 'Avalanche Fuji Testnet',
     currency: 'AVAX',
     explorer: 'https://testnet.snowtrace.io'
+  },
+  43114: {
+    name: 'Avalanche',
+    currency: 'AVAX',
+    explorer: 'https://snowtrace.io'
   },
   80001: {
     name: 'Mumbai',
