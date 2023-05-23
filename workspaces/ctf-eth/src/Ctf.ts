@@ -226,6 +226,10 @@ export async function initCtf (paymasterDetails: PaymasterDetails): Promise<Ctf>
     gsnConfig.environment = environments.arbitrum
   }
 
+  if (chainId === 43114) { // changes for avalanche
+    gsnConfig.performDryRunViewRelayCall = false
+  }
+
   console.log('== gsnconfig=', JSON.stringify(gsnConfig))
   let gsnProvider: RelayProvider
   switch (paymasterDetails.paymasterType) {
