@@ -1,6 +1,6 @@
 import {networks} from '../config/networks'
 import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
-import {ethers, Contract, EventFilter, Signer, providers} from "ethers";
+import { ethers, Contract, EventFilter, Signer, EventLog, BrowserProvider, Provider } from 'ethers'
 
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
 
@@ -29,7 +29,7 @@ export interface GsnStatusInfo {
  */
 export class Ctf {
 
-  ethersProvider: providers.Provider
+  ethersProvider: Provider
   theContract: Contract
 
   blockDates: { [key: number]: Date } = {}
@@ -67,13 +67,13 @@ export class Ctf {
   async getBlockDate(blockNumber: number) {
     if (!this.blockDates[blockNumber]) {
       this.blockDates[blockNumber] = new Date(await this.ethersProvider.getBlock(blockNumber).then(b => {
-        return b.timestamp * 1000
+        return b!.timestamp * 1000
       }))
     }
     return this.blockDates[blockNumber]
   }
 
-  async getEventInfo(e: ethers.Event): Promise<EventInfo> {
+  async getEventInfo(e: EventLog): Promise<EventInfo> {
     if (!e.args) {
       return {
         previousHolder: 'notevent',
@@ -95,16 +95,16 @@ export class Ctf {
     const startBlock = Math.max(1, currentBlock - lookupWindow)
 
     const logs = await this.theContract.queryFilter(this.theContract.filters.FlagCaptured(), startBlock)
-    const lastLogs = await Promise.all(logs.slice(-count).map(e => this.getEventInfo(e)))
+    const lastLogs = await Promise.all(logs.slice(-count).map(e => this.getEventInfo(e as any)))
     return lastLogs
   }
 
   getSigner() {
-    return this.theContract.signer.getAddress()
+    return (this.theContract.runner as any).getAddress()
   }
 
   async capture() {
-    this.ethersProvider.getGasPrice().then(price => console.log('== gas price=', price.toString()))
+    this.ethersProvider.getFeeData().then(price => console.log('== gas price=', price.toString()))
     return await this.theContract.captureTheFlag()
   }
 
@@ -155,10 +155,10 @@ export async function initCtf(): Promise<Ctf> {
   //     })
   //   }
   // }
-  const provider = new ethers.providers.Web3Provider(web3Provider);
+  const provider = new BrowserProvider(web3Provider);
   const network = await provider.getNetwork()
 
-  const chainId = network.chainId;
+  const chainId = Number(network.chainId);
   const net = global.network = networks[chainId]
   const netid = await provider.send('net_version', [])
   console.log('chainid=', chainId, 'networkid=', netid)
@@ -187,9 +187,9 @@ export async function initCtf(): Promise<Ctf> {
   console.log('== gsnconfig=', gsnConfig)
   const gsnProvider = RelayProvider.newProvider({provider: web3Provider, config: gsnConfig})
   await gsnProvider.init()
-  const provider2 = new ethers.providers.Web3Provider(gsnProvider as any as providers.ExternalProvider);
+  const provider2 = new BrowserProvider(gsnProvider as any);
 
-  const signer = provider2.getSigner()
+  const signer = await provider2.getSigner()
 
   return new Ctf(net.ctf, signer, gsnProvider)
 }

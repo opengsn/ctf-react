@@ -24,6 +24,8 @@
     "@opengsn/contracts": "^2.2.5",
     "@opengsn/dev": "^2.2.5",
     "@opengsn/provider": "^2.2.5",
-    "ethers": "^5.4.1"
+    "ethers": "^6.4.0",
+    "net": "^1.0.2",
+    "web3": "^1.10.0"
   }
 }
