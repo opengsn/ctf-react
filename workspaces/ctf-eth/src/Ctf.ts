@@ -3,6 +3,7 @@ import {GSNConfig, GsnEvent, RelayProvider} from "@opengsn/provider";
 import { ethers, Contract, EventFilter, Signer, EventLog, BrowserProvider, Provider } from 'ethers'
 
 import * as CtfArtifact from '../artifacts/contracts/CaptureTheFlag.sol/CaptureTheFlag.json'
+import { JsonRpcResponse } from 'web3-core-helpers'
 
 declare let window: { ethereum: any, location: any }
 declare let global: { network: any }
@@ -158,7 +159,7 @@ export async function initCtf(): Promise<Ctf> {
   const provider = new BrowserProvider(web3Provider);
   const network = await provider.getNetwork()
 
-  const chainId = Number(network.chainId);
+  const chainId = Number(network.chainId)
   const net = global.network = networks[chainId]
   const netid = await provider.send('net_version', [])
   console.log('chainid=', chainId, 'networkid=', netid)
@@ -187,7 +188,19 @@ export async function initCtf(): Promise<Ctf> {
   console.log('== gsnconfig=', gsnConfig)
   const gsnProvider = RelayProvider.newProvider({provider: web3Provider, config: gsnConfig})
   await gsnProvider.init()
-  const provider2 = new BrowserProvider(gsnProvider as any);
+  // @ts-ignore
+  gsnProvider.request = function (payload: any) {
+    return new Promise((resolve, reject) => {
+      gsnProvider.send(payload, function (error: Error | null, result?: JsonRpcResponse) {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(result?.result)
+        }
+      })
+    })
+  }
+  const provider2 = new BrowserProvider(gsnProvider as any)
 
   const signer = await provider2.getSigner()
 
