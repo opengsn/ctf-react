@@ -31,7 +31,7 @@
     "ethers-v6": "npm:ethers@^6.7.0",
     "ethers-v6/providers": "npm:ethers@^6.7.0",
     "ethers-v6/contract": "npm:ethers@^6.7.0",
-    "@opengsn/cli": "^3.0.0-beta.9",
+    "@opengsn/cli": "^3.0.0-beta.10",
     "yarn-audit-fix": "^9.3.8",
     "depcheck": "^1.4.3",
     "hardhat": "^2.4.3",
